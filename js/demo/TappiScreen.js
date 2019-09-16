@@ -10,8 +10,8 @@ define( require => {
   const Property = require( 'AXON/Property' );
   const Screen = require( 'JOIST/Screen' );
   const tappi = require( 'TAPPI/tappi' );
-  const TappiModel = require( 'TAPPI/tappi/model/TappiModel' );
-  const TappiScreenView = require( 'TAPPI/tappi/view/TappiScreenView' );
+  const TappiModel = require( 'TAPPI/demo/model/TappiModel' );
+  const TappiScreenView = require( 'TAPPI/demo/view/TappiScreenView' );
 
   class TappiScreen extends Screen {
 
