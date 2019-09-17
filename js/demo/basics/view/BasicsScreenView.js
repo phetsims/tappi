@@ -29,8 +29,6 @@ define( function( require ) {
 
       super();
 
-      this.elapsedTime = 0;
-
       // button that initiates vibration
       const adapterProperty = new BooleanProperty( vibrationManager.vibratingProperty.get() );
       const trueNode = new Text( 'Stop Vibrate', { font: TEXT_FONT } );
@@ -64,8 +62,6 @@ define( function( require ) {
 
     // @public
     step( dt ) {
-      this.elapsedTime += dt;
-      // vibrationManager.setVibrationIntensity( Math.abs( Math.sin( this.elapsedTime ) ) );
     }
   }
 
