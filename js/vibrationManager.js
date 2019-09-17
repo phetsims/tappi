@@ -117,12 +117,6 @@ define( require => {
         this._navigatorVibrationCallback = timer.setInterval( intervalFunction, this._intensityDuration );
         intervalFunction();
       }
-      // else {
-      //   timer.clearInterval( this._navigatorVibrationCallback );
-
-      //   // stop any vibration
-      //   navigator.vibrate( 0 );
-      // }
     }
 
     /**
@@ -134,6 +128,8 @@ define( require => {
     startVibrate( pattern ) {
       this._runningVibration = true;
       this._vibrationPattern = pattern ? pattern : this._vibrationPattern;
+
+      this.resetTimingVariables();
     }
 
     /**
@@ -175,6 +171,15 @@ define( require => {
 
       // set after updating state
       this.intensityProperty.set( intensity );
+    }
+
+    /**
+     * Reset all variables tracking time and where we are in the vibration sequence.
+     * @private
+     */
+    resetTimingVariables() {
+      this._timeRunningCurrentInterval = 0;
+      this._currentIntervalIndex = 0;
     }
 
     /**

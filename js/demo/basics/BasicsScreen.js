@@ -22,7 +22,7 @@ define( require => {
 
       const options = {
         backgroundColorProperty: new Property( 'white' ),
-        tandem: tandem
+        name: 'Basics'
       };
 
       super(
