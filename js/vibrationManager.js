@@ -199,7 +199,6 @@ define( require => {
 
         const currentInverval = this._vibrationPattern[ this._currentIntervalIndex ];
         if ( this._timeRunningCurrentInterval > currentInverval ) {
-          console.log( 'moving to next interval');
 
           // move on to the next interval (or back to beginning if next index is out of array)
           const nextIndex = this._currentIntervalIndex + 1;

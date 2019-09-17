@@ -49,14 +49,19 @@ define( require => {
       } );
       const verticalLabel = new Text( 'Vibration', {
         rotation: -Math.PI / 2,
-        font: new PhetFont( { size: 30 } )
+        font: new PhetFont( { size: 24 } )
+      } );
+      const horizontalLabel = new Text( 'Time (s)', {
+        font: new PhetFont( { size: 24 } )
       } );
 
       // layout
       const labeledChartNode = new Node();
       labeledChartNode.addChild( scrollingChartNode );
       labeledChartNode.addChild( verticalLabel );
+      labeledChartNode.addChild( horizontalLabel );
       verticalLabel.rightCenter = scrollingChartNode.leftCenter.minusXY( 5, 0 );
+      horizontalLabel.leftTop = scrollingChartNode.leftBottom.plusXY( 0, 5 );
 
       // contain in a panel
       const panel = new Panel( labeledChartNode, {
@@ -76,10 +81,7 @@ define( require => {
     step( dt ) {
       this.timeProperty.set( this.timeProperty.get() + dt );
 
-      let vibrationDataPoint = -1;
-      if ( this.vibratingProperty.get() ) {
-        vibrationDataPoint = 1 + phet.joist.random.nextDouble() / 4 - 0.25;
-      }
+      const vibrationDataPoint = this.vibratingProperty.get() ? 1 : -1;
       this.vibrationSeries.data.push( new Vector2( this.timeProperty.get(), vibrationDataPoint ) );
 
       while ( this.vibrationSeries.data[ 0 ].x < this.timeProperty.value - MAX_TIME ) {
