@@ -31,14 +31,13 @@ define( function( require ) {
 
       this.elapsedTime = 0;
 
-      // button that initiates a vibration
+      // button that initiates vibration
+      const adapterProperty = new BooleanProperty( vibrationManager.vibratingProperty.get() );
       const trueNode = new Text( 'Stop Vibrate', { font: TEXT_FONT } );
       const falseNode = new Text( 'Start Vibrate', { font: TEXT_FONT } );
-
-      const adapterProperty = new BooleanProperty( vibrationManager.vibratingProperty.get() );
-
       const vibrationToggleButton = new BooleanRectangularToggleButton( trueNode, falseNode, adapterProperty );
-      this.addChild( vibrationToggleButton );
+
+      // switch that changes between high and low vibration
 
       adapterProperty.lazyLink( ( vibrating ) => {
         if ( vibrating ) {

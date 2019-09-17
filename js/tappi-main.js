@@ -11,7 +11,7 @@ define( require => {
   // modules
   const Sim = require( 'JOIST/Sim' );
   const SimLauncher = require( 'JOIST/SimLauncher' );
-  const TappiScreen = require( 'TAPPI/demo/TappiScreen' );
+  const TappiScreen = require( 'TAPPI/demo/basics/TappiScreen' );
   const Tandem = require( 'TANDEM/Tandem' );
 
   // strings
