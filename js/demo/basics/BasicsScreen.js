@@ -11,9 +11,9 @@ define( require => {
   const Screen = require( 'JOIST/Screen' );
   const tappi = require( 'TAPPI/tappi' );
   const TappiModel = require( 'TAPPI/demo/common/model/TappiModel' );
-  const TappiScreenView = require( 'TAPPI/demo/basics/view/TappiScreenView' );
+  const BasicsScreenView = require( 'TAPPI/demo/basics/view/BasicsScreenView' );
 
-  class TappiScreen extends Screen {
+  class BasicsScreen extends Screen {
 
     /**
      * @param {Tandem} tandem
@@ -27,11 +27,11 @@ define( require => {
 
       super(
         () => new TappiModel( tandem.createTandem( 'model' ) ),
-        ( model ) => new TappiScreenView( model, tandem.createTandem( 'view' ) ),
+        ( model ) => new BasicsScreenView( model, tandem.createTandem( 'view' ) ),
         options
       );
     }
   }
 
-  return tappi.register( 'TappiScreen', TappiScreen );
+  return tappi.register( 'BasicsScreen', BasicsScreen );
 } );

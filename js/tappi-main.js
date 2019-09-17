@@ -11,7 +11,7 @@ define( require => {
   // modules
   const Sim = require( 'JOIST/Sim' );
   const SimLauncher = require( 'JOIST/SimLauncher' );
-  const TappiScreen = require( 'TAPPI/demo/basics/TappiScreen' );
+  const BasicsScreen = require( 'TAPPI/demo/basics/BasicsScreen' );
   const Tandem = require( 'TANDEM/Tandem' );
 
   // strings
@@ -34,7 +34,7 @@ define( require => {
   // until the images are fully loaded, see https://github.com/phetsims/coulombs-law/issues/70
   SimLauncher.launch( () => {
     const sim = new Sim( tappiTitleString, [
-      new TappiScreen( Tandem.rootTandem.createTandem( 'tappiScreen' ) )
+      new BasicsScreen( Tandem.rootTandem.createTandem( 'basicsScreen' ) )
     ], simOptions );
     sim.start();
   } );

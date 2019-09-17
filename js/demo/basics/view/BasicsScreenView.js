@@ -19,7 +19,7 @@ define( function( require ) {
   // constants
   const TEXT_FONT = new PhetFont( { size: 120 } );
 
-  class TappiScreenView extends ScreenView {
+  class BasicsScreenView extends ScreenView {
 
     /**
      * @param {TappiModel} model
@@ -69,5 +69,5 @@ define( function( require ) {
     }
   }
 
-  return tappi.register( 'TappiScreenView', TappiScreenView );
+  return tappi.register( 'BasicsScreenView', BasicsScreenView );
 } );
