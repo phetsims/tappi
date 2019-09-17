@@ -11,6 +11,7 @@ define( function( require ) {
   const PulseScene = require( 'TAPPI/demo/patterns/view/PulseScene' );
   const EffectsScene = require( 'TAPPI/demo/patterns/view/EffectsScene' );
   const TunesScene = require( 'TAPPI/demo/patterns/view/TunesScene' );
+  const VibrationChart = require( 'TAPPI/view/VibrationChart' );
   const PatternsModel = require( 'TAPPI/demo/patterns/model/PatternsModel' );
   const ComboBox = require( 'SUN/ComboBox' );
   const ComboBoxItem = require( 'SUN/ComboBoxItem' );
@@ -54,6 +55,12 @@ define( function( require ) {
         leftBottom: this.layoutBounds.leftBottom.plusXY( 15, -15 )
       } );
 
+      // @private {VibrationChart}
+      this.vibrationChart = new VibrationChart( vibrationManager.vibratingProperty, this.layoutBounds.width * 0.85, this.layoutBounds.height / 3, {
+        centerTop: this.layoutBounds.centerTop
+      } );
+
+      this.addChild( this.vibrationChart );
       this.addChild( pulseScene );
       this.addChild( effectsScene );
       this.addChild( tunesScene );
@@ -79,6 +86,7 @@ define( function( require ) {
 
     // @public
     step( dt ) {
+      this.vibrationChart.step( dt );
     }
   }
 

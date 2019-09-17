@@ -11,6 +11,9 @@
   },
   "phet": {
     "requirejsNamespace": "TAPPI",
+    "phetLibs": [
+      "griddle"
+    ],
     "runnable": true,
     "supportedBrands": [
       "phet",
