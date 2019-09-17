@@ -24,11 +24,14 @@ define( require => {
   const BooleanProperty = require( 'AXON/BooleanProperty' );
   const tappi = require( 'TAPPI/tappi' );
   const Enumeration = require( 'PHET_CORE/Enumeration' );
+  const EnumerationProperty = require( 'AXON/EnumerationProperty' );
   const timer = require( 'AXON/timer' );
 
   // constants
   const LOW_INTENSITY_PATTERN = [ 8, 8 ];
   const HIGH_INTENSITY_PATTERN = [ Number.MAX_SAFE_INTEGER, 0 ];
+
+  const Intensity =new Enumeration( [ 'HIGH', 'LOW' ] );
 
   // by default, vibration will be continuous vibration without interruption
   const DEFAULT_VIBRATION_PATTERN = [ Number.MAX_SAFE_INTEGER ];
@@ -40,6 +43,12 @@ define( require => {
       // accurately reflects whether or not the motor is running during uptime/downtime during a vibration
       // pattern
       this.vibratingProperty = new BooleanProperty( false );
+
+      // @public (read-only) {EnumerationProperty} - Indicates the current value of vibration intensity. Either HIGH
+      // or LOW, vibration can be one of these two (at this time) while still providing continuous vibration.
+      // The vibration motor is either on or off, and we mimic "low" intensity vibration by turning the motor on and
+      // off rapidly.
+      this.intensityProperty = new EnumerationProperty( Intensity, Intensity.HIGH );
 
       // @private {boolean} - whether or not a vibration pattern is running, may not
       // indicate whether or not the device is actually vibrating as this could be true
@@ -53,7 +62,7 @@ define( require => {
       this._vibrationPattern = DEFAULT_VIBRATION_PATTERN;
 
       // @private {number} - the duration of active intensity pattern, only used to produce one of
-      // VibrationManager.Intensity feedback during active vibration.
+      // Intensity feedback during active vibration.
       this._intensityDuration = 0;
 
       // @private {number} - tracks how long we have been vibrating at the current interval of the specified
@@ -62,11 +71,6 @@ define( require => {
 
       // @private {number} - index of the vibrationPattern that is currently 'active' in the sequence.
       this._currentIntervalIndex = 0;
-
-      // @private {Enumeration} - Either HIGH or LOW, vibration can be one of these two (at this time) while
-      // still providing continuous vibration. The vibration motor is either on or off, and we mimic "low"
-      // intensity vibration by turning the motor on and off rapidly.
-      this._vibrationIntensity = VibrationManager.Intensity.HIGH;
 
       // @private {number[]}
       this._vibrationIntensityPattern = HIGH_INTENSITY_PATTERN;
@@ -88,26 +92,37 @@ define( require => {
      * @param {BooleanProperty} simActiveProperty - is your application in the foreground?
      */
     initialize( simVisibleProperty, simActiveProperty ) {
-      this.setVibrationIntensity( this._vibrationIntensity );
+      this.setVibrationIntensity( this.intensityProperty.get() );
 
-      // initiate vibration from the motor
-      this.vibratingProperty.lazyLink( ( vibrating ) => {
-        if ( vibrating ) {
+      const boundControl = this.controlNavigator.bind( this );
+      this.vibratingProperty.lazyLink( boundControl );
+      this.intensityProperty.lazyLink( boundControl );
+    }
 
-          // referenced so that it can be called eagerly without waiting for intensityDuration for first call
-          const intervalFunction = () => {
-            navigator.vibrate( this._vibrationIntensityPattern );
-          };
-          this._navigatorVibrationCallback = timer.setInterval( intervalFunction, this._intensityDuration );
-          intervalFunction();
-        }
-        else {
-          timer.clearInterval( this._navigatorVibrationCallback );
+    controlNavigator() {
+      if ( this._navigatorVibrationCallback ) {
+        timer.clearInterval( this._navigatorVibrationCallback );
+        this._navigatorVibrationCallback = null;
 
-          // stop any vibration
-          navigator.vibrate( 0 );
-        }
-      } );
+        // stop any previous vibration
+        navigator.vibrate( 0 );
+      }
+
+      if ( this.vibratingProperty.get() ) {
+
+        // referenced so that it can be called eagerly without waiting for intensityDuration for first call
+        const intervalFunction = () => {
+          navigator.vibrate( this._vibrationIntensityPattern );
+        };
+        this._navigatorVibrationCallback = timer.setInterval( intervalFunction, this._intensityDuration );
+        intervalFunction();
+      }
+      // else {
+      //   timer.clearInterval( this._navigatorVibrationCallback );
+
+      //   // stop any vibration
+      //   navigator.vibrate( 0 );
+      // }
     }
 
     /**
@@ -145,19 +160,21 @@ define( require => {
      * @public
      */
     setVibrationIntensity( intensity ) {
-      assert && assert( VibrationManager.Intensity.includes( intensity ), 'intensity not supported' );
-      this._vibrationIntensity = intensity;
+      assert && assert( Intensity.includes( intensity ), 'intensity not supported' );
 
-      if ( intensity === VibrationManager.Intensity.LOW ) {
+      if ( intensity === Intensity.LOW ) {
         this._vibrationIntensityPattern = LOW_INTENSITY_PATTERN;
       }
-      else if ( intensity === VibrationManager.Intensity.HIGH ) {
+      else if ( intensity === Intensity.HIGH ) {
         this._vibrationIntensityPattern = HIGH_INTENSITY_PATTERN;
       }
 
       this._intensityDuration = _.reduce( this._vibrationIntensityPattern, ( sum, value ) => {
         return sum + value;
       } );
+
+      // set after updating state
+      this.intensityProperty.set( intensity );
     }
 
     /**
@@ -200,12 +217,12 @@ define( require => {
     }
   }
 
-
-  // @public - the possible intensities for vibration supported at this time
-  VibrationManager.Intensity = new Enumeration( [ 'HIGH', 'LOW' ] );
-
   // create the singleton instance
   const vibrationManager = new VibrationManager();
+
+  // @public - the possible intensities for vibration supported at this time (on the singleton instance because
+  // that is what is made available through require)
+  vibrationManager.Intensity = Intensity;
 
   return tappi.register( 'vibrationManager', vibrationManager );
 } );
