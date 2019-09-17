@@ -10,7 +10,7 @@ define( require => {
   const Property = require( 'AXON/Property' );
   const Screen = require( 'JOIST/Screen' );
   const tappi = require( 'TAPPI/tappi' );
-  const TappiModel = require( 'TAPPI/demo/common/model/TappiModel' );
+  const BasicsModel = require( 'TAPPI/demo/common/model/BasicsModel' );
   const BasicsScreenView = require( 'TAPPI/demo/basics/view/BasicsScreenView' );
 
   class BasicsScreen extends Screen {
@@ -26,7 +26,7 @@ define( require => {
       };
 
       super(
-        () => new TappiModel( tandem.createTandem( 'model' ) ),
+        () => new BasicsModel( tandem.createTandem( 'model' ) ),
         ( model ) => new BasicsScreenView( model, tandem.createTandem( 'view' ) ),
         options
       );

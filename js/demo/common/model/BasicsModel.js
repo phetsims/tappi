@@ -12,7 +12,7 @@ define( require => {
   /**
    * @constructor
    */
-  class TappiModel  {
+  class BasicsModel  {
 
     /**
      * @param {Tandem} tandem
@@ -32,5 +32,5 @@ define( require => {
     }
   }
 
-  return tappi.register( 'TappiModel', TappiModel );
+  return tappi.register( 'BasicsModel', BasicsModel );
 } );
