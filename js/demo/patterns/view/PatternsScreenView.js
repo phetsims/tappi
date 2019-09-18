@@ -7,6 +7,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  const BooleanRectangularStickyToggleButton = require( 'SUN/buttons/BooleanRectangularStickyToggleButton' );
   const ScreenView = require( 'JOIST/ScreenView' );
   const PulseScene = require( 'TAPPI/demo/patterns/view/PulseScene' );
   const EffectsScene = require( 'TAPPI/demo/patterns/view/EffectsScene' );
@@ -16,6 +17,7 @@ define( function( require ) {
   const ComboBox = require( 'SUN/ComboBox' );
   const ComboBoxItem = require( 'SUN/ComboBoxItem' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  const Property = require( 'AXON/Property' );
   const Text = require( 'SCENERY/nodes/Text' );
   const tappi = require( 'TAPPI/tappi' );
   const vibrationManager = require( 'TAPPI/vibrationManager' );
@@ -55,6 +57,12 @@ define( function( require ) {
         leftBottom: this.layoutBounds.leftBottom.plusXY( 15, -15 )
       } );
 
+      const limitPatternsButton = new BooleanRectangularStickyToggleButton( model.limitPatternsProperty, {
+        content: new Text( 'Limit Time', { font: LIST_ITEM_FONT } ),
+        minWidth: comboBox.width,
+        leftBottom: comboBox.leftTop.minusXY( 0, 5 )
+      } );
+
       // @private {VibrationChart}
       this.vibrationChart = new VibrationChart( vibrationManager.vibratingProperty, this.layoutBounds.width * 0.85, this.layoutBounds.height / 3, {
         centerTop: this.layoutBounds.centerTop
@@ -64,6 +72,7 @@ define( function( require ) {
       this.addChild( pulseScene );
       this.addChild( effectsScene );
       this.addChild( tunesScene );
+      this.addChild( limitPatternsButton );
       this.addChild( comboBox );
 
       // scene visibility changes with model Property
@@ -73,10 +82,12 @@ define( function( require ) {
         tunesScene.visible = activePattern === PatternsModel.PatternSet.TUNES;
       } );
 
-      // begin to vibrate when we set a new active pattern
-      model.activePatternProperty.link( ( activePattern ) => {
+      Property.multilink( [ model.activePatternProperty, model.limitPatternsProperty ], ( activePattern, limit ) => {
         if ( activePattern === null ) {
           vibrationManager.stopVibrate();
+        }
+        else if ( limit ) {
+          vibrationManager.startTimedVibrate( 2000, activePattern );
         }
         else {
           vibrationManager.startVibrate( activePattern );

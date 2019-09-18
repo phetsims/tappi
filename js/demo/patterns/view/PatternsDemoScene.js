@@ -22,7 +22,7 @@ define( require => {
   const DEFAULT_BUTTON_WIDTH = 200;
 
   class PatternsDemoScene extends Node {
-    constructor( activePatternProperty ) {
+    constructor( activePatternProperty, limitPatternsProperty ) {
       super();
 
       // @protected - active vibration pattern running in the model

@@ -70,8 +70,16 @@ define( require => {
       this._intensityDuration = 0;
 
       // @private {number} - tracks how long we have been vibrating at the current interval of the specified
-      // vibrationPattern.
+      // vibrationPattern. Increments even during downtime "off" interval in a pattern.
       this._timeRunningCurrentInterval = 0;
+
+      // @private {number} - limitation for the active vibration, vibration pattern will run until this time
+      // runs out. Includes pattern down time. By default, vibration patterns will run forever.
+      this._patternTimeLimit = Number.POSITIVE_INFINITY;
+
+      // @private {number} - how much time has passed since we started to vibrate with a particular pattern, will
+      // still increment during vibration pattern downtime.
+      this._timeRunningCurrentPattern = 0;
 
       // @private {number} - index of the vibrationPattern that is currently 'active' in the sequence.
       this._currentIntervalIndex = 0;
@@ -131,16 +139,17 @@ define( require => {
     }
 
     /**
-     * Begins vibration. Optionally provide an intensity from 0 to 1 of the vibration.
+     * Begins vibration. Optionally provide a pattern sequence for the vibration. Vibration will continue
+     * with the pattern sequence until stopVibrate is called.
      * @public
      *
-     * @param {number} [intensity] - optional intensity for the vibration
+     * @param {number} [pattern] - optional vibration sequence, default motor call if not defined
      */
     startVibrate( pattern ) {
-      this._runningVibration = true;
-      this._vibrationPattern = pattern ? pattern : this._vibrationPattern;
-
       this.resetTimingVariables();
+
+      this._runningVibration = true;
+      this._vibrationPattern = pattern ? pattern : DEFAULT_VIBRATION_PATTERN;
     }
 
     /**
@@ -149,6 +158,23 @@ define( require => {
     stopVibrate() {
       this._runningVibration = false;
       this.vibratingProperty.set( false );
+    }
+
+    /**
+     * Start a vibration. Optionally provide a pattern sequence for the vibration. Vibration will proceed for
+     * time in ms and then stop.
+     *
+     * @param {number} time - in ms, how long the vibration should run
+     * @param {number[]} pattern - optional, pattern for the vibration, uses defalt vibration pattern if not defined
+     */
+    startTimedVibrate( time, pattern ) {
+      assert && assert( typeof time === 'number', 'time limit required for startTimedVibration' );
+
+      this.resetTimingVariables();
+
+      this._patternTimeLimit = time;
+      this._runningVibration = true;
+      this._vibrationPattern = pattern ? pattern : DEFAULT_VIBRATION_PATTERN;
     }
 
     /**
@@ -190,7 +216,9 @@ define( require => {
      */
     resetTimingVariables() {
       this._timeRunningCurrentInterval = 0;
+      this._timeRunningCurrentPattern = 0;
       this._currentIntervalIndex = 0;
+      this._patternTimeLimit = Number.POSITIVE_INFINITY;
     }
 
     /**
@@ -227,7 +255,13 @@ define( require => {
           }
         }
 
+        // increment timing variables for the whole pattern and individual pattern intervals
         this._timeRunningCurrentInterval += dt;
+        this._timeRunningCurrentPattern += dt;
+
+        if ( this._timeRunningCurrentPattern >= this._patternTimeLimit ) {
+          this.stopVibrate();
+        }
       }
     }
   }

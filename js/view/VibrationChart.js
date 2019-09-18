@@ -31,6 +31,14 @@ define( require => {
      * @param {number} height
      */
     constructor( vibratingProperty, width, height, options ) {
+
+      // beware this also gets passed to mutate for the supertype later
+      options = _.extend( {
+
+        // font for the vibration/time labels
+        labelFont: new PhetFont( 24 )
+      }, options );
+
       super();
 
       // @private
@@ -49,10 +57,10 @@ define( require => {
       } );
       const verticalLabel = new Text( 'Vibration', {
         rotation: -Math.PI / 2,
-        font: new PhetFont( { size: 24 } )
+        font: options.labelFont
       } );
       const horizontalLabel = new Text( 'Time (s)', {
-        font: new PhetFont( { size: 24 } )
+        font: options.labelFont
       } );
 
       // layout

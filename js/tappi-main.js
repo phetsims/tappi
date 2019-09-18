@@ -12,6 +12,7 @@ define( require => {
   const Sim = require( 'JOIST/Sim' );
   const SimLauncher = require( 'JOIST/SimLauncher' );
   const BasicsScreen = require( 'TAPPI/demo/basics/BasicsScreen' );
+  const vibrationManager = require( 'TAPPI/vibrationManager' );
   const PatternsScreen = require( 'TAPPI/demo/patterns/PatternsScreen' );
   const Tandem = require( 'TANDEM/Tandem' );
 
@@ -28,7 +29,9 @@ define( require => {
       graphicArts: '',
       soundDesign: '',
       thanks: ''
-    }
+    },
+
+    vibrationManager: vibrationManager
   };
 
   // launch the sim - beware that scenery Image nodes created outside of SimLauncher.launch() will have zero bounds
