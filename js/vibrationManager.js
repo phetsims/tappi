@@ -25,6 +25,7 @@ define( require => {
   const tappi = require( 'TAPPI/tappi' );
   const Enumeration = require( 'PHET_CORE/Enumeration' );
   const EnumerationProperty = require( 'AXON/EnumerationProperty' );
+  const Property = require( 'AXON/Property' );
   const timer = require( 'AXON/timer' );
 
   // constants
@@ -49,6 +50,9 @@ define( require => {
       // The vibration motor is either on or off, and we mimic "low" intensity vibration by turning the motor on and
       // off rapidly.
       this.intensityProperty = new EnumerationProperty( Intensity, Intensity.HIGH );
+
+      // @public (read-only) - whether or not vibration is enabled
+      this.enabledProperty = new BooleanProperty( true );
 
       // @private {boolean} - whether or not a vibration pattern is running, may not
       // indicate whether or not the device is actually vibrating as this could be true
@@ -78,9 +82,6 @@ define( require => {
       // @private {function} - reference to the callback added to timer that keeps the vibrating motor running
       // until stopVibrate. This will eventually call navigator.vibrate.
       this._navigatorVibrationCallback = null;
-
-      // TODO: to be called by Sim.js
-      this.initialize();
     }
 
     /**
@@ -94,11 +95,21 @@ define( require => {
     initialize( simVisibleProperty, simActiveProperty ) {
       this.setVibrationIntensity( this.intensityProperty.get() );
 
-      const boundControl = this.controlNavigator.bind( this );
-      this.vibratingProperty.lazyLink( boundControl );
-      this.intensityProperty.lazyLink( boundControl );
+      // if either vibration or intensity changes we need to stop/start vibration or change timeouts for intensity
+      Property.multilink( [ this.vibratingProperty, this.intensityProperty ], ( vibrating, intensity ) => this.controlNavigator.bind( this ) );
+
+      // stop all vibration when the sim is invisible or inactive
+      Property.multilink( [ this.enabledProperty, simVisibleProperty, simActiveProperty ], ( enabled, simVisible, simActive ) => {
+        if ( enabled && simVisible && simActive ) {
+          this.stopVibrate();
+        }
+      } );
     }
 
+    /**
+     * Initiate vibration with navigator.vibrate at the correct intervals for vibration intensity.
+     * @private
+     */
     controlNavigator() {
       if ( this._navigatorVibrationCallback ) {
         timer.clearInterval( this._navigatorVibrationCallback );
