@@ -104,7 +104,9 @@ define( require => {
       this.setVibrationIntensity( this.intensityProperty.get() );
 
       // if either vibration or intensity changes we need to stop/start vibration or change timeouts for intensity
-      Property.multilink( [ this.vibratingProperty, this.intensityProperty ], ( vibrating, intensity ) => this.controlNavigator.bind( this ) );
+      Property.multilink( [ this.vibratingProperty, this.intensityProperty ], ( vibrating, intensity ) => {
+        this.controlNavigator();
+      } );
 
       // stop all vibration when the sim is invisible or inactive
       Property.multilink( [ this.enabledProperty, simVisibleProperty, simActiveProperty ], ( enabled, simVisible, simActive ) => {
