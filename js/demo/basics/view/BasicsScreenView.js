@@ -53,7 +53,7 @@ define( function( require ) {
       );
       const intensityLabel = new Text( 'Intensity', { font: LABEL_FONT } );
 
-      adapterProperty.lazyLink( ( vibrating ) => {
+      adapterProperty.lazyLink( vibrating => {
         if ( vibrating ) {
           vibrationManager.startVibrate();
         }
@@ -64,7 +64,7 @@ define( function( require ) {
 
       // NOTE: It would be cool if this wasn't necessary, but it feels weird that all of the API goes through the
       // Property
-      intensityAdapterProperty.lazyLink( ( intensity ) => {
+      intensityAdapterProperty.lazyLink( intensity => {
         vibrationManager.setVibrationIntensity( intensity );
       } );
 

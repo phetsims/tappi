@@ -76,7 +76,7 @@ define( function( require ) {
       this.addChild( comboBox );
 
       // scene visibility changes with model Property
-      model.activePatternSetProperty.link( ( activePattern ) => {
+      model.activePatternSetProperty.link( activePattern => {
         pulseScene.visible = activePattern === PatternsModel.PatternSet.PULSES;
         effectsScene.visible = activePattern === PatternsModel.PatternSet.EFFECTS;
         tunesScene.visible = activePattern === PatternsModel.PatternSet.TUNES;

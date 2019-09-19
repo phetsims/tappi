@@ -50,7 +50,7 @@ define( require => {
       const buttonAdapterProperty = new BooleanProperty( false, {
         reentrant: true
       } );
-      buttonAdapterProperty.link( ( pressed ) => {
+      buttonAdapterProperty.link( pressed => {
         if ( pressed ) {
           this.activePatternProperty.set( pattern );
         }
@@ -62,7 +62,7 @@ define( require => {
       } );
 
       // if a different pattern button is clicked, this button is no longer pressed
-      this.activePatternProperty.link( ( activePattern ) => {
+      this.activePatternProperty.link( activePattern => {
         if ( activePattern !== pattern ) {
           buttonAdapterProperty.set( false );
         }

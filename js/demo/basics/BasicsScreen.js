@@ -27,7 +27,7 @@ define( require => {
 
       super(
         () => new BasicsModel( tandem.createTandem( 'model' ) ),
-        ( model ) => new BasicsScreenView( model, tandem.createTandem( 'view' ) ),
+        model => new BasicsScreenView( model, tandem.createTandem( 'view' ) ),
         options
       );
     }

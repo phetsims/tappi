@@ -29,7 +29,7 @@ define( require => {
 
       super(
         () => new PatternsModel(),
-        ( model ) => new PatternsScreenView( model ),
+        model => new PatternsScreenView( model ),
         options
       );
     }
