@@ -21,6 +21,8 @@ define( require => {
     HZ_5: [ 100, 100 ],
     HZ_10: [ 50, 50 ],
     HZ_25: [ 25, 25 ],
+
+    // these patterns are faster than 60 fps and will not appear or work well
     HZ_50: [ 10, 10 ],
     HZ_100: [ 5, 5 ],
 

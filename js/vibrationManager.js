@@ -190,6 +190,17 @@ define( require => {
     }
 
     /**
+     * Returns true if the VibrationManager is active with a vibration pattern. The device may or may not be
+     * actually vibrating as this will return true even during down time within a pattern.
+     * @public
+     *
+     * @returns {boolean}
+     */
+    isRunningPattern() {
+      return this._runningVibration;
+    }
+
+    /**
      * Set the intensity of vibration. Will change intensity of the running vibration if there
      * is one, or set the intensity for the next time startVibrate is called.
      * @public
