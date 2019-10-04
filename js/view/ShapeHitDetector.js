@@ -36,6 +36,8 @@ define( require => {
       // @private {boolean} - is a pointer down and using this listener?
       this.isPressed = false;
 
+      this.pointer = null;
+
       // @private {Object} - attached to the pointer on `down` if the pointer isn't already attached and interacting
       // with other things
       this._pointerListener = {
@@ -68,6 +70,7 @@ define( require => {
       // only begin dragging if pointer isn't already interacting with something
       if ( !event.pointer.isAttached() ) {
         this.isPressed = true;
+        this.pointer = event.pointer;
 
         const parentPoint = this.parent.globalToLocalPoint( event.pointer.point );
         for ( let i = 0; i < this.hittables.length; i++ ) {
@@ -88,6 +91,7 @@ define( require => {
 
         // warning - no multitouch support
         this.isPressed = false;
+        this.pointer = null;
         event.pointer.removeInputListener( this._pointerListener );
       }
     }
@@ -117,6 +121,20 @@ define( require => {
       assert && assert( hittable !== undefined, 'could not find hittable' );
 
       hittable.shape = shape;
+    }
+
+    /**
+     * Interrupts the listener, releasing it and cancelling the behavior.
+     */
+    interrupt(){
+      this.isPressed = false;
+      for(let i = 0; i < this.hittables.length; i++){
+        this.hittables[i].property.set( false );
+      }
+
+      this.pointer.removeInputListener( this._pointerListener );
+      this.pointer = null;
+
     }
 
     /**
@@ -175,6 +193,7 @@ define( require => {
      * @param {Vector2} point - in the global coordinate frame
      */
     detectHit( point ) {
+      console.log(point, this.shape.bounds);
       this.property.set( this.shape.containsPoint( point ) );
     }
 
