@@ -19,8 +19,10 @@ define( require => {
   const tappi = require( 'TAPPI/tappi' );
   // const DragListener = require( 'SCENERY/listeners/DragListener' );
   const Path = require( 'SCENERY/nodes/Path' );
+  const Emitter = require( 'AXON/Emitter' );
+  const Shape = require( 'KITE/Shape' );
 
-  class ShapeHitListener {
+  class ShapeHitDetector {
 
     /**
      * @param {Tandem} tandem
@@ -38,6 +40,16 @@ define( require => {
 
       this.pointer = null;
 
+      // @private - list of hittables that currently have a pointer over them. Ordered such that the first item
+      // of the list is the most recent to receive a hit
+      this.activeHittables = [];
+
+      // @public - the most recent shape that received a hit from a pointer. The first element of the activeHittables
+      // array
+      this.hitShapeEmitter = new Emitter( {
+        parameters: [ { valueType: [ Shape, null ] } ]
+      } );
+
       // @private {Object} - attached to the pointer on `down` if the pointer isn't already attached and interacting
       // with other things
       this._pointerListener = {
@@ -47,7 +59,8 @@ define( require => {
 
             // find which shape contains the parent point, set its associated Property
             for ( let i = 0; i < this.hittables.length; i++ ) {
-              this.hittables[ i ].detectHit( parentPoint );
+              const hittable = this.hittables[ i ];
+              hittable.detectHit( parentPoint );
             }
           }
         },
@@ -105,6 +118,23 @@ define( require => {
     addShape( shape, property, options ) {
       const hittable = new Hittable( shape, property, options );
       this.hittables.push( hittable );
+
+      // whenever the Property value changes, update the list of activeHittables so we know the order in which
+      // pointers moved over shapes
+      property.link( value => {
+        _.pull( this.activeHittables, hittable );
+        if ( value ) {
+          this.activeHittables.unshift( hittable );
+        }
+        assert && assert( this.activeHittables.length <= this.hittables.length, 'too many active Hittables, probably a memory leak' );
+
+        if ( this.activeHittables.length ) {
+          this.hitShapeEmitter.emit( this.activeHittables[ 0 ].shape );
+        }
+        else {
+          this.hitShapeEmitter.emit( null );
+        }
+      } );
     }
 
     /**
@@ -128,8 +158,9 @@ define( require => {
      */
     interrupt(){
       this.isPressed = false;
-      for(let i = 0; i < this.hittables.length; i++){
-        this.hittables[i].property.set( false );
+      for ( let i = 0; i < this.hittables.length; i++ ) {
+        this.hittables[ i ].property.set( false );
+        _.pull( this.activeHittables, this.hittables[ i ] );
       }
 
       this.pointer.removeInputListener( this._pointerListener );
@@ -152,7 +183,7 @@ define( require => {
   }
 
   /**
-   * The Node to receive input, collects the Property that indicates the pointer is down over the provided shape.
+   * Collection of Shape and BooleanProperty whose value is true the pointer is down over the provided shape.
    */
   class Hittable {
 
@@ -191,9 +222,9 @@ define( require => {
      * Sets the property based on whether or not the point is within the shape.
      *
      * @param {Vector2} point - in the global coordinate frame
+     * @returns {boolean} [description]
      */
     detectHit( point ) {
-      console.log(point, this.shape.bounds);
       this.property.set( this.shape.containsPoint( point ) );
     }
 
@@ -208,5 +239,5 @@ define( require => {
     }
   }
 
-  return tappi.register( 'ShapeHitDetector', ShapeHitListener);
+  return tappi.register( 'ShapeHitDetector', ShapeHitDetector );
 } );

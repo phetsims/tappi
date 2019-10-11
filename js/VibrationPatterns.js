@@ -22,6 +22,9 @@ define( require => {
     HZ_10: [ 50, 50 ],
     HZ_25: [ 25, 25 ],
 
+    // default vibration, no pattern
+    MOTOR_CALL: null,
+
     // these patterns are faster than 60 fps and will not appear or work well
     HZ_50: [ 10, 10 ],
     HZ_100: [ 5, 5 ],
