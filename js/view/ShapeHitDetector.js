@@ -16,11 +16,12 @@ define( require => {
   'use strict';
 
   // modules
-  const tappi = require( 'TAPPI/tappi' );
   // const DragListener = require( 'SCENERY/listeners/DragListener' );
-  const Path = require( 'SCENERY/nodes/Path' );
   const Emitter = require( 'AXON/Emitter' );
+  const merge = require( 'PHET_CORE/merge' );
+  const Path = require( 'SCENERY/nodes/Path' );
   const Shape = require( 'KITE/Shape' );
+  const tappi = require( 'TAPPI/tappi' );
 
   class ShapeHitDetector {
 
@@ -193,7 +194,7 @@ define( require => {
      * @param {Objects} options
      */
     constructor( shape, property, options ) {
-      options = _.extend( {
+      options = merge( {
 
         // to make this shape visible during debugging
         debugStroke: 'green'

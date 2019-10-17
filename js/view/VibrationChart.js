@@ -11,13 +11,14 @@ define( require => {
 
   // modules
   const DynamicSeries = require( 'GRIDDLE/DynamicSeries' );
-  const tappi = require( 'TAPPI/tappi' );
-  const NumberProperty = require( 'AXON/NumberProperty' );
-  const ScrollingChartNode = require( 'GRIDDLE/ScrollingChartNode' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
-  const Text = require( 'SCENERY/nodes/Text' );
-  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  const NumberProperty = require( 'AXON/NumberProperty' );
   const Panel = require( 'SUN/Panel' );
+  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  const ScrollingChartNode = require( 'GRIDDLE/ScrollingChartNode' );
+  const tappi = require( 'TAPPI/tappi' );
+  const Text = require( 'SCENERY/nodes/Text' );
   const Vector2 = require( 'DOT/Vector2' );
 
   // constants
@@ -33,7 +34,7 @@ define( require => {
     constructor( vibratingProperty, width, height, options ) {
 
       // beware this also gets passed to mutate for the supertype later
-      options = _.extend( {
+      options = merge( {
 
         // font for the vibration/time labels
         labelFont: new PhetFont( 24 )

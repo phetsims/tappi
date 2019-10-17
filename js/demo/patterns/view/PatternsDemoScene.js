@@ -8,14 +8,15 @@ define( require => {
   'use strict';
 
   // modules
-  const tappi = require( 'TAPPI/tappi' );
-  const Node = require( 'SCENERY/nodes/Node' );
-  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
   const BooleanProperty = require( 'AXON/BooleanProperty' );
   const BooleanRectangularStickyToggleButton = require( 'SUN/buttons/BooleanRectangularStickyToggleButton' );
-  const VBox = require( 'SCENERY/nodes/VBox' );
   const HBox = require( 'SCENERY/nodes/HBox' );
+  const merge = require( 'PHET_CORE/merge' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  const tappi = require( 'TAPPI/tappi' );
   const Text = require( 'SCENERY/nodes/Text' );
+  const VBox = require( 'SCENERY/nodes/VBox' );
 
   // constants
   const BUTTON_TEXT_FONT = new PhetFont( { size: 40 } );
@@ -43,7 +44,7 @@ define( require => {
      */
     createPatternButton( pattern, label, options ) {
 
-      options = _.extend( {
+      options = merge( {
         buttonMinWidth: DEFAULT_BUTTON_WIDTH
       }, options );
 
