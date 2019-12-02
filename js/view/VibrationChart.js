@@ -16,6 +16,7 @@ define( require => {
   const NumberProperty = require( 'AXON/NumberProperty' );
   const Panel = require( 'SUN/Panel' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  const Range = require( 'DOT/Range' );
   const ScrollingChartNode = require( 'GRIDDLE/ScrollingChartNode' );
   const tappi = require( 'TAPPI/tappi' );
   const Text = require( 'SCENERY/nodes/Text' );
@@ -50,27 +51,26 @@ define( require => {
 
       // create the plot
       this.vibrationSeries = new DynamicSeries( { color: 'orange' } );
-      const scrollingChartNode = new ScrollingChartNode( this.timeProperty, [ this.vibrationSeries ], {
-        width: width,
-        height: height,
-        numberVerticalLines: MAX_TIME,
-        numberHorizontalLines: 3
-      } );
-      const verticalLabel = new Text( 'Vibration', {
+
+      const verticalAxisTitleNode = new Text( 'Vibration', {
         rotation: -Math.PI / 2,
         font: options.labelFont
       } );
-      const horizontalLabel = new Text( 'Time (s)', {
+      const horizontalAxisTitleNode = new Text( 'Time (s)', {
         font: options.labelFont
       } );
+      const scrollingChartNode = new ScrollingChartNode( this.timeProperty, [ this.vibrationSeries ], verticalAxisTitleNode,
+        horizontalAxisTitleNode, new Text( '' ), {
+          width: width,
+          height: height,
+          numberVerticalLines: MAX_TIME,
+          numberHorizontalLines: 3,
+          verticalRange: new Range( -1.5, 1.5 )
+        } );
 
       // layout
       const labeledChartNode = new Node();
       labeledChartNode.addChild( scrollingChartNode );
-      labeledChartNode.addChild( verticalLabel );
-      labeledChartNode.addChild( horizontalLabel );
-      verticalLabel.rightCenter = scrollingChartNode.leftCenter.minusXY( 5, 0 );
-      horizontalLabel.leftTop = scrollingChartNode.leftBottom.plusXY( 0, 5 );
 
       // contain in a panel
       const panel = new Panel( labeledChartNode, {
