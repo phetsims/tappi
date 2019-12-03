@@ -65,7 +65,7 @@ define( require => {
           height: height,
           numberVerticalLines: MAX_TIME,
           numberHorizontalLines: 3,
-          verticalRange: [ new Range( -1.5, 1.5 ) ]
+          verticalRanges: [ new Range( -1.5, 1.5 ) ]
         } );
 
       // layout
