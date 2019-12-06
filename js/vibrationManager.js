@@ -32,7 +32,7 @@ define( require => {
   const LOW_INTENSITY_PATTERN = [ 8, 8 ];
   const HIGH_INTENSITY_PATTERN = [ Number.MAX_SAFE_INTEGER, 0 ];
 
-  const Intensity =new Enumeration( [ 'HIGH', 'LOW' ] );
+  const Intensity = Enumeration.byKeys( [ 'HIGH', 'LOW' ] );
 
   // by default, vibration will be continuous vibration without interruption
   const DEFAULT_VIBRATION_PATTERN = [ Number.MAX_SAFE_INTEGER ];

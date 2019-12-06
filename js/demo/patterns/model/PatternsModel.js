@@ -33,7 +33,7 @@ define( require => {
   }
 
   // @public
-  PatternsModel.PatternSet = new Enumeration( [ 'PULSES', 'EFFECTS', 'TUNES' ] );
+  PatternsModel.PatternSet = Enumeration.byKeys( [ 'PULSES', 'EFFECTS', 'TUNES' ] );
 
   return tappi.register( 'PatternsModel', PatternsModel );
 } );
