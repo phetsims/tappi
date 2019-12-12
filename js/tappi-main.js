@@ -38,7 +38,7 @@ define( require => {
   // until the images are fully loaded, see https://github.com/phetsims/coulombs-law/issues/70
   SimLauncher.launch( () => {
     const sim = new Sim( tappiTitleString, [
-      new BasicsScreen( Tandem.rootTandem.createTandem( 'basicsScreen' ) ),
+      new BasicsScreen( Tandem.ROOT.createTandem( 'basicsScreen' ) ),
       new PatternsScreen()
     ], simOptions );
     sim.start();
