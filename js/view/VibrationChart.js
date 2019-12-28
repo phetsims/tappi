@@ -20,7 +20,6 @@ define( require => {
   const ScrollingChartNode = require( 'GRIDDLE/ScrollingChartNode' );
   const tappi = require( 'TAPPI/tappi' );
   const Text = require( 'SCENERY/nodes/Text' );
-  const Vector2 = require( 'DOT/Vector2' );
 
   // constants
   const MAX_TIME = 10; // seconds of plotted data
@@ -91,12 +90,11 @@ define( require => {
       this.timeProperty.set( this.timeProperty.get() + dt );
 
       const vibrationDataPoint = this.vibratingProperty.get() ? 1 : -1;
-      this.vibrationSeries.data.push( new Vector2( this.timeProperty.get(), vibrationDataPoint ) );
+      this.vibrationSeries.addXYDataPoint( this.timeProperty.get(), vibrationDataPoint );
 
-      while ( this.vibrationSeries.data[ 0 ].x < this.timeProperty.value - MAX_TIME ) {
-        this.vibrationSeries.data.shift();
+      while ( this.vibrationSeries.getDataPoint( 0 ).x < this.timeProperty.value - MAX_TIME ) {
+        this.vibrationSeries.shiftData();
       }
-      this.vibrationSeries.emitter.emit();
     }
   }
 
