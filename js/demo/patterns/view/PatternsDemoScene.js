@@ -39,7 +39,7 @@ define( require => {
      *
      * @param {number[]} pattern - the actual pattern for vibrationManager
      * @param {string} label - label for the button
-     * @param {Object} options
+     * @param {Object} [options]
      * @returns {BooleanRectangularStickyToggleButton}
      */
     createPatternButton( pattern, label, options ) {
