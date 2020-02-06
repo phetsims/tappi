@@ -1,22 +1,19 @@
+// Copyright 2020, University of Colorado Boulder
+
 define( require => {
   'use strict';
 
   // modules
-  const BooleanProperty = require( 'AXON/BooleanProperty' );
   const tappi = require( 'TAPPI/tappi' );
-  const Enumeration = require( 'PHET_CORE/Enumeration' );
-  const EnumerationProperty = require( 'AXON/EnumerationProperty' );
-  const Property = require( 'AXON/Property' );
-  const timer = require( 'AXON/timer' );
 
 
   class VibrationManageriOS {
     constructor() {
-      this.vibrationMessageHandlers = window.webkit && window.webkit.messageHandlers
+      this.vibrationMessageHandlers = window.webkit && window.webkit.messageHandlers;
     }
 
     vibrate(seconds){
-      assert && assert (typeof seconds === 'number', 'seconds should be a number')
+      assert && assert (typeof seconds === 'number', 'seconds should be a number');
 
       if ( this.vibrationmessageHandlers
           && this.vibrationMessageHandlers.MessageHandler ){
