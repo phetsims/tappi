@@ -15,12 +15,10 @@ define( require => {
     vibrate(seconds){
       assert && assert (typeof seconds === 'number', 'seconds should be a number');
 
-      if ( this.vibrationmessageHandlers
-          && this.vibrationMessageHandlers.MessageHandler ){
-            window.webkit.messageHandlers.vibrateMessageHandler.postMessage(
-              { duration: seconds }
-            );}
-          }
+      if ( this.vibrationMessageHandlers && this.vibrationMessageHandlers.vibrateMessageHandler ) {
+        this.vibrationMessageHandlers.vibrateMessageHandler.postMessage( { duration: seconds } );
+      }
+    }
 
     vibrateForever(){
 
