@@ -22,7 +22,7 @@ define( require => {
 
     vibrateForever(){
 
-      if ( this.vibrationmessageHandlers
+      if ( this.vibrationMessageHandlers
         && this.vibrationMessageHandlers.vibrateForeverMessageHandler ){
           window.webkit.messageHandlers.vibrateForeverMessageHandler.postMessage(
         {}
@@ -30,7 +30,7 @@ define( require => {
     }
 
     vibrateAtFrequency(seconds, frequency){
-      if ( this.vibrationmessageHandlers && this.vibrationMessageHandlers.vibrateFrequencyMessageHandler ){
+      if ( this.vibrationMessageHandlers && this.vibrationMessageHandlers.vibrateFrequencyMessageHandler ){
         window.webkit.messageHandlers.vibrateFrequencyMessageHandler.postMessage(
           { duration: seconds, frequency: frequency }
         );}
@@ -38,14 +38,14 @@ define( require => {
 
 
     vibrateAtFrequencyForever(frequency){
-      if ( this.vibrationmessageHandlers && this.vibrationMessageHandlers.vibrateFrequencyForeverMessageHandler ){
+      if ( this.vibrationMessageHandlers && this.vibrationMessageHandlers.vibrateFrequencyForeverMessageHandler ){
       window.webkit.messageHandlers.vibrateFrequencyForeverMessageHandler.postMessage(
           { frequency: frequency }
         );}
        }
 
     stop() {
-      if ( this.vibrationmessageHandlers && this.vibrationMessageHandlers.stopMessageHandler ){
+      if ( this.vibrationMessageHandlers && this.vibrationMessageHandlers.stopMessageHandler ){
         window.webkit.messageHandlers.stopMessageHandler.postMessage(
           {}
         );}
