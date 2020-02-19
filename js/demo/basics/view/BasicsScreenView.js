@@ -26,7 +26,7 @@ define( require => {
   class BasicsScreenView extends ScreenView {
 
     /**
-     * @param {TappiModel} model
+     * @param {BasicsModel} model
      * @param {Tandem} tandem
      */
     constructor( model, tandem ) {
