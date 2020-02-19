@@ -47,7 +47,7 @@ define( require => {
         vibrationManager.Intensity.HIGH, new Text( 'High', { font: SWITCH_TEXT_FONT } ),
         vibrationManager.Intensity.LOW, new Text( 'Low', { font: SWITCH_TEXT_FONT } ),
         {
-          switchSize: new Dimension2( 180, 90 ),
+          toggleSwitchOptions: { size: new Dimension2( 180, 90 ) },
           xSpacing: 20
         }
       );
