@@ -42,7 +42,27 @@ define( require => {
       window.webkit.messageHandlers.vibrateFrequencyForeverMessageHandler.postMessage(
           { frequency: frequency }
         );}
-       }
+    }
+
+    vibrateWithCustomPattern( vibrationPattern, seconds, loopForever ) {
+      if ( this.vibrationMessageHandlers && this.vibrationMessageHandlers.vibrateWithCustomPatternMessageHandler ){
+        window.webkit.messageHandlers.vibrateWithCustomPatternMessageHandler.postMessage( { vibrationPattern: vibrationPattern, duration: seconds, loopForever: loopForever } );
+      }
+    }
+
+    vibrateWithCustomPatternDuration( vibrationPattern, seconds ) {
+      if ( this.vibrationMessageHandlers && this.vibrationMessageHandlers.vibrateWithCustomPatternDurationMessageHandler ){
+        window.webkit.messageHandlers.vibrateWithCustomPatternDurationMessageHandler.postMessage( { vibrationPattern: vibrationPattern, duration: seconds } );
+      }
+    }
+
+    vibrateWithCustomPatternForever( vibrationPattern ) {
+      if ( this.vibrationMessageHandlers && this.vibrationMessageHandlers.vibrateWithCustomPatternForeverMessageHandler ){
+        window.webkit.messageHandlers.vibrateWithCustomPatternForeverMessageHandler.postMessage( { vibrationPattern: vibrationPattern } );
+      }
+    }
+
+
 
     stop() {
       if ( this.vibrationMessageHandlers && this.vibrationMessageHandlers.stopMessageHandler ){
