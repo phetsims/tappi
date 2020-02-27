@@ -3,35 +3,32 @@
 /**
  * @author Jesse Greenberg
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const Property = require( 'AXON/Property' );
-  const Screen = require( 'JOIST/Screen' );
-  const tappi = require( 'TAPPI/tappi' );
-  const BasicsModel = require( 'TAPPI/demo/common/model/BasicsModel' );
-  const BasicsScreenView = require( 'TAPPI/demo/basics/view/BasicsScreenView' );
+import Property from '../../../../axon/js/Property.js';
+import Screen from '../../../../joist/js/Screen.js';
+import tappi from '../../tappi.js';
+import BasicsModel from '../common/model/BasicsModel.js';
+import BasicsScreenView from './view/BasicsScreenView.js';
 
-  class BasicsScreen extends Screen {
+class BasicsScreen extends Screen {
 
-    /**
-     * @param {Tandem} tandem
-     */
-    constructor( tandem ) {
+  /**
+   * @param {Tandem} tandem
+   */
+  constructor( tandem ) {
 
-      const options = {
-        backgroundColorProperty: new Property( 'white' ),
-        name: 'Basics'
-      };
+    const options = {
+      backgroundColorProperty: new Property( 'white' ),
+      name: 'Basics'
+    };
 
-      super(
-        () => new BasicsModel( tandem.createTandem( 'model' ) ),
-        model => new BasicsScreenView( model, tandem.createTandem( 'view' ) ),
-        options
-      );
-    }
+    super(
+      () => new BasicsModel( tandem.createTandem( 'model' ) ),
+      model => new BasicsScreenView( model, tandem.createTandem( 'view' ) ),
+      options
+    );
   }
+}
 
-  return tappi.register( 'BasicsScreen', BasicsScreen );
-} );
+tappi.register( 'BasicsScreen', BasicsScreen );
+export default BasicsScreen;

@@ -3,87 +3,84 @@
 /**
  * @author Jesse Greenberg
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const ABSwitch = require( 'SUN/ABSwitch' );
-  const BooleanRectangularToggleButton = require( 'SUN/buttons/BooleanRectangularToggleButton' );
-  const ScreenView = require( 'JOIST/ScreenView' );
-  const Text = require( 'SCENERY/nodes/Text' );
-  const BooleanProperty = require( 'AXON/BooleanProperty' );
-  const vibrationManager = require( 'TAPPI/vibrationManager' );
-  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  const Node = require( 'SCENERY/nodes/Node' );
-  const Dimension2 = require( 'DOT/Dimension2' );
-  const EnumerationProperty = require( 'AXON/EnumerationProperty' );
-  const tappi = require( 'TAPPI/tappi' );
+import BooleanProperty from '../../../../../axon/js/BooleanProperty.js';
+import EnumerationProperty from '../../../../../axon/js/EnumerationProperty.js';
+import Dimension2 from '../../../../../dot/js/Dimension2.js';
+import ScreenView from '../../../../../joist/js/ScreenView.js';
+import PhetFont from '../../../../../scenery-phet/js/PhetFont.js';
+import Node from '../../../../../scenery/js/nodes/Node.js';
+import Text from '../../../../../scenery/js/nodes/Text.js';
+import ABSwitch from '../../../../../sun/js/ABSwitch.js';
+import BooleanRectangularToggleButton from '../../../../../sun/js/buttons/BooleanRectangularToggleButton.js';
+import tappi from '../../../tappi.js';
+import vibrationManager from '../../../vibrationManager.js';
 
-  // constants
-  const LABEL_FONT = new PhetFont( { size: 100 } );
-  const SWITCH_TEXT_FONT = new PhetFont( { size: 80 } );
+// constants
+const LABEL_FONT = new PhetFont( { size: 100 } );
+const SWITCH_TEXT_FONT = new PhetFont( { size: 80 } );
 
-  class BasicsScreenView extends ScreenView {
+class BasicsScreenView extends ScreenView {
 
-    /**
-     * @param {BasicsModel} model
-     * @param {Tandem} tandem
-     */
-    constructor( model, tandem ) {
+  /**
+   * @param {BasicsModel} model
+   * @param {Tandem} tandem
+   */
+  constructor( model, tandem ) {
 
-      super();
+    super();
 
-      // button that initiates vibration - adapterProperty required because the button shouldn't set the
-      // vibration property directly
-      const adapterProperty = new BooleanProperty( vibrationManager.vibratingProperty.get() );
-      const trueNode = new Text( 'Stop Vibrate', { font: LABEL_FONT } );
-      const falseNode = new Text( 'Start Vibrate', { font: LABEL_FONT } );
-      const vibrationToggleButton = new BooleanRectangularToggleButton( trueNode, falseNode, adapterProperty );
+    // button that initiates vibration - adapterProperty required because the button shouldn't set the
+    // vibration property directly
+    const adapterProperty = new BooleanProperty( vibrationManager.vibratingProperty.get() );
+    const trueNode = new Text( 'Stop Vibrate', { font: LABEL_FONT } );
+    const falseNode = new Text( 'Start Vibrate', { font: LABEL_FONT } );
+    const vibrationToggleButton = new BooleanRectangularToggleButton( trueNode, falseNode, adapterProperty );
 
-      // switch that changes between high and low vibration
-      const intensityAdapterProperty = new EnumerationProperty( vibrationManager.Intensity, vibrationManager.Intensity.HIGH );
-      const intensitySwitch = new ABSwitch(
-        intensityAdapterProperty,
-        vibrationManager.Intensity.HIGH, new Text( 'High', { font: SWITCH_TEXT_FONT } ),
-        vibrationManager.Intensity.LOW, new Text( 'Low', { font: SWITCH_TEXT_FONT } ),
-        {
-          toggleSwitchOptions: { size: new Dimension2( 180, 90 ) },
-          xSpacing: 20
-        }
-      );
-      const intensityLabel = new Text( 'Intensity', { font: LABEL_FONT } );
+    // switch that changes between high and low vibration
+    const intensityAdapterProperty = new EnumerationProperty( vibrationManager.Intensity, vibrationManager.Intensity.HIGH );
+    const intensitySwitch = new ABSwitch(
+      intensityAdapterProperty,
+      vibrationManager.Intensity.HIGH, new Text( 'High', { font: SWITCH_TEXT_FONT } ),
+      vibrationManager.Intensity.LOW, new Text( 'Low', { font: SWITCH_TEXT_FONT } ),
+      {
+        toggleSwitchOptions: { size: new Dimension2( 180, 90 ) },
+        xSpacing: 20
+      }
+    );
+    const intensityLabel = new Text( 'Intensity', { font: LABEL_FONT } );
 
-      adapterProperty.lazyLink( vibrating => {
-        if ( vibrating ) {
-          vibrationManager.startVibrate();
-        }
-        else {
-          vibrationManager.stopVibrate();
-        }
-      } );
+    adapterProperty.lazyLink( vibrating => {
+      if ( vibrating ) {
+        vibrationManager.startVibrate();
+      }
+      else {
+        vibrationManager.stopVibrate();
+      }
+    } );
 
-      // NOTE: It would be cool if this wasn't necessary, but it feels weird that all of the API goes through the
-      // Property
-      intensityAdapterProperty.lazyLink( intensity => {
-        vibrationManager.setVibrationIntensity( intensity );
-      } );
+    // NOTE: It would be cool if this wasn't necessary, but it feels weird that all of the API goes through the
+    // Property
+    intensityAdapterProperty.lazyLink( intensity => {
+      vibrationManager.setVibrationIntensity( intensity );
+    } );
 
-      // layout
-      const switchContainer = new Node( { children: [ intensitySwitch, intensityLabel ] } );
-      intensityLabel.centerTop = intensitySwitch.centerBottom;
-      switchContainer.centerBottom = this.layoutBounds.centerBottom;
+    // layout
+    const switchContainer = new Node( { children: [ intensitySwitch, intensityLabel ] } );
+    intensityLabel.centerTop = intensitySwitch.centerBottom;
+    switchContainer.centerBottom = this.layoutBounds.centerBottom;
 
-      vibrationToggleButton.centerTop = this.layoutBounds.centerTop;
+    vibrationToggleButton.centerTop = this.layoutBounds.centerTop;
 
-      // add to view
-      this.addChild( vibrationToggleButton );
-      this.addChild( switchContainer );
-    }
-
-    // @public
-    step( dt ) {
-    }
+    // add to view
+    this.addChild( vibrationToggleButton );
+    this.addChild( switchContainer );
   }
 
-  return tappi.register( 'BasicsScreenView', BasicsScreenView );
-} );
+  // @public
+  step( dt ) {
+  }
+}
+
+tappi.register( 'BasicsScreenView', BasicsScreenView );
+export default BasicsScreenView;

@@ -5,35 +5,32 @@
  *
  * @author Jesse Greenberg
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const Property = require( 'AXON/Property' );
-  const Screen = require( 'JOIST/Screen' );
-  const tappi = require( 'TAPPI/tappi' );
-  const PatternsModel = require( 'TAPPI/demo/patterns/model/PatternsModel' );
-  const PatternsScreenView = require( 'TAPPI/demo/patterns/view/PatternsScreenView' );
+import Property from '../../../../axon/js/Property.js';
+import Screen from '../../../../joist/js/Screen.js';
+import tappi from '../../tappi.js';
+import PatternsModel from './model/PatternsModel.js';
+import PatternsScreenView from './view/PatternsScreenView.js';
 
-  class PatternsScreen extends Screen {
+class PatternsScreen extends Screen {
 
-    /**
-     * @param {Tandem} tandem
-     */
-    constructor() {
+  /**
+   * @param {Tandem} tandem
+   */
+  constructor() {
 
-      const options = {
-        backgroundColorProperty: new Property( 'white' ),
-        name: 'Patterns'
-      };
+    const options = {
+      backgroundColorProperty: new Property( 'white' ),
+      name: 'Patterns'
+    };
 
-      super(
-        () => new PatternsModel(),
-        model => new PatternsScreenView( model ),
-        options
-      );
-    }
+    super(
+      () => new PatternsModel(),
+      model => new PatternsScreenView( model ),
+      options
+    );
   }
+}
 
-  return tappi.register( 'PatternsScreen', PatternsScreen );
-} );
+tappi.register( 'PatternsScreen', PatternsScreen );
+export default PatternsScreen;

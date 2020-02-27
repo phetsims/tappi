@@ -5,35 +5,32 @@
  *
  * @author Jesse Greenberg
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const tappi = require( 'TAPPI/tappi' );
-  const Enumeration = require( 'PHET_CORE/Enumeration' );
-  const EnumerationProperty = require( 'AXON/EnumerationProperty' );
-  const BooleanProperty = require( 'AXON/BooleanProperty' );
-  const Property = require( 'AXON/Property' );
+import BooleanProperty from '../../../../../axon/js/BooleanProperty.js';
+import EnumerationProperty from '../../../../../axon/js/EnumerationProperty.js';
+import Property from '../../../../../axon/js/Property.js';
+import Enumeration from '../../../../../phet-core/js/Enumeration.js';
+import tappi from '../../../tappi.js';
 
-  /**
-   * @constructor
-   */
-  class PatternsModel  {
-    constructor() {
+/**
+ * @constructor
+ */
+class PatternsModel {
+  constructor() {
 
-      // @public - the current set of patterns available for demonstration
-      this.activePatternSetProperty = new EnumerationProperty( PatternsModel.PatternSet, PatternsModel.PatternSet.PULSES );
+    // @public - the current set of patterns available for demonstration
+    this.activePatternSetProperty = new EnumerationProperty( PatternsModel.PatternSet, PatternsModel.PatternSet.PULSES );
 
-      // @public {Property<null|number[]>} - The running pattern provided to the vibration manager
-      this.activePatternProperty = new Property( null );
+    // @public {Property<null|number[]>} - The running pattern provided to the vibration manager
+    this.activePatternProperty = new Property( null );
 
-      // @public - if true, vibration patterns will be time limitted rather than running forever
-      this.limitPatternsProperty = new BooleanProperty( false );
-    }
+    // @public - if true, vibration patterns will be time limitted rather than running forever
+    this.limitPatternsProperty = new BooleanProperty( false );
   }
+}
 
-  // @public
-  PatternsModel.PatternSet = Enumeration.byKeys( [ 'PULSES', 'EFFECTS', 'TUNES' ] );
+// @public
+PatternsModel.PatternSet = Enumeration.byKeys( [ 'PULSES', 'EFFECTS', 'TUNES' ] );
 
-  return tappi.register( 'PatternsModel', PatternsModel );
-} );
+tappi.register( 'PatternsModel', PatternsModel );
+export default PatternsModel;

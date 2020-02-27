@@ -3,34 +3,31 @@
 /**
  * @author Jesse Greenberg
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const tappi = require( 'TAPPI/tappi' );
+import tappi from '../../../tappi.js';
+
+/**
+ * @constructor
+ */
+class BasicsModel {
 
   /**
-   * @constructor
+   * @param {Tandem} tandem
    */
-  class BasicsModel  {
-
-    /**
-     * @param {Tandem} tandem
-     */
-    constructor( tandem ) {
-      //TODO
-    }
-
-    // @public resets the model
-    reset() {
-      //TODO Reset things here.
-    }
-
-    // @public
-    step( dt ) {
-      //TODO Handle model animation here.
-    }
+  constructor( tandem ) {
+    //TODO
   }
 
-  return tappi.register( 'BasicsModel', BasicsModel );
-} );
+  // @public resets the model
+  reset() {
+    //TODO Reset things here.
+  }
+
+  // @public
+  step( dt ) {
+    //TODO Handle model animation here.
+  }
+}
+
+tappi.register( 'BasicsModel', BasicsModel );
+export default BasicsModel;
