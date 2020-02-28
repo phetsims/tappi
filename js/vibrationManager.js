@@ -1,4 +1,4 @@
-// Copyright 2019, University of Colorado Boulder
+// Copyright 2019-2020, University of Colorado Boulder
 
 /**
  * A singleton that manages vibration feedback through the web vibration API. navigator.vibrate is required
