@@ -10,24 +10,38 @@
  * figure out why. In the meantime, creating a custom listener. It doesn't support many things that would come for
  * free with DragListener (like interruption).
  *
+ * TODO: Rename, this now supports more than shapes
+ *
  * @author Jesse Greenberg
  */
 
 
 // modules
 // const DragListener = require( '/scenery/js/listeners/DragListener' );
-import Emitter from '../../../axon/js/Emitter.js';
-import Shape from '../../../kite/js/Shape.js';
-import merge from '../../../phet-core/js/merge.js';
-import Path from '../../../scenery/js/nodes/Path.js';
-import tappi from '../tappi.js';
+import Emitter
+  from '../../../axon/js/Emitter.js';
+import Shape
+  from '../../../kite/js/Shape.js';
+import merge
+  from '../../../phet-core/js/merge.js';
+import Path
+  from '../../../scenery/js/nodes/Path.js';
+import tappi
+  from '../tappi.js';
+import Node
+  from '../../../scenery/js/nodes/Node.js';
+import BooleanProperty
+  from '../../../axon/js/BooleanProperty.js';
 
 class ShapeHitDetector {
 
-  /**
-   * @param {Tandem} tandem
-   */
-  constructor( parent, tandem ) {
+  constructor( parent, options ) {
+
+    options = merge( {
+
+      // {boolean} - if true, the 'hits' will be detected on shapes on over, rather than requiring the pointer to be down
+      hitOnOver: false
+    }, options );
 
     // @private {Hittable[]} - collection of shape/Property to be detected
     this.hittables = [];
@@ -40,14 +54,18 @@ class ShapeHitDetector {
 
     this.pointer = null;
 
+    // @private {boolean} - see options
+    this.hitOnOver = options.hitOnOver;
+
     // @private - list of hittables that currently have a pointer over them. Ordered such that the first item
     // of the list is the most recent to receive a hit
     this.activeHittables = [];
 
     // @public - the most recent shape that received a hit from a pointer. The first element of the activeHittables
     // array
+    // TODO: Rename, this now supports more than Shapes
     this.hitShapeEmitter = new Emitter( {
-      parameters: [ { valueType: [ Shape, null ] } ]
+      parameters: [ { valueType: [ Shape, Node, null ] } ]
     } );
 
     // @private {Object} - attached to the pointer on `down` if the pointer isn't already attached and interacting
@@ -65,12 +83,22 @@ class ShapeHitDetector {
         }
       },
       up: event => {
-        // no paths hit on release
-        for ( let i = 0; i < this.hittables.length; i++ ) {
-          this.hittables[ i ].property.set( false );
-        }
+        this.handleRelease();
+      },
+      cancel: evennt => {
+        this.handleRelease();
       }
     };
+  }
+
+  move( event ) {
+    if ( this.hitOnOver ) {
+      const parentPoint = this.parent.globalToLocalPoint( event.pointer.point );
+      for ( let i = 0; i < this.hittables.length; i++ ) {
+        const hittable = this.hittables[ i ];
+        hittable.detectHit( parentPoint );
+      }
+    }
   }
 
   /**
@@ -82,6 +110,7 @@ class ShapeHitDetector {
 
     // only begin dragging if pointer isn't already interacting with something
     if ( !event.pointer.isAttached() ) {
+
       this.isPressed = true;
       this.pointer = event.pointer;
 
@@ -95,18 +124,21 @@ class ShapeHitDetector {
   }
 
   /**
-   * For the scenery listener API, removes the pointer listener when done.
-   *
-   * @param {SceneryEvent} event
+   * Handle 'release' of the pointer, such as on 'up' and 'cancel' events. Hittables are reset and Pointer listeners
+   * are removed.
+   * @private
+   * @param event
    */
-  up( event ) {
-    if ( this.isPressed ) {
-
-      // warning - no multitouch support
-      this.isPressed = false;
-      this.pointer = null;
-      event.pointer.removeInputListener( this._pointerListener );
+  handleRelease( event ) {
+    // no paths hit on release
+    for ( let i = 0; i < this.hittables.length; i++ ) {
+      this.hittables[ i ].property.set( false );
     }
+
+    this.pointer.removeInputListener( this._pointerListener );
+    this.pointer = null;
+
+    this.isPressed = false;
   }
 
   /**
@@ -116,12 +148,32 @@ class ShapeHitDetector {
    * @param {Property} property
    */
   addShape( shape, property, options ) {
-    const hittable = new Hittable( shape, property, options );
+    const hittable = new Hittable( shape, property, this.parent, options );
+    this.addHittable( hittable );
+  }
+
+  /**
+   * Add a Node to the detector. If the Pointer goes over the Node's bounds in the global coordinate
+   * frame, it is detected as a 'hit'.
+   * @public
+   * @param node
+   */
+  addNode( node ) {
+    const hittable = new Hittable( node, new BooleanProperty( false ), this.parent );
+    this.addHittable( hittable );
+  }
+
+  /**
+   * Add a Hittable to the list.
+   * @private
+   * @param hittable
+   */
+  addHittable( hittable ) {
     this.hittables.push( hittable );
 
     // whenever the Property value changes, update the list of activeHittables so we know the order in which
     // pointers moved over shapes
-    property.link( value => {
+    hittable.property.link( value => {
       _.pull( this.activeHittables, hittable );
       if ( value ) {
         this.activeHittables.unshift( hittable );
@@ -129,7 +181,7 @@ class ShapeHitDetector {
       assert && assert( this.activeHittables.length <= this.hittables.length, 'too many active Hittables, probably a memory leak' );
 
       if ( this.activeHittables.length ) {
-        this.hitShapeEmitter.emit( this.activeHittables[ 0 ].shape );
+        this.hitShapeEmitter.emit( this.activeHittables[ 0 ].target );
       }
       else {
         this.hitShapeEmitter.emit( null );
@@ -140,6 +192,7 @@ class ShapeHitDetector {
   /**
    * Set the shape on the hittable associated with the provided Property. Useful if your shape
    * needs to move around.
+   * @public
    *
    * @param {Property} property - previously
    */
@@ -150,11 +203,12 @@ class ShapeHitDetector {
     } );
     assert && assert( hittable !== undefined, 'could not find hittable' );
 
-    hittable.shape = shape;
+    hittable.target = shape;
   }
 
   /**
    * Interrupts the listener, releasing it and cancelling the behavior.
+   * @public
    */
   interrupt() {
     this.isPressed = false;
@@ -170,6 +224,7 @@ class ShapeHitDetector {
 
   /**
    * For debugging. Show attached shapes visually.
+   * @public
    * @returns {[type]} [description]
    */
   getDebugPaths() {
@@ -188,18 +243,22 @@ class ShapeHitDetector {
 class Hittable {
 
   /**
-   * @param {Shape} shape
+   * @param {Shape|Node} target - Either a Shape or a Node to detect hits by a Pointer
    * @param {BooleanProperty} property - true when the pointer is down over this shape
+   * @param {Node} parent - pare
    * @param {Objects} options
    */
-  constructor( shape, property, options ) {
+  constructor( target, property, parent, options ) {
     options = merge( {
 
       // to make this shape visible during debugging
       debugStroke: 'green'
     }, options );
 
-    this.shape = shape;
+    // {Shape|Node}
+    this.target = target;
+
+    this.parent = parent;
 
     // @public (read-only)
     this.property = property;
@@ -209,30 +268,27 @@ class Hittable {
   }
 
   /**
-   * Returns true if the point is within the shape.
-   *
-   * @param {Vector2} point
-   * @returns {}
-   */
-  shapeContainsPoint( point ) {
-    return this.shape.containsPoint( point );
-  }
-
-  /**
    * Sets the property based on whether or not the point is within the shape.
    *
    * @param {Vector2} point - in the global coordinate frame
    * @returns {boolean} [description]
    */
   detectHit( point ) {
-    this.property.set( this.shape.containsPoint( point ) );
+    if ( this.target instanceof Node ) {
+      this.property.set( this.parent.globalToLocalBounds( this.target.globalBounds ).containsPoint( point ) );
+    }
+    else {
+      this.property.set( this.target.containsPoint( point ) );
+    }
   }
 
   /**
    * Make the object shape visible. This is purely for debugging purposes.
    */
   getDebugPath() {
-    return new Path( this.shape, {
+    const hitShape = this.target instanceof Node ? Shape.bounds( this.target.globalBounds ) : this.target;
+
+    return new Path( hitShape, {
       stroke: this.debugStroke,
       pickable: false
     } );
