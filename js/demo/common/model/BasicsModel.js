@@ -14,19 +14,7 @@ class BasicsModel {
   /**
    * @param {Tandem} tandem
    */
-  constructor( tandem ) {
-    //TODO
-  }
-
-  // @public resets the model
-  reset() {
-    //TODO Reset things here.
-  }
-
-  // @public
-  step( dt ) {
-    //TODO Handle model animation here.
-  }
+  constructor( tandem ) {}
 }
 
 tappi.register( 'BasicsModel', BasicsModel );
