@@ -10,28 +10,21 @@
  * figure out why. In the meantime, creating a custom listener. It doesn't support many things that would come for
  * free with DragListener (like interruption).
  *
- * TODO: Rename, this now supports more than shapes
+ * TODO: https://github.com/phetsims/tappi/issues/5 Rename, this now supports more than shapes
  *
  * @author Jesse Greenberg
  */
 
 
+import BooleanProperty from '../../../axon/js/BooleanProperty.js';
 // modules
 // const DragListener = require( '/scenery/js/listeners/DragListener' );
-import Emitter
-  from '../../../axon/js/Emitter.js';
-import Shape
-  from '../../../kite/js/Shape.js';
-import merge
-  from '../../../phet-core/js/merge.js';
-import Path
-  from '../../../scenery/js/nodes/Path.js';
-import tappi
-  from '../tappi.js';
-import Node
-  from '../../../scenery/js/nodes/Node.js';
-import BooleanProperty
-  from '../../../axon/js/BooleanProperty.js';
+import Emitter from '../../../axon/js/Emitter.js';
+import Shape from '../../../kite/js/Shape.js';
+import merge from '../../../phet-core/js/merge.js';
+import Node from '../../../scenery/js/nodes/Node.js';
+import Path from '../../../scenery/js/nodes/Path.js';
+import tappi from '../tappi.js';
 
 class ShapeHitDetector {
 
@@ -63,7 +56,7 @@ class ShapeHitDetector {
 
     // @public - the most recent shape that received a hit from a pointer. The first element of the activeHittables
     // array
-    // TODO: Rename, this now supports more than Shapes
+    // TODO: https://github.com/phetsims/tappi/issues/5 Rename, this now supports more than Shapes
     this.hitShapeEmitter = new Emitter( {
       parameters: [ { valueType: [ Shape, Node, null ] } ]
     } );
