@@ -210,9 +210,10 @@ class ShapeHitDetector {
       _.pull( this.activeHittables, this.hittables[ i ] );
     }
 
-    this.pointer.removeInputListener( this._pointerListener );
-    this.pointer = null;
-
+    if ( this.pointer ) {
+      this.pointer.removeInputListener( this._pointerListener );
+      this.pointer = null;
+    }
   }
 
   /**
