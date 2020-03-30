@@ -76,6 +76,14 @@ class VibrationManageriOS {
       );
     }
   }
+
+  debug( debugString ) {
+    if ( this.vibrationMessageHandlers && this.vibrationMessageHandlers.debugMessageHandler ) {
+      window.webkit.messageHandlers.debugMessageHandler.postMessage( {
+        debugString: debugString
+      } );
+    }
+  }
 }
 
 tappi.register( 'VibrationManageriOS', VibrationManageriOS );
