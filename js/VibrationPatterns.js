@@ -18,6 +18,8 @@ const VibrationPatterns = {
   HZ_5: [ 100, 100 ],
   HZ_10: [ 50, 50 ],
   HZ_25: [ 25, 25 ],
+  HZ_100: [ 5, 5 ],
+  HZ_200: [ 2.5, 2.5 ],
 
   // default vibration, no pattern
   MOTOR_CALL: null,
