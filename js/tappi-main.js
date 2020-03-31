@@ -11,7 +11,7 @@ import SimLauncher from '../../joist/js/SimLauncher.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import BasicsScreen from './demo/basics/BasicsScreen.js';
 import PatternsScreen from './demo/patterns/PatternsScreen.js';
-import tappiStrings from './tappi-strings.js';
+import tappiStrings from './tappiStrings.js';
 import vibrationManager from './vibrationManager.js';
 
 const tappiTitleString = tappiStrings.tappi.title;
