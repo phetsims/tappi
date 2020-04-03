@@ -12,8 +12,7 @@ import HBox from '../../../../../scenery/js/nodes/HBox.js';
 import Node from '../../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../../scenery/js/nodes/Text.js';
 import VBox from '../../../../../scenery/js/nodes/VBox.js';
-import BooleanRectangularStickyToggleButton
-  from '../../../../../sun/js/buttons/BooleanRectangularStickyToggleButton.js';
+import BooleanRectangularStickyToggleButton from '../../../../../sun/js/buttons/BooleanRectangularStickyToggleButton.js';
 import tappi from '../../../tappi.js';
 
 // constants
