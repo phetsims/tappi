@@ -1,6 +1,5 @@
 // Copyright 2020, University of Colorado Boulder
 
-
 import tappi from './tappi.js';
 
 class VibrationManageriOS {

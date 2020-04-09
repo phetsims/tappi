@@ -15,16 +15,16 @@
  * @author Jesse Greenberg
  */
 
-
 import BooleanProperty from '../../../axon/js/BooleanProperty.js';
-// modules
-// const DragListener = require( '/scenery/js/listeners/DragListener' );
 import Emitter from '../../../axon/js/Emitter.js';
 import Shape from '../../../kite/js/Shape.js';
 import merge from '../../../phet-core/js/merge.js';
 import Node from '../../../scenery/js/nodes/Node.js';
 import Path from '../../../scenery/js/nodes/Path.js';
 import tappi from '../tappi.js';
+
+// modules
+// const DragListener = require( '/scenery/js/listeners/DragListener' );
 
 class ShapeHitDetector {
 
