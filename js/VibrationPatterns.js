@@ -23,9 +23,10 @@ const VibrationPatterns = {
   MOTOR_CALL: null,
 
   // these patterns are faster than 60 fps and will not appear or work well
+  // NOTE: @jessegreenberg added these and they are porbably not right...
   HZ_50: [ 10, 10 ],
-  HZ_100: [ 5, 5 ],
-  HZ_200: [ 2.5, 2.5 ],
+  // HZ_100: [ 5, 5 ],
+  HZ_200: [ 5, 5 ],
 
 
   // effects pattens
