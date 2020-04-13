@@ -34,10 +34,18 @@ class VibrationManageriOS {
   }
 
 
-  vibrateAtFrequencyForever( frequency ) {
+  /**
+   * Vibrate at the desired frequency.
+   * @param {number} frequency
+   * @param {number} [intensity] - from 0 to 1
+   */
+  vibrateAtFrequencyForever( frequency, intensity ) {
+    intensity = intensity || 1;
+    this.debug( intensity + '' );
+
     if ( this.vibrationMessageHandlers && this.vibrationMessageHandlers.vibrateFrequencyForeverMessageHandler ) {
       window.webkit.messageHandlers.vibrateFrequencyForeverMessageHandler.postMessage(
-        { frequency: frequency }
+        { frequency: frequency, intensity: intensity }
       );
     }
   }
