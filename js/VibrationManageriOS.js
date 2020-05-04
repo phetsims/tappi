@@ -1,5 +1,6 @@
 // Copyright 2020, University of Colorado Boulder
 
+import Utils from '../../dot/js/Utils.js';
 import tappi from './tappi.js';
 
 class VibrationManageriOS {
@@ -40,7 +41,8 @@ class VibrationManageriOS {
    * @param {number} [intensity] - from 0 to 1
    */
   vibrateAtFrequencyForever( frequency, intensity ) {
-    intensity = intensity || 1;
+    intensity = typeof intensity === 'number' ? intensity : 1;
+    intensity = Utils.clamp( intensity, 0, 1 );
     this.debug( intensity + '' );
 
     if ( this.vibrationMessageHandlers && this.vibrationMessageHandlers.vibrateFrequencyForeverMessageHandler ) {
@@ -72,6 +74,16 @@ class VibrationManageriOS {
   vibrateWithCustomPatternForever( vibrationPattern ) {
     if ( this.vibrationMessageHandlers && this.vibrationMessageHandlers.vibrateWithCustomPatternForeverMessageHandler ) {
       window.webkit.messageHandlers.vibrateWithCustomPatternForeverMessageHandler.postMessage( { vibrationPattern: vibrationPattern } );
+    }
+  }
+
+  /**
+   * Sets the intenstiy of the current vibration. No effect if there is no active vibration
+   * @param intensity
+   */
+  setVibrationIntensity( intensity ) {
+    if ( this.vibrationMessageHandlers && this.vibrationMessageHandlers.vibrationIntensityMessageHandler ) {
+      window.webkit.messageHandlers.vibrationIntensityMessageHandler.postMessage( { intensity: intensity } );
     }
   }
 
