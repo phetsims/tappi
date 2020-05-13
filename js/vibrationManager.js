@@ -153,6 +153,7 @@ class VibrationManager {
 
   /**
    * Stops all vibration immediately.
+   * @public
    */
   stopVibrate() {
     this._runningVibration = false;
@@ -162,6 +163,7 @@ class VibrationManager {
   /**
    * Start a vibration. Optionally provide a pattern sequence for the vibration. Vibration will proceed for
    * time in ms and then stop.
+   * @public
    *
    * @param {number} time - in ms, how long the vibration should run
    * @param {number[]} pattern - optional, pattern for the vibration, uses defalt vibration pattern if not defined
@@ -179,6 +181,7 @@ class VibrationManager {
   /**
    * Shortcut to determine whether we are currently vibrating. This should accurately
    * indicate whether or not the device is actually vibrating.
+   * @public
    *
    * @returns {boolean}
    */

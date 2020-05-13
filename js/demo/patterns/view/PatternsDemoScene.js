@@ -76,6 +76,7 @@ class PatternsDemoScene extends Node {
    * Create one pattern button for each of the provided patterns. Then add all created buttons to the scene
    * and manage layout.
    * NOTE: At this time there is no way to remove buttons. You can only add them. That seems fine for this demo.
+   * @public
    *
    * @param { {pattern: number[], label: string }[] } patterns - contains button label and
    */

@@ -5,9 +5,17 @@ import tappi from './tappi.js';
 
 class VibrationManageriOS {
   constructor() {
+
+    // @private {Object} - message handlers for the Webkit window, only available in Safari.
     this.vibrationMessageHandlers = window.webkit && window.webkit.messageHandlers;
   }
 
+  /**
+   * Start a timed vibration for the provided time in seconds.
+   * @public
+   *
+   * @param {number} seconds
+   */
   vibrate( seconds ) {
     assert && assert( typeof seconds === 'number', 'seconds should be a number' );
 
@@ -16,6 +24,10 @@ class VibrationManageriOS {
     }
   }
 
+  /**
+   * Start a vibration that will continue forever.
+   * @public
+   */
   vibrateForever() {
 
     if ( this.vibrationMessageHandlers
@@ -26,6 +38,13 @@ class VibrationManageriOS {
     }
   }
 
+  /**
+   * Start a vibration for the provided duration, with a provided frequency.
+   * @public
+   *
+   * @param {number} seconds - time in seconds
+   * @param {number} frequency - in hertz
+   */
   vibrateAtFrequency( seconds, frequency ) {
     if ( this.vibrationMessageHandlers && this.vibrationMessageHandlers.vibrateFrequencyMessageHandler ) {
       window.webkit.messageHandlers.vibrateFrequencyMessageHandler.postMessage(
@@ -37,6 +56,8 @@ class VibrationManageriOS {
 
   /**
    * Vibrate at the desired frequency.
+   * @public
+   *
    * @param {number} frequency
    * @param {number} [intensity] - from 0 to 1
    */
@@ -52,6 +73,14 @@ class VibrationManageriOS {
     }
   }
 
+  /**
+   * Request a vibration with a custom pattern that loops forever.
+   *
+   * @public
+   * @param {number[]} vibrationPattern - alternating values where even indicies are "on" time, odd indices are "off"
+   * @param [number] seconds - time in seconds, how long to run the vibration
+   * @param {boolean} loopForever - should this loop forever?
+   */
   vibrateWithCustomPattern( vibrationPattern, seconds, loopForever ) {
     if ( this.vibrationMessageHandlers && this.vibrationMessageHandlers.vibrateWithCustomPatternMessageHandler ) {
       window.webkit.messageHandlers.vibrateWithCustomPatternMessageHandler.postMessage( {
@@ -62,6 +91,13 @@ class VibrationManageriOS {
     }
   }
 
+  /**
+   * Vibrate with a custom pattern for the provided duration.
+   * @public
+   *
+   * @param {number[]} vibrationPattern - alternative values where even indicies are "on" time and odd indicies are "off"
+   * @param {number} seconds
+   */
   vibrateWithCustomPatternDuration( vibrationPattern, seconds ) {
     if ( this.vibrationMessageHandlers && this.vibrationMessageHandlers.vibrateWithCustomPatternDurationMessageHandler ) {
       window.webkit.messageHandlers.vibrateWithCustomPatternDurationMessageHandler.postMessage( {
@@ -71,6 +107,11 @@ class VibrationManageriOS {
     }
   }
 
+  /**
+   * Vibrate with a custom pattern forever.
+   * @public
+   * @param {number[]} vibrationPattern - alternating values of "on" and "off" time, starting with "on" time.
+   */
   vibrateWithCustomPatternForever( vibrationPattern ) {
     if ( this.vibrationMessageHandlers && this.vibrationMessageHandlers.vibrateWithCustomPatternForeverMessageHandler ) {
       window.webkit.messageHandlers.vibrateWithCustomPatternForeverMessageHandler.postMessage( { vibrationPattern: vibrationPattern } );
@@ -78,7 +119,8 @@ class VibrationManageriOS {
   }
 
   /**
-   * Sets the intenstiy of the current vibration. No effect if there is no active vibration
+   * Sets the intenstiy of the current vibration. No effect if there is no active vibration.
+   * @public
    * @param intensity
    */
   setVibrationIntensity( intensity ) {
@@ -87,7 +129,10 @@ class VibrationManageriOS {
     }
   }
 
-
+  /**
+   * Stop any active vibration immediately.
+   * @public
+   */
   stop() {
     if ( this.vibrationMessageHandlers && this.vibrationMessageHandlers.stopMessageHandler ) {
       window.webkit.messageHandlers.stopMessageHandler.postMessage(
@@ -96,6 +141,12 @@ class VibrationManageriOS {
     }
   }
 
+  /**
+   * Send a debug message to the containing app that will be printed in the debugging tools.
+   * @public
+   *
+   * @param {string} debugString
+   */
   debug( debugString ) {
     if ( this.vibrationMessageHandlers && this.vibrationMessageHandlers.debugMessageHandler ) {
       window.webkit.messageHandlers.debugMessageHandler.postMessage( {

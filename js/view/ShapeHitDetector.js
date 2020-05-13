@@ -84,6 +84,11 @@ class ShapeHitDetector {
     };
   }
 
+  /**
+   * Part of the scenery listener API.
+   * @public (scenery)
+   * @param {SceneryEvent} event
+   */
   move( event ) {
     if ( this.hitOnOver ) {
       const parentPoint = this.parent.globalToLocalPoint( event.pointer.point );
@@ -97,6 +102,7 @@ class ShapeHitDetector {
   /**
    * For the scenery listener API, detects any hits and attaches listener to the pointer for movement and eventually
    * listener removal.
+   * @public
    * @param {SceneryEvent} event
    */
   down( event ) {
@@ -137,6 +143,7 @@ class ShapeHitDetector {
 
   /**
    * Add a shape to the detectr, Property set true when pointer is down over shape.
+   * @public
    *
    * @param {Shape} shape
    * @param {Property} property
@@ -264,6 +271,7 @@ class Hittable {
 
   /**
    * Sets the property based on whether or not the point is within the shape.
+   * @public
    *
    * @param {Vector2} point - in the global coordinate frame
    * @returns {boolean} [description]
@@ -279,6 +287,7 @@ class Hittable {
 
   /**
    * Make the object shape visible. This is purely for debugging purposes.
+   * @public
    */
   getDebugPath() {
     const hitShape = this.target instanceof Node ? Shape.bounds( this.target.globalBounds ) : this.target;
