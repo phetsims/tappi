@@ -67,12 +67,7 @@ class ShapeHitDetector {
       move: event => {
         if ( this.isPressed ) {
           const parentPoint = this.parent.globalToLocalPoint( event.pointer.point );
-
-          // find which shape contains the parent point, set its associated Property
-          for ( let i = 0; i < this.hittables.length; i++ ) {
-            const hittable = this.hittables[ i ];
-            hittable.detectHit( parentPoint );
-          }
+          this.updateHittables( parentPoint );
         }
       },
       up: event => {
@@ -96,6 +91,30 @@ class ShapeHitDetector {
         const hittable = this.hittables[ i ];
         hittable.detectHit( parentPoint );
       }
+    }
+  }
+
+  /**
+   * Part of the scenery listener API, update on exits.
+   * @public (scenery-internal)
+   *
+   * @param {SceneryEvent} event
+   */
+  exit( event ) {
+    if ( this.hitOnOver ) {
+      const parentPoint = this.parent.globalToLocalPoint( event.pointer.point );
+      this.updateHittables( parentPoint );
+    }
+  }
+
+  /**
+   * Go through Hittables and update whether or not they are hit under the provided point.
+   * @param {Vector2} point - in the parent coordinate frame (local coordiante frame of this.parent).
+   */
+  updateHittables( point ) {
+    for ( let i = 0; i < this.hittables.length; i++ ) {
+      const hittable = this.hittables[ i ];
+      hittable.detectHit( point );
     }
   }
 
