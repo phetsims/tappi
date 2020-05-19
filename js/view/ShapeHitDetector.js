@@ -95,6 +95,30 @@ class ShapeHitDetector {
   }
 
   /**
+   * Check for any "hits" from a focus event. Part of the scenery listener API.
+   * @public (scenery-internal)
+   *
+   * @param {SceneryEvent} event
+   */
+  focusin( event ) {
+    for ( let i = 0; i < this.hittables.length; i++ ) {
+      this.hittables[ i ].detectHitFromFocus( event );
+    }
+  }
+
+  /**
+   * Focus is leaving or moving to something else, clear any detected hits.
+   * @public (scenery-internal)
+   *
+   * @param {SceneryEvent} event
+   */
+  focusout( event ) {
+    for ( let i = 0; i < this.hittables.length; i++ ) {
+      this.hittables[ i ].property.set( false );
+    }
+  }
+
+  /**
    * Part of the scenery listener API, update on exits.
    * @public (scenery-internal)
    *
@@ -302,6 +326,24 @@ class Hittable {
     else {
       this.property.set( this.target.containsPoint( point ) );
     }
+  }
+
+  /**
+   * Determines whether a focus event lands on this hittable. If the hittable target is an ancestor of the focused
+   * node OR the focused node is an ancestor of the hittable, it is considered a hit.
+   *
+   * @param {SceneryEvent} focusEvent
+   */
+  detectHitFromFocus( focusEvent ) {
+    let trails = [];
+
+    if ( this.target instanceof Node ) {
+      const eventToHittableTrails = focusEvent.target.getLeafTrailsTo( this.target );
+      const hittableToEventTrails = this.target.getLeafTrailsTo( focusEvent.target );
+      trails = eventToHittableTrails.concat( hittableToEventTrails );
+    }
+
+    this.property.set( trails.length > 0 );
   }
 
   /**
