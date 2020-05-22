@@ -152,7 +152,7 @@ class ShapeHitDetector {
 
     // only begin dragging if pointer isn't already interacting with something, and don't attach pointer listeners if we
     // are just detecting hits on hover
-    if ( !event.pointer.isAttached() && !this.hitOnOver ) {
+    if ( this.pointer === null && !event.pointer.isAttached() && !this.hitOnOver ) {
 
       this.isPressed = true;
       this.pointer = event.pointer;
