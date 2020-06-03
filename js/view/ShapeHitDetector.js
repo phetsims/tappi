@@ -61,6 +61,11 @@ class ShapeHitDetector {
       parameters: [ { valueType: [ Shape, Node, null ] } ]
     } );
 
+    // @public - Emits an event when the Pointer goes down on a hittable target.
+    this.downOnHittableEmitter = new Emitter( {
+      parameters: [ { valueType: [ Shape, Node ] } ]
+    } );
+
     // @private {Object} - attached to the pointer on `down` if the pointer isn't already attached and interacting
     // with other things
     this._pointerListener = {
@@ -164,6 +169,11 @@ class ShapeHitDetector {
 
       event.pointer.addInputListener( this._pointerListener, true );
     }
+
+    // emit to active hittables that a down was received while pointer was over it
+    this.activeHittables.forEach( hittable => {
+      this.downOnHittableEmitter.emit( hittable.target );
+    } );
   }
 
   /**
