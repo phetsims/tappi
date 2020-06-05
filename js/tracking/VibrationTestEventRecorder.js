@@ -13,6 +13,8 @@ import tappi from '../tappi.js';
 class VibrationTestEventRecorder {
   constructor( options ) {
     this.events = [];
+
+    this.dataSaved = false;
   }
 
   /**
@@ -23,14 +25,13 @@ class VibrationTestEventRecorder {
    */
   addTestEvent( testEvent ) {
     this.events.push( testEvent );
-    console.log( testEvent );
   }
 
   /**
    * Convert all saved events to a string that can be sent to the containing Swift app.
    * @public
    */
-  convertToString() {
+  dataToString() {
     let string = '';
 
     this.events.forEach( event => {

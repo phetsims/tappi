@@ -32,6 +32,10 @@ class VibrationTestInputListener {
     this.eventRecorder.addTestEvent( testEvent );
   }
 
+  /**
+   * @public (scenery-internal) - part of the listener API
+   * @param event
+   */
   move( event ) {
     const globalPoint = event.pointer.point;
     const testEvent = new VibrationTestEvent( globalPoint.x, globalPoint.y, this.elapsedTime, event.pointer.type + 'move' );
