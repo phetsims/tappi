@@ -17,8 +17,8 @@ import tappi from '../tappi.js';
 class VibrationTestEvent {
 
   /**
-   * @param {number} x - x coordinate of the event (in the global coordinate frame)
-   * @param {number} y - y coordinate of the event (in the global coordinate frame)
+   * @param {number|null} x - x coordinate of the event (in the global coordinate frame)
+   * @param {number|null} y - y coordinate of the event (in the global coordinate frame)
    * @param {number} time - time since simulation launch of the event
    * @param {string|null} name - any classifying name to mark the event
    */

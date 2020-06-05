@@ -20,6 +20,40 @@ class VibrationTestInputListener {
 
     // in seconds
     this.elapsedTime = 0;
+
+    this._pointerListener = {
+      up: event => {
+        const globalPoint = event.pointer.point;
+        const testEvent = new VibrationTestEvent( globalPoint.x, globalPoint.y, this.elapsedTime, event.pointer.type + 'up' );
+        this.eventRecorder.addTestEvent( testEvent );
+
+        this.handleRelease();
+      },
+      cancel: evennt => {
+        this.handleRelease();
+      },
+
+      // attached to the pointer, so that only moves that occur while a pointer is down are recorded
+      move: event => {
+        const globalPoint = event.pointer.point;
+        const testEvent = new VibrationTestEvent( globalPoint.x, globalPoint.y, this.elapsedTime, event.pointer.type + 'move' );
+        this.eventRecorder.addTestEvent( testEvent );
+      }
+    };
+
+    this.pointer = null;
+  }
+
+  handleRelease( event ) {
+    this.pointer.removeInputListener( this._pointerListener );
+    this.pointer = null;
+  }
+
+  interrupt() {
+    if ( this.pointer ) {
+      this.pointer.removeInputListener( this._pointerListener );
+      this.pointer = null;
+    }
   }
 
   /**
@@ -27,29 +61,14 @@ class VibrationTestInputListener {
    * @param event
    */
   down( event ) {
-    const globalPoint = event.pointer.point;
-    const testEvent = new VibrationTestEvent( globalPoint.x, globalPoint.y, this.elapsedTime, event.pointer.type + 'down' );
-    this.eventRecorder.addTestEvent( testEvent );
-  }
+    if ( this.pointer === null ) {
+      this.pointer = event.pointer;
+      const globalPoint = event.pointer.point;
+      const testEvent = new VibrationTestEvent( globalPoint.x, globalPoint.y, this.elapsedTime, event.pointer.type + 'down' );
+      this.eventRecorder.addTestEvent( testEvent );
 
-  /**
-   * @public (scenery-internal) - part of the listener API
-   * @param event
-   */
-  move( event ) {
-    const globalPoint = event.pointer.point;
-    const testEvent = new VibrationTestEvent( globalPoint.x, globalPoint.y, this.elapsedTime, event.pointer.type + 'move' );
-    this.eventRecorder.addTestEvent( testEvent );
-  }
-
-  /**
-   * @public (scenery-internal) - part of the listener API
-   * @param event
-   */
-  up( event ) {
-    const globalPoint = event.pointer.point;
-    const testEvent = new VibrationTestEvent( globalPoint.x, globalPoint.y, this.elapsedTime, event.pointer.type + 'up' );
-    this.eventRecorder.addTestEvent( testEvent );
+      event.pointer.addInputListener( this._pointerListener, false );
+    }
   }
 
   /**
