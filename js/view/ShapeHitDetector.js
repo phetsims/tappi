@@ -139,6 +139,7 @@ class ShapeHitDetector {
   /**
    * Go through Hittables and update whether or not they are hit under the provided point.
    * @param {Vector2} point - in the parent coordinate frame (local coordiante frame of this.parent).
+   * @private
    */
   updateHittables( point ) {
     for ( let i = 0; i < this.hittables.length; i++ ) {
@@ -343,6 +344,7 @@ class Hittable {
    * node OR the focused node is an ancestor of the hittable, it is considered a hit.
    *
    * @param {SceneryEvent} focusEvent
+   * @private
    */
   detectHitFromFocus( focusEvent ) {
     let trails = [];

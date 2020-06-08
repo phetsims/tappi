@@ -44,11 +44,18 @@ class VibrationTestInputListener {
     this.pointer = null;
   }
 
+  /**
+   * @private
+   * @param {SceneryEvent} event
+   */
   handleRelease( event ) {
     this.pointer.removeInputListener( this._pointerListener );
     this.pointer = null;
   }
 
+  /**
+   * @public
+   */
   interrupt() {
     if ( this.pointer ) {
       this.pointer.removeInputListener( this._pointerListener );

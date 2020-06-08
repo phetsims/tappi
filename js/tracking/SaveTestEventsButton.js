@@ -12,9 +12,9 @@
 
 import merge from '../../../phet-core/js/merge.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
+import Text from '../../../scenery/js/nodes/Text.js';
 import RectangularPushButton from '../../../sun/js/buttons/RectangularPushButton.js';
 import tappi from '../tappi.js';
-import Text from '../../../scenery/js/nodes/Text.js';
 
 class SaveTestEventsButton extends RectangularPushButton {
 
@@ -52,6 +52,10 @@ class SaveTestEventsButton extends RectangularPushButton {
     this.eventRecorder = eventRecorder;
   }
 
+  /**
+   * TODO see https://github.com/phetsims/tappi/issues/6
+   * @private
+   */
   saveEvents() {
 
   }
