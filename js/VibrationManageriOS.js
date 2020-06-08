@@ -149,8 +149,8 @@ class VibrationManageriOS {
    */
   saveTestEvents( dataString ) {
     if ( this.vibrationMessageHandlers && this.vibrationMessageHandlers.saveDataMessageHandler ) {
-      this.vibrationMessageHandlers.saveDataMessageHandler.postMessager( {
-        data: dataString
+      this.vibrationMessageHandlers.saveDataMessageHandler.postMessage( {
+        dataString: dataString
       } );
     }
   }
