@@ -39,7 +39,12 @@ class SaveTestEventsButton extends RectangularPushButton {
       listener: () => {
         const dataString = eventRecorder.dataToString();
         vibrationManager.saveTestEvents( dataString );
-      }
+      },
+
+      // PDOM
+      innerContent: 'Save Test',
+      descriptionContent: 'Press to save test and send to interviewer.',
+      appendDescription: true
     }, options );
 
     super( options );
