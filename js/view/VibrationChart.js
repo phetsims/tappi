@@ -10,7 +10,7 @@
 import NumberProperty from '../../../axon/js/NumberProperty.js';
 import Range from '../../../dot/js/Range.js';
 import DynamicSeries from '../../../griddle/js/DynamicSeries.js';
-import ScrollingChartNode from '../../../griddle/js/ScrollingChartNode.js';
+import SeismographNode from '../../../griddle/js/SeismographNode.js';
 import merge from '../../../phet-core/js/merge.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import Node from '../../../scenery/js/nodes/Node.js';
@@ -27,6 +27,7 @@ class VibrationChart extends Node {
    * @param {BooleanProperty} vibratingProperty
    * @param {number} width
    * @param {number} height
+   * @param {Object} [options]
    */
   constructor( vibratingProperty, width, height, options ) {
 
@@ -55,7 +56,7 @@ class VibrationChart extends Node {
     const horizontalAxisTitleNode = new Text( 'Time (s)', {
       font: options.labelFont
     } );
-    const scrollingChartNode = new ScrollingChartNode( this.timeProperty, [ this.vibrationSeries ], verticalAxisTitleNode,
+    const seismographNode = new SeismographNode( this.timeProperty, [ this.vibrationSeries ], verticalAxisTitleNode,
       horizontalAxisTitleNode, new Text( '' ), {
         width: width,
         height: height,
@@ -66,7 +67,7 @@ class VibrationChart extends Node {
 
     // layout
     const labeledChartNode = new Node();
-    labeledChartNode.addChild( scrollingChartNode );
+    labeledChartNode.addChild( seismographNode );
 
     // contain in a panel
     const panel = new Panel( labeledChartNode, {
