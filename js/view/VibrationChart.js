@@ -56,10 +56,11 @@ class VibrationChart extends Node {
     const horizontalAxisTitleNode = new Text( 'Time (s)', {
       font: options.labelFont
     } );
-    const seismographNode = new SeismographNode( this.timeProperty, [ this.vibrationSeries ], verticalAxisTitleNode,
-      horizontalAxisTitleNode, new Text( '' ), {
+    const seismographNode = new SeismographNode( this.timeProperty, [ this.vibrationSeries ], new Text( '' ), {
         width: width,
         height: height,
+        verticalAxisLabelNode: verticalAxisTitleNode,
+        horizontalAxisLabelNode: horizontalAxisTitleNode,
         numberVerticalLines: MAX_TIME,
         numberHorizontalLines: 3,
         verticalRanges: [ new Range( -1.5, 1.5 ) ]
