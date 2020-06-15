@@ -32,7 +32,7 @@ class SaveTestEventsButton extends RectangularPushButton {
     options = merge( {
       fill: 'lightblue',
 
-      content: new Text( 'Save Test', {
+      content: new Text( 'Save Data', {
         font: new PhetFont( { size: 25 } )
       } ),
 
