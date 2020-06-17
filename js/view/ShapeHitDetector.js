@@ -22,6 +22,7 @@ import merge from '../../../phet-core/js/merge.js';
 import Node from '../../../scenery/js/nodes/Node.js';
 import Path from '../../../scenery/js/nodes/Path.js';
 import tappi from '../tappi.js';
+import KeyboardUtils from '../../../scenery/js/accessibility/KeyboardUtils.js';
 
 // modules
 // const DragListener = require( '/scenery/js/listeners/DragListener' );
@@ -118,10 +119,12 @@ class ShapeHitDetector {
    *
    * @param {SceneryEvent} event
    */
-  click( event ) {
-    this.activeHittables.forEach( hittable => {
-      this.downOnHittableEmitter.emit( hittable.target );
-    } );
+  keydown( event ) {
+    if ( event.domEvent.keyCode === KeyboardUtils.KEY_SPACE || event.domEvent.keyCode === KeyboardUtils.KEY_ENTER ) {
+      this.activeHittables.forEach( hittable => {
+        this.downOnHittableEmitter.emit( hittable.target );
+      } );
+    }
   }
 
   /**
@@ -360,15 +363,20 @@ class Hittable {
    * @private
    */
   detectHitFromFocus( focusEvent ) {
-    let trails = [];
+    this.property.set( this.target === focusEvent.target );
 
-    if ( this.target instanceof Node ) {
-      const eventToHittableTrails = focusEvent.target.getLeafTrailsTo( this.target );
-      const hittableToEventTrails = this.target.getLeafTrailsTo( focusEvent.target );
-      trails = eventToHittableTrails.concat( hittableToEventTrails );
-    }
-
-    this.property.set( trails.length > 0 );
+    // THis was useful if we needed to detect whether the focused node and hit target were anywhere along
+    // eachothers trails, which was at one time desireable. But this is currently not the behavior we want.
+    // Keeping around in case we need this behavior again
+    // let trails = [];
+    //
+    // if ( this.target instanceof Node ) {
+    //   const eventToHittableTrails = focusEvent.target.getLeafTrailsTo( this.target );
+    //   const hittableToEventTrails = this.target.getLeafTrailsTo( focusEvent.target );
+    //   trails = eventToHittableTrails.concat( hittableToEventTrails );
+    // }
+    //
+    // this.property.set( trails.length > 0 );
   }
 
   /**
