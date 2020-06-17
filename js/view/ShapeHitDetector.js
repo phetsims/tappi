@@ -112,6 +112,19 @@ class ShapeHitDetector {
   }
 
   /**
+   * Check for activation on a hittable from a click event from a keyboard or assistive technology.
+   * The message that is broadcast is the same as the "down" event.
+   * @public (scenery-internal)
+   *
+   * @param {SceneryEvent} event
+   */
+  click( event ) {
+    this.activeHittables.forEach( hittable => {
+      this.downOnHittableEmitter.emit( hittable.target );
+    } );
+  }
+
+  /**
    * Focus is leaving or moving to something else, clear any detected hits.
    * @public (scenery-internal)
    *
