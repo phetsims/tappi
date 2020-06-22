@@ -42,7 +42,7 @@ class SaveTestEventsButton extends RectangularPushButton {
       },
 
       // PDOM
-      innerContent: 'Save Test',
+      innerContent: 'Save Data',
       descriptionContent: 'Press to save test and send to interviewer.',
       appendDescription: true
     }, options );
