@@ -55,6 +55,10 @@ class ShapeHitDetector {
     // of the list is the most recent to receive a hit
     this.activeHittables = [];
 
+    // @private - maps the Hittable to its hit listener, so that when the hittable is removed its listener
+    // can be as well
+    this.hittableListenerMap = new Map();
+
     // @public - the most recent shape that received a hit from a pointer. The first element of the activeHittables
     // array
     // TODO: https://github.com/phetsims/tappi/issues/5 Rename, this now supports more than Shapes
@@ -235,6 +239,20 @@ class ShapeHitDetector {
   }
 
   /**
+   * Remove the node from this ShapeHitDetector.
+   * @public
+   *
+   * @param node
+   */
+  removeNode( node ) {
+    this.hittables.forEach( hittable => {
+      if ( hittable.target === node ) {
+        this.removeHittable( hittable );
+      }
+    } );
+  }
+
+  /**
    * Add a Hittable to the list.
    * @private
    * @param hittable
@@ -244,7 +262,7 @@ class ShapeHitDetector {
 
     // whenever the Property value changes, update the list of activeHittables so we know the order in which
     // pointers moved over shapes
-    hittable.property.link( value => {
+    const listener = value => {
       _.pull( this.activeHittables, hittable );
       if ( value ) {
         this.activeHittables.unshift( hittable );
@@ -257,7 +275,24 @@ class ShapeHitDetector {
       else {
         this.hitShapeEmitter.emit( null );
       }
-    } );
+    };
+    hittable.property.link( listener );
+
+    this.hittableListenerMap.set( hittable, listener );
+  }
+
+  /**
+   * Removes the Hittable from this ShapeHitDetector.
+   * @public
+   * @param {Hittable} hittable
+   */
+  removeHittable( hittable ) {
+    assert && assert( this.hittables.includes( hittable ), 'trying to remove Node that is not added to hit detector' );
+    const index = this.hittables.indexOf( hittable );
+    if ( index >= 0 ) {
+      this.hittables.splice( index, 1 );
+      hittable.property.unlink( this.hittableListenerMap.get( hittable ) );
+    }
   }
 
   /**
