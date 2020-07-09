@@ -253,6 +253,19 @@ class ShapeHitDetector {
   }
 
   /**
+   * Returns true if the ShapeHitDetector has the provided Node in its list of hittables.
+   * @public
+   *
+   * @param {Node} node
+   * @returns {boolean}
+   */
+  hasNode( node ) {
+    return _.some( this.hittables, hittable => {
+      return hittable.target === node;
+    } );
+  }
+
+  /**
    * Add a Hittable to the list.
    * @private
    * @param hittable
