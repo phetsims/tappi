@@ -55,6 +55,9 @@ class ShapeHitDetector {
     // of the list is the most recent to receive a hit
     this.activeHittables = [];
 
+    // @private - the "active" hittable under keyboard focus, only one hittable can have focus at a time
+    this.activeFocusHittable = null;
+
     // @private - maps the Hittable to its hit listener, so that when the hittable is removed its listener
     // can be as well
     this.hittableListenerMap = new Map();
@@ -69,6 +72,12 @@ class ShapeHitDetector {
     // @public - Emits an event when the Pointer goes down on a hittable target.
     this.downOnHittableEmitter = new Emitter( {
       parameters: [ { valueType: [ Shape, Node ] } ]
+    } );
+
+    // @public - Emits an event when a Node is 'hit' from receiving keyboard focus, rather than from a mouse or
+    // touch Pointer
+    this.focusHitEmitter = new Emitter( {
+      parameters: [ { valueType: [ Node ] } ]
     } );
 
     // @private {Object} - attached to the pointer on `down` if the pointer isn't already attached and interacting
@@ -111,8 +120,15 @@ class ShapeHitDetector {
    * @param {SceneryEvent} event
    */
   focusin( event ) {
+    // on focus, all active hittables are cleared since only one focusable item can exist at a time
+
     for ( let i = 0; i < this.hittables.length; i++ ) {
-      this.hittables[ i ].detectHitFromFocus( event );
+      if ( this.hittables[ i ].detectHitFromFocus( event ) ) {
+
+        // 'active' hittable detected, only one element can be focused at a time so exit early
+        this.activeFocusHittable = this.hittables[ i ];
+        return;
+      }
     }
   }
 
@@ -125,9 +141,9 @@ class ShapeHitDetector {
    */
   keydown( event ) {
     if ( event.domEvent.keyCode === KeyboardUtils.KEY_SPACE || event.domEvent.keyCode === KeyboardUtils.KEY_ENTER ) {
-      this.activeHittables.forEach( hittable => {
-        this.downOnHittableEmitter.emit( hittable.target );
-      } );
+      if ( this.activeFocusHittable ) {
+        this.downOnHittableEmitter.emit( this.activeFocusHittable.target );
+      }
     }
   }
 
@@ -138,9 +154,7 @@ class ShapeHitDetector {
    * @param {SceneryEvent} event
    */
   focusout( event ) {
-    for ( let i = 0; i < this.hittables.length; i++ ) {
-      this.hittables[ i ].property.set( false );
-    }
+    this.activeFocusHittable = null;
   }
 
   /**
@@ -223,7 +237,7 @@ class ShapeHitDetector {
    * @param {Property} property
    */
   addShape( shape, property, options ) {
-    const hittable = new Hittable( shape, property, this.parent, options );
+    const hittable = new Hittable( shape, property, null, this.parent, options );
     this.addHittable( hittable );
   }
 
@@ -234,7 +248,7 @@ class ShapeHitDetector {
    * @param node
    */
   addNode( node ) {
-    const hittable = new Hittable( node, new BooleanProperty( false ), this.parent );
+    const hittable = new Hittable( node, new BooleanProperty( false ), this.focusHitEmitter, this.parent );
     this.addHittable( hittable );
   }
 
@@ -276,6 +290,10 @@ class ShapeHitDetector {
     // whenever the Property value changes, update the list of activeHittables so we know the order in which
     // pointers moved over shapes
     const listener = value => {
+
+      // the hittable.property indicates that mouse/touch input is in use, clear the active focus hittable
+      this.activeFocusHittable = null;
+
       _.pull( this.activeHittables, hittable );
       if ( value ) {
         this.activeHittables.unshift( hittable );
@@ -365,10 +383,11 @@ class Hittable {
   /**
    * @param {Shape|Node} target - Either a Shape or a Node to detect hits by a Pointer
    * @param {BooleanProperty} property - true when the pointer is down over this shape
+   * @param {null|Emitter} focusHitEmitter - emits an event when focus is on the target (only if target is Node)
    * @param {Node} parent - pare
    * @param {Objects} options
    */
-  constructor( target, property, parent, options ) {
+  constructor( target, property, focusHitEmitter, parent, options ) {
     options = merge( {
 
       // to make this shape visible during debugging
@@ -382,6 +401,9 @@ class Hittable {
 
     // @public (read-only)
     this.property = property;
+
+    // @public {null|Emitter}
+    this.focusHitEmitter = focusHitEmitter;
 
     // @private
     this.debugStroke = options.debugStroke;
@@ -411,7 +433,14 @@ class Hittable {
    * @private
    */
   detectHitFromFocus( focusEvent ) {
-    this.property.set( this.target === focusEvent.target );
+    let hitDetected = false;
+
+    if ( this.target === focusEvent.target ) {
+      hitDetected = true;
+      this.focusHitEmitter.emit( this.target );
+    }
+
+    return hitDetected;
 
     // THis was useful if we needed to detect whether the focused node and hit target were anywhere along
     // eachothers trails, which was at one time desireable. But this is currently not the behavior we want.
