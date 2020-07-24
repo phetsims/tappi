@@ -441,7 +441,7 @@ class Hittable {
    * @returns {boolean} [description]
    */
   detectHit( point ) {
-  if ( this.target instanceof Node ) {
+    if ( this.target instanceof Node ) {
       if ( this.useHitTest ) {
         const pointInGlobalFrame = this.parent.localToGlobalPoint( point );
         const pointInTargetParentFrame = this.target.globalToParentPoint( pointInGlobalFrame );
