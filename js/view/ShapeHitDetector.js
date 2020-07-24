@@ -19,10 +19,10 @@ import BooleanProperty from '../../../axon/js/BooleanProperty.js';
 import Emitter from '../../../axon/js/Emitter.js';
 import Shape from '../../../kite/js/Shape.js';
 import merge from '../../../phet-core/js/merge.js';
+import KeyboardUtils from '../../../scenery/js/accessibility/KeyboardUtils.js';
 import Node from '../../../scenery/js/nodes/Node.js';
 import Path from '../../../scenery/js/nodes/Path.js';
 import tappi from '../tappi.js';
-import KeyboardUtils from '../../../scenery/js/accessibility/KeyboardUtils.js';
 
 // modules
 // const DragListener = require( '/scenery/js/listeners/DragListener' );
@@ -171,6 +171,19 @@ class ShapeHitDetector {
   }
 
   /**
+   * Part of the scenery listener API, update hittables on enter event
+   * @public (scenery-internal)
+   *
+   * @param {SceneryEvent} event
+   */
+  enter( event ) {
+    if ( this.hitOnOver ) {
+      const parentPoint = this.parent.globalToLocalPoint( event.pointer.point );
+      this.updateHittables( parentPoint );
+    }
+  }
+
+  /**
    * Go through Hittables and update whether or not they are hit under the provided point.
    * @param {Vector2} point - in the parent coordinate frame (local coordiante frame of this.parent).
    * @private
@@ -245,10 +258,12 @@ class ShapeHitDetector {
    * Add a Node to the detector. If the Pointer goes over the Node's bounds in the global coordinate
    * frame, it is detected as a 'hit'.
    * @public
+   *
    * @param node
+   * @param {Object} [options] - options passed along to the Hittable
    */
-  addNode( node ) {
-    const hittable = new Hittable( node, new BooleanProperty( false ), this.focusHitEmitter, this.parent );
+  addNode( node, options ) {
+    const hittable = new Hittable( node, new BooleanProperty( false ), this.focusHitEmitter, this.parent, options );
     this.addHittable( hittable );
   }
 
@@ -390,6 +405,12 @@ class Hittable {
   constructor( target, property, focusHitEmitter, parent, options ) {
     options = merge( {
 
+
+      // {boolean} - Useful if target is of type Node - if true, a hit will be detected if the point
+      // tested passes a Node.hitTest. Otherwise a hit will be registered if the point is within the
+      // Node's bounds. Setting to true will allow hit testing of more unique/custom shapes.
+      useHitTest: false,
+
       // to make this shape visible during debugging
       debugStroke: 'green'
     }, options );
@@ -407,18 +428,30 @@ class Hittable {
 
     // @private
     this.debugStroke = options.debugStroke;
+
+    // @private
+    this.useHitTest = options.useHitTest;
   }
 
   /**
    * Sets the property based on whether or not the point is within the shape.
    * @public
    *
-   * @param {Vector2} point - in the global coordinate frame
+   * @param {Vector2} point - in the local coordinate frome of the Node with this listener
    * @returns {boolean} [description]
    */
   detectHit( point ) {
-    if ( this.target instanceof Node ) {
-      this.property.set( this.parent.globalToLocalBounds( this.target.globalBounds ).containsPoint( point ) );
+  if ( this.target instanceof Node ) {
+      if ( this.useHitTest ) {
+        const pointInGlobalFrame = this.parent.localToGlobalPoint( point );
+        const pointInTargetParentFrame = this.target.globalToParentPoint( pointInGlobalFrame );
+
+        assert && assert( this.target.pickable !== false, 'careful, hit may be detect but would fail hit test for pickability' );
+        this.property.set( this.target.containsPoint( pointInTargetParentFrame ) );
+      }
+      else {
+        this.property.set( this.parent.globalToLocalBounds( this.target.globalBounds ).containsPoint( point ) );
+      }
     }
     else {
       this.property.set( this.target.containsPoint( point ) );
