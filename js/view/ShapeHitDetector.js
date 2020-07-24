@@ -20,6 +20,7 @@ import Emitter from '../../../axon/js/Emitter.js';
 import Shape from '../../../kite/js/Shape.js';
 import merge from '../../../phet-core/js/merge.js';
 import KeyboardUtils from '../../../scenery/js/accessibility/KeyboardUtils.js';
+import Display from '../../../scenery/js/display/Display.js';
 import Node from '../../../scenery/js/nodes/Node.js';
 import Path from '../../../scenery/js/nodes/Path.js';
 import tappi from '../tappi.js';
@@ -96,6 +97,14 @@ class ShapeHitDetector {
         this.handleRelease();
       }
     };
+
+    Display.keyStateTracker.keyupEmitter.addListener( event => {
+      if ( event.keyCode === KeyboardUtils.KEY_SPACE || event.keyCode === KeyboardUtils.KEY_ENTER ) {
+        if ( this.activeFocusHittable ) {
+          this.downOnHittableEmitter.emit( this.activeFocusHittable.target );
+        }
+      }
+    } );
   }
 
   /**
@@ -128,21 +137,6 @@ class ShapeHitDetector {
         // 'active' hittable detected, only one element can be focused at a time so exit early
         this.activeFocusHittable = this.hittables[ i ];
         return;
-      }
-    }
-  }
-
-  /**
-   * Check for activation on a hittable from a click event from a keyboard or assistive technology.
-   * The message that is broadcast is the same as the "down" event.
-   * @public (scenery-internal)
-   *
-   * @param {SceneryEvent} event
-   */
-  keydown( event ) {
-    if ( event.domEvent.keyCode === KeyboardUtils.KEY_SPACE || event.domEvent.keyCode === KeyboardUtils.KEY_ENTER ) {
-      if ( this.activeFocusHittable ) {
-        this.downOnHittableEmitter.emit( this.activeFocusHittable.target );
       }
     }
   }
