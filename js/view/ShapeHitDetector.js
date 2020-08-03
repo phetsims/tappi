@@ -214,7 +214,9 @@ class ShapeHitDetector {
 
     // emit to active hittables that a down was received while pointer was over it
     this.activeHittables.forEach( hittable => {
-      this.downOnHittableEmitter.emit( hittable.target );
+      if ( event.trail.nodes.includes( hittable.target ) ) {
+        this.downOnHittableEmitter.emit( hittable.target );
+      }
     } );
   }
 
@@ -257,6 +259,12 @@ class ShapeHitDetector {
    * @param {Object} [options] - options passed along to the Hittable
    */
   addNode( node, options ) {
+
+    // So that the Node appears in the trail for hit testing - this may have too
+    // many side effects and is probably too dangerous in the long term. Come back
+    // to this.
+    node.pickable = true;
+
     const hittable = new Hittable( node, new BooleanProperty( false ), this.focusHitEmitter, this.parent, options );
     this.addHittable( hittable );
   }
