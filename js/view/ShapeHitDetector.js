@@ -214,7 +214,9 @@ class ShapeHitDetector {
 
     // emit to active hittables that a down was received while pointer was over it
     this.activeHittables.forEach( hittable => {
-      if ( event.trail.nodes.includes( hittable.target ) ) {
+      const inBounds = hittable.target.globalBounds.containsPoint( event.pointer.point );
+      const inTrail = event.trail.nodes.includes( hittable.target );
+      if ( inTrail || inBounds ) {
         this.downOnHittableEmitter.emit( hittable.target );
       }
     } );
