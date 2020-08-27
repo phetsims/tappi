@@ -110,7 +110,8 @@ class VibrationManageriOS {
   /**
    * Vibrate with a custom pattern forever.
    * @public
-   * @param {number[]} vibrationPattern - alternating values of "on" and "off" time, starting with "on" time.
+   *
+   * @param {number[]} vibrationPattern - alternating values of "on" and "off" time in seconds, starting with "on" time.
    */
   vibrateWithCustomPatternForever( vibrationPattern ) {
     if ( this.vibrationMessageHandlers && this.vibrationMessageHandlers.vibrateWithCustomPatternForeverMessageHandler ) {
