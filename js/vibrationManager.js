@@ -21,7 +21,7 @@
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
 import EnumerationProperty from '../../axon/js/EnumerationProperty.js';
 import Property from '../../axon/js/Property.js';
-import timer from '../../axon/js/timer.js';
+import stepTimer from '../../axon/js/stepTimer.js';
 import Enumeration from '../../phet-core/js/Enumeration.js';
 import tappi from './tappi.js';
 
@@ -119,7 +119,7 @@ class VibrationManager {
    */
   controlNavigator() {
     if ( this._navigatorVibrationCallback ) {
-      timer.clearInterval( this._navigatorVibrationCallback );
+      stepTimer.clearInterval( this._navigatorVibrationCallback );
       this._navigatorVibrationCallback = null;
 
       // stop any previous vibration
@@ -132,7 +132,7 @@ class VibrationManager {
       const intervalFunction = () => {
         navigator.vibrate( this._vibrationIntensityPattern );
       };
-      this._navigatorVibrationCallback = timer.setInterval( intervalFunction, this._intensityDuration );
+      this._navigatorVibrationCallback = stepTimer.setInterval( intervalFunction, this._intensityDuration );
       intervalFunction();
     }
   }
