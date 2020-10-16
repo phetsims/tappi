@@ -1,6 +1,7 @@
 // Copyright 2020, University of Colorado Boulder
 
 import Utils from '../../dot/js/Utils.js';
+import merge from '../../phet-core/js/merge.js';
 import tappi from './tappi.js';
 
 class VibrationManageriOS {
@@ -34,6 +35,66 @@ class VibrationManageriOS {
          && this.vibrationMessageHandlers.vibrateForeverMessageHandler ) {
       window.webkit.messageHandlers.vibrateForeverMessageHandler.postMessage(
         {}
+      );
+    }
+  }
+
+  /**
+   * Request a continuous vibration with provided parameters. This should replace all other functions in
+   * the future.
+   * @public
+   * @param {Object} [options]
+   */
+  vibrateContinuous( options ) {
+    options = merge( {
+      pattern: [],
+      sharpness: 1,
+      intensity: 1,
+
+      // TODO: add support for frequency
+      frequency: null,
+
+      // null duration indicates that this vibration will proceed forever
+      duration: null
+    }, options );
+
+    if ( this.vibrationMessageHandlers
+         && this.vibrationMessageHandlers.vibrateContinuousMessageHandler ) {
+      window.webkit.messageHandlers.vibrateContinuousMessageHandler.postMessage(
+        {
+          pattern: options.pattern,
+          sharpness: options.sharpness,
+          duration: options.duration,
+          intensity: options.intensity,
+          frequency: options.frequency
+        }
+      );
+    }
+  }
+
+
+  /**
+   * Request a transient vibration. A transient vibration is a single pulse at
+   * a particular time without any duration. It is used typically for basic UI components
+   * to indicate successful activation or change. Use vibrateContinuous for longer and
+   * more complicated vibrations.
+   *
+   * @public
+   * @param {Object} [options]
+   */
+  vibrateTransient( options ) {
+    options = merge( {
+      sharpness: 1,
+      intensity: 1
+    }, options );
+
+    if ( this.vibrationMessageHandlers
+         && this.vibrationMessageHandlers.vibrateTransientMessageHandler ) {
+      window.webkit.messageHandlers.vibrateTransientMessageHandler.postMessage(
+        {
+          sharpness: options.sharpness,
+          intensity: options.intensity
+        }
       );
     }
   }
@@ -135,6 +196,7 @@ class VibrationManageriOS {
    * @public
    */
   stop() {
+    console.log( 'stopping' );
     if ( this.vibrationMessageHandlers && this.vibrationMessageHandlers.stopMessageHandler ) {
       window.webkit.messageHandlers.stopMessageHandler.postMessage(
         {}
