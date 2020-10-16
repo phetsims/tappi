@@ -11,6 +11,8 @@
  */
 
 import merge from '../../../phet-core/js/merge.js';
+import levelSpeakerModel from '../../../scenery-phet/js/accessibility/speaker/levelSpeakerModel.js';
+import SelfVoicingInputListener from '../../../scenery-phet/js/accessibility/speaker/SelfVoicingInputListener.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import RectangularPushButton from '../../../sun/js/buttons/RectangularPushButton.js';
 import tappi from '../tappi.js';
@@ -48,6 +50,14 @@ class SaveTestEventsButton extends RectangularPushButton {
     }, options );
 
     super( options );
+
+    // register for self-voicing output
+    this.addInputListener( new SelfVoicingInputListener( {
+      onFocusIn: () => {
+        levelSpeakerModel.speakAllResponses( 'Save and send user input events' );
+      },
+      highlightTarget: this
+    } ) );
 
     this.eventRecorder = eventRecorder;
   }
