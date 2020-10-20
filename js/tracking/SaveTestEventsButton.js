@@ -18,6 +18,10 @@ import RectangularPushButton from '../../../sun/js/buttons/RectangularPushButton
 import tappi from '../tappi.js';
 import Text from '../../../scenery/js/nodes/Text.js';
 
+// constants
+// no need for this to be translatable
+const BUTTON_OBJECT_RESPONSE = 'Save and send user input events';
+
 class SaveTestEventsButton extends RectangularPushButton {
 
   /**
@@ -54,7 +58,8 @@ class SaveTestEventsButton extends RectangularPushButton {
     // register for self-voicing output
     this.addInputListener( new SelfVoicingInputListener( {
       onFocusIn: () => {
-        levelSpeakerModel.speakAllResponses( 'Save and send user input events' );
+        const response = levelSpeakerModel.collectResponses( BUTTON_OBJECT_RESPONSE );
+        phet.joist.sim.selfVoicingUtteranceQueue.addToBack( response );
       },
       highlightTarget: this
     } ) );
