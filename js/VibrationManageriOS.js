@@ -204,7 +204,6 @@ class VibrationManageriOS {
    * @public
    */
   stop() {
-    console.log( 'stopping' );
     if ( this.vibrationMessageHandlers && this.vibrationMessageHandlers.stopMessageHandler ) {
       window.webkit.messageHandlers.stopMessageHandler.postMessage(
         {}
