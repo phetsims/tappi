@@ -47,14 +47,22 @@ class VibrationManageriOS {
    */
   vibrateContinuous( options ) {
     options = merge( {
+
+      // {number[]} - a pattern for the vibration, alternating values in seconds where even indices
+      // are time where the motor is "on" and odd indices have the motor off. The pattern
+      // will repeat for options.duration or forever if that option is null
       pattern: [],
+
+      // {number}
       sharpness: 1,
+
+      // {number}
       intensity: 1,
 
       // TODO: add support for frequency
       frequency: null,
 
-      // null duration indicates that this vibration will proceed forever
+      // {number|null} - duration indicates that this vibration will proceed forever
       duration: null
     }, options );
 
