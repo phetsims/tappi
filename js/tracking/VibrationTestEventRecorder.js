@@ -11,10 +11,29 @@
 import tappi from '../tappi.js';
 
 class VibrationTestEventRecorder {
-  constructor( options ) {
+
+  /**
+   * @param {VibrationManageriOS} vibrationManager - sends messages to the containing iOS app
+   */
+  constructor( vibrationManager ) {
+
+    // @private - collection of VibrationTestEvents, with information about
+    // user input
     this.events = [];
 
-    this.dataSaved = false;
+    // the containing iOS app will send a message to the window when it
+    // wants to get the user's input events - when we receive this message
+    // collect recorded data as a string and send it back to the iOS app
+    window.addEventListener( 'message', event => {
+      if ( typeof event.data !== 'string' ) {
+        return;
+      }
+
+      if ( event.data === 'requestVibrationData' ) {
+        const dataString = this.dataToString();
+        vibrationManager.saveTestEvents( dataString );
+      }
+    } );
   }
 
   /**
