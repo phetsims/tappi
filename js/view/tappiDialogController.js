@@ -13,8 +13,8 @@
  * @author Jesse Greenberg
  */
 
-import CustomGestureIntroDialog from '../../../scenery-phet/js/accessibility/speaker/CustomGestureIntroDialog.js';
-import SelfVoicingLandingDialog from '../../../scenery-phet/js/accessibility/speaker/SelfVoicingLandingDialog.js';
+import CustomGestureIntroDialog from './CustomGestureIntroDialog.js';
+import SelfVoicingLandingDialog from './SelfVoicingLandingDialog.js';
 import tappi from '../tappi.js';
 
 class TappiDialogController {
