@@ -36,6 +36,12 @@ class TappiDialogController {
     phet.joist.sim.isConstructionCompleteProperty.link( complete => {
       if ( complete ) {
         if ( supportsSelfVoicing ) {
+
+          // for interviews, you should not be able to do anything outside of these
+          // dialogs until you go through their content - don't dismiss by tapping
+          // barrier rectangle
+          phet.joist.sim.barrierRectangle.inputEnabled = false;
+
           const landingDialog = new SelfVoicingLandingDialog( {
             hideCallback: () => {
 
@@ -46,6 +52,7 @@ class TappiDialogController {
                 const introDialog = new CustomGestureIntroDialog( {
                   hideCallback: () => {
                     selfVoicingQuickControl.focusExpandCollapseButton();
+                    phet.joist.sim.barrierRectangle.inputEnabled = true;
                   }
                 } );
 
@@ -54,8 +61,8 @@ class TappiDialogController {
               }
               else {
                 selfVoicingQuickControl.focusExpandCollapseButton();
+                phet.joist.sim.barrierRectangle.inputEnabled = true;
               }
-
             }
           } );
 

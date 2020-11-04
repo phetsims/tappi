@@ -48,11 +48,7 @@ class SelfVoicingLandingDialog extends Dialog {
       } ),
 
       closeButtonListener: () => {
-
-        // speak must be called directly, for some reason if this gets deferred by the delay
-        // in utteranceQueue iOS Safari will never speak it
-        webSpeaker.speak( speechEnabledString );
-        this.hide();
+        this.closeLandingDialog();
       }
     }, options );
 
@@ -65,11 +61,7 @@ class SelfVoicingLandingDialog extends Dialog {
 
     const enableButton = new TextPushButton( enableButtonContent, {
       listener: () => {
-
-        // speak must be called directly, for some reason if this gets deferred by the delay
-        // in utteranceQueue iOS Safari will never speak it
-        webSpeaker.speak( speechEnabledString );
-        this.hide();
+        this.closeLandingDialog();
       },
 
       font: contentFont
@@ -81,6 +73,25 @@ class SelfVoicingLandingDialog extends Dialog {
     } );
 
     super( content, options );
+  }
+
+  /**
+   * Close the landing dialog, speaking immediately that speech is enabled so that browsers
+   * will allow speech after an initial user interaction.
+   * @private
+   */
+  closeLandingDialog() {
+
+    // speak must be called directly, for some reason if this gets deferred by the delay
+    // in utteranceQueue iOS Safari will never speak it
+    webSpeaker.initialSpeech( speechEnabledString );
+
+    // allow the initial speech to finish before speaking the next thing - the initial
+    // speech is separate from the utteranceQueue and therefore we cannot make other
+    // utterances relatively polite
+    window.setTimeout( () => {
+      this.hide();
+    }, 1000 );
   }
 }
 
