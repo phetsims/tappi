@@ -45,6 +45,7 @@ class ContinuousPatternVibrationController {
 
     // @private
     this.activePattern = options.activePattern;
+
     this.repeat = options.repeat;
     this.intensity = options.repeat;
     this.sharpness = options.repeat;
@@ -66,8 +67,7 @@ class ContinuousPatternVibrationController {
 
     // @private {number[]} - the pattern that we are going to transition to at the end of the
     // currently active pattern,
-    this.pendingPattern = [];
-
+    this.pendingPattern = this.activePattern;
   }
 
   /**
@@ -87,7 +87,12 @@ class ContinuousPatternVibrationController {
         if ( this.patternIndex < this.activePattern.length ) {
           this.patternValue = this.activePattern[ this.patternIndex ];
 
+          // before starting next vibration, update pattern if it has changed, transitioning
+          // to the updated pattern at a time where it would not be felt by the user
           if ( this.patternIndex % 2 === 0 ) {
+            if ( !_.isEqual( this.pendingPattern, this.activePattern ) ) {
+              this.setNewActivePattern( this.pendingPattern );
+            }
 
             // even index, indicating 'on' time for vibration
             this.vibrationManageriOS.vibrateContinuous( {
@@ -102,11 +107,6 @@ class ContinuousPatternVibrationController {
           }
         }
         else if ( this.repeat ) {
-
-          // before looping the pattern, check to see if the pattern has changed
-          if ( !_.isEqual( this.pendingPattern, this.activePattern ) ) {
-            this.setNewActivePattern( this.pendingPattern );
-          }
 
           // restart the pattern, and start again from the beginning
           this.start();
