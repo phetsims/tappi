@@ -191,11 +191,22 @@ class VibrationManageriOS {
   /**
    * Sets the intenstiy of the current vibration. No effect if there is no active vibration.
    * @public
-   * @param intensity
+   * @param {number} intensity - from 0 to 1
    */
   setVibrationIntensity( intensity ) {
     if ( this.vibrationMessageHandlers && this.vibrationMessageHandlers.vibrationIntensityMessageHandler ) {
       window.webkit.messageHandlers.vibrationIntensityMessageHandler.postMessage( { intensity: intensity } );
+    }
+  }
+
+  /**
+   * Sets the sharpness for the current vibration. No effect if there is no active vibration.
+   * @public
+   * @param {number} sharpness - from 0 to 1
+   */
+  setVibrationSharpness( sharpness ) {
+    if ( this.vibrationMessageHandlers && this.vibrationMessageHandlers.vibrationSharpnessMessageHandler ) {
+      window.webkit.messageHandlers.vibrationSharpnessMessageHandler.postMessage( { sharpness: sharpness } );
     }
   }
 
