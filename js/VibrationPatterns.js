@@ -8,8 +8,11 @@
  */
 
 import tappi from './tappi.js';
+import stepTimer from '../../axon/js/stepTimer.js';
+import VibrationManageriOS from './VibrationManageriOS.js';
 
 // constants
+const vibrationManager = new VibrationManageriOS();
 
 const VibrationPatterns = {
 
@@ -35,7 +38,20 @@ const VibrationPatterns = {
   FLUTTER: [ 10, 10, 10, 10, 10, 20, 10, 20, 10, 20, 10, 20, 10, 20, 10, 50, 10, 50, 10, 50, 10, 50, 10, 50, 10, 70, 10, 70, 10, 70, 10 ],
   SLOW_DOWN: [ 70, 300, 70, 400, 100, 500, 200, 500 ],
   HEARTBEAT: [ 100, 100, 150, 1000 ],
-  QUICK_HEARTBEAT: [ 50, 50, 100, 700 ]
+  QUICK_HEARTBEAT: [ 50, 50, 100, 700 ],
+
+  // request three rapid transient vibrations to indicate a successful UI interaction
+  interactionSuccess: () => {
+    const resetVibrationInterval = 150; // ms
+    vibrationManager.vibrateTransient();
+    stepTimer.setTimeout( () => {
+      vibrationManager.vibrateTransient();
+
+      stepTimer.setTimeout( () => {
+        vibrationManager.vibrateTransient();
+      }, resetVibrationInterval );
+    }, resetVibrationInterval );
+  }
 };
 
 tappi.register( 'VibrationPatterns', VibrationPatterns );
