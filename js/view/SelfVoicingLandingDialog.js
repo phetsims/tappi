@@ -13,6 +13,7 @@
 
 import merge from '../../../phet-core/js/merge.js';
 import webSpeaker from '../../../scenery/js/accessibility/speaker/webSpeaker.js';
+import Display from '../../../scenery/js/display/Display.js';
 import RichText from '../../../scenery/js/nodes/RichText.js';
 import Text from '../../../scenery/js/nodes/Text.js';
 import VBox from '../../../scenery/js/nodes/VBox.js';
@@ -73,6 +74,16 @@ class SelfVoicingLandingDialog extends Dialog {
     } );
 
     super( content, options );
+
+    // this is a workaround to speak the label of the close button when this dialog is
+    // open - when this feature gets built out more thoroughly this would just be
+    // attached to focus of the Dialog's private close button - but I really didn't want
+    // to add code to Dialog, and I didn't want to work in a branch so this is here for now
+    Display.focusProperty.lazyLink( focus => {
+      if ( focus && focus.trail.lastNode().innerContent === 'Close' ) {
+        phet.joist.sim.selfVoicingUtteranceQueue.addToBack( 'Close' );
+      }
+    } );
   }
 
   /**

@@ -13,9 +13,13 @@
 import NumberProperty from '../../../axon/js/NumberProperty.js';
 import Range from '../../../dot/js/Range.js';
 import Utils from '../../../dot/js/Utils.js';
-import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
 import merge from '../../../phet-core/js/merge.js';
-import Display from '../../../scenery/js/display/Display.js';
+import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
+import SelfVoicingInputListener from '../../../scenery-phet/js/accessibility/speaker/SelfVoicingInputListener.js';
+import SelfVoicingWrapperNode from '../../../scenery-phet/js/accessibility/speaker/SelfVoicingWrapperNode.js';
+import PhetFont from '../../../scenery-phet/js/PhetFont.js';
+import sceneryPhet from '../../../scenery-phet/js/sceneryPhet.js';
+import sceneryPhetStrings from '../../../scenery-phet/js/sceneryPhetStrings.js';
 import HBox from '../../../scenery/js/nodes/HBox.js';
 import RichText from '../../../scenery/js/nodes/RichText.js';
 import Text from '../../../scenery/js/nodes/Text.js';
@@ -24,11 +28,6 @@ import TextPushButton from '../../../sun/js/buttons/TextPushButton.js';
 import Dialog from '../../../sun/js/Dialog.js';
 import HSlider from '../../../sun/js/HSlider.js';
 import SelfVoicingUtterance from '../../../utterance-queue/js/SelfVoicingUtterance.js';
-import PhetFont from '../../../scenery-phet/js/PhetFont.js';
-import sceneryPhet from '../../../scenery-phet/js/sceneryPhet.js';
-import sceneryPhetStrings from '../../../scenery-phet/js/sceneryPhetStrings.js';
-import SelfVoicingInputListener from '../../../scenery-phet/js/accessibility/speaker/SelfVoicingInputListener.js';
-import SelfVoicingWrapperNode from '../../../scenery-phet/js/accessibility/speaker/SelfVoicingWrapperNode.js';
 
 // constants
 const contentFont = new PhetFont( 16 );
@@ -146,16 +145,6 @@ class CustomGestureIntroDialog extends Dialog {
         } );
 
         phet.joist.sim.selfVoicingUtteranceQueue.addToBack( hintString );
-      }
-    } );
-
-    // this is a workaround to speak the label of the close button when this dialog is
-    // open - when this feature gets built out more thoroughly this would just be
-    // attached to focus of the Dialog's private close button - but I really didn't want
-    // to add code to Dialog, and I didn't want to work in a branch so this is here for now
-    Display.focusProperty.lazyLink( focus => {
-      if ( focus && focus.trail.lastNode().innerContent === 'Close' ) {
-        phet.joist.sim.selfVoicingUtteranceQueue.addToBack( 'Close' );
       }
     } );
 
