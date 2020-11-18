@@ -103,6 +103,9 @@ class SelfVoicingLandingDialog extends Dialog {
     window.setTimeout( () => {
       this.hide();
     }, 1000 );
+
+    // don't allow any input while waiting for speech, we don't want to close the dialog twice
+    this.inputEnabled = false;
   }
 }
 
