@@ -96,8 +96,6 @@ class VibrationManageriOS {
       intensity: 1
     }, options );
 
-    console.log( 'transient' );
-
     if ( this.vibrationMessageHandlers
          && this.vibrationMessageHandlers.vibrateTransientMessageHandler ) {
       window.webkit.messageHandlers.vibrateTransientMessageHandler.postMessage(
