@@ -79,6 +79,19 @@ class VibrationTestInputListener {
   }
 
   /**
+   * @public (scenery-internal) - part of the listener API
+   * @param event
+   */
+  click( event ) {
+
+    // just record center of click target
+    const position = event.target.globalBounds.center;
+    console.log( position );
+    const testEvent = new VibrationTestEvent( position.x, position.y, this.elapsedTime, event.pointer.type );
+    this.eventRecorder.addTestEvent( testEvent );
+  }
+
+  /**
    * Sets the elapsed time to be saved for events. Rather than stepping/tracking its own elapsed time,
    * it should be set externally by a simulation because this listener is not the only one to save data
    * to the event recorder. The simulation updates its elapsed time in one location and sends that
