@@ -19,8 +19,8 @@ import BooleanProperty from '../../../axon/js/BooleanProperty.js';
 import Emitter from '../../../axon/js/Emitter.js';
 import Shape from '../../../kite/js/Shape.js';
 import merge from '../../../phet-core/js/merge.js';
+import globalKeyStateTracker from '../../../scenery/js/accessibility/globalKeyStateTracker.js';
 import KeyboardUtils from '../../../scenery/js/accessibility/KeyboardUtils.js';
-import Display from '../../../scenery/js/display/Display.js';
 import Node from '../../../scenery/js/nodes/Node.js';
 import Path from '../../../scenery/js/nodes/Path.js';
 import tappi from '../tappi.js';
@@ -98,7 +98,7 @@ class ShapeHitDetector {
       }
     };
 
-    Display.keyStateTracker.keyupEmitter.addListener( event => {
+    globalKeyStateTracker.keyupEmitter.addListener( event => {
       if ( event.keyCode === KeyboardUtils.KEY_SPACE || event.keyCode === KeyboardUtils.KEY_ENTER ) {
         if ( this.activeFocusHittable ) {
           this.downOnHittableEmitter.emit( this.activeFocusHittable.target );
