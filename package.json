@@ -12,6 +12,7 @@
   "phet": {
     "requirejsNamespace": "TAPPI",
     "phetLibs": [
+      "bamboo",
       "griddle"
     ],
     "runnable": true,
