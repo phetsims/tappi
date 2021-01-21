@@ -21,7 +21,7 @@ class PatternsModel {
     // @public - the current set of patterns available for demonstration
     this.activePatternSetProperty = new EnumerationProperty( PatternsModel.PatternSet, PatternsModel.PatternSet.PULSES );
 
-    // @public {Property<null|number[]>} - The running pattern provided to the vibration manager
+    // @public {Property.<null|number[]>} - The running pattern provided to the vibration manager
     this.activePatternProperty = new Property( null );
 
     // @public - if true, vibration patterns will be time limitted rather than running forever
