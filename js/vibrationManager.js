@@ -56,7 +56,7 @@ class VibrationManager {
     // during a vibration pattern downtime.
     this._runningVibration = false;
 
-    // @private {Array<number>} - Pattern of vibration and pause intervals, each value
+    // @private {Array.<number>} - Pattern of vibration and pause intervals, each value
     // indicates number of milliseconds to vibrate or pause in alternation. Unlike the
     // Navigator API, single value is not allowed, and any pattern here will proceed until
     // stopVibrate is called.
