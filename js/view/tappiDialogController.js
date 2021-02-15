@@ -5,7 +5,7 @@
  * coming up early November 2020. If self-voicing is enabled, it will show an initial dialog
  * that has a button to enable web speech, satisfying the requirement by most browsers that
  * speech becomes enabled after some user interaction. If custom gestures are enabled, it will
- * then continue to another dialog with a few simple UI componenents to teach the user how to use gestures.
+ * then continue to another dialog with a few simple UI components to teach the user how to use gestures.
  *
  * A singleton, because it registers behavior but is generally unused once the dialogs have
  * been shown.
@@ -32,7 +32,7 @@ class TappiDialogController {
     const supportsSelfVoicing = phet.chipper.queryParameters.supportsSelfVoicing;
     const supportsGestureControl = phet.chipper.queryParameters.supportsGestureControl;
 
-    // wait to display any intial dialogs until the simulation is complete
+    // wait to display any initial dialogs until the simulation is complete
     phet.joist.sim.isConstructionCompleteProperty.link( complete => {
       if ( complete ) {
         if ( supportsSelfVoicing ) {
@@ -46,7 +46,7 @@ class TappiDialogController {
             hideCallback: () => {
 
               // if gesture controls are enabled, show an intro dialog that introduces
-              // guestures - otherwise, put focus on the quick control to guide the user
+              // gestures - otherwise, put focus on the quick control to guide the user
               // toward those simulation overview buttons
               if ( supportsGestureControl ) {
                 const introDialog = new CustomGestureIntroDialog( {
