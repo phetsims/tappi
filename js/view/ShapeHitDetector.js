@@ -99,8 +99,7 @@ class ShapeHitDetector {
     };
 
     globalKeyStateTracker.keyupEmitter.addListener( event => {
-      const key = event.key.toLowerCase();
-      if ( key === KeyboardUtils.KEY_SPACE || key === KeyboardUtils.KEY_ENTER ) {
+      if ( KeyboardUtils.isAnyKeyEvent( event, [ KeyboardUtils.KEY_SPACE, KeyboardUtils.KEY_ENTER ] ) ) {
         if ( this.activeFocusHittable ) {
           this.downOnHittableEmitter.emit( this.activeFocusHittable.target );
         }
