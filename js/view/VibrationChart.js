@@ -57,14 +57,14 @@ class VibrationChart extends Node {
       font: options.labelFont
     } );
     const seismographNode = new SeismographNode( this.timeProperty, [ this.vibrationSeries ], new Text( '' ), {
-        width: width,
-        height: height,
-        verticalAxisLabelNode: verticalAxisTitleNode,
-        horizontalAxisLabelNode: horizontalAxisTitleNode,
-        numberVerticalLines: MAX_TIME,
-        numberHorizontalLines: 3,
-        verticalRanges: [ new Range( -1.5, 1.5 ) ]
-      } );
+      width: width,
+      height: height,
+      verticalAxisLabelNode: verticalAxisTitleNode,
+      horizontalAxisLabelNode: horizontalAxisTitleNode,
+      numberVerticalLines: MAX_TIME,
+      numberHorizontalLines: 3,
+      verticalRanges: [ new Range( -1.5, 1.5 ) ]
+    } );
 
     // layout
     const labeledChartNode = new Node();

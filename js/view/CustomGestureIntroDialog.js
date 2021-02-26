@@ -132,7 +132,7 @@ class CustomGestureIntroDialog extends Dialog {
       }
     } ) );
 
-    continueButton.addInputListener(  new SelfVoicingInputListener( {
+    continueButton.addInputListener( new SelfVoicingInputListener( {
       onFocusIn: () => {
         phet.joist.sim.selfVoicingUtteranceQueue.addToBack( continueButtonContent );
       }
