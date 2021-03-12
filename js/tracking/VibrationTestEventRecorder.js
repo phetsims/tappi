@@ -54,10 +54,10 @@ class VibrationTestEventRecorder {
     let string = '';
 
     this.events.forEach( event => {
-      string += event.x + ',';
-      string += event.y + ',';
-      string += event.time + ',';
-      string += event.name + ';';
+      string += `${event.x},`;
+      string += `${event.y},`;
+      string += `${event.time},`;
+      string += `${event.name};`;
     } );
 
     return string;

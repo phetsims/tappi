@@ -133,7 +133,7 @@ class VibrationManageriOS {
   vibrateAtFrequencyForever( frequency, intensity ) {
     intensity = typeof intensity === 'number' ? intensity : 1;
     intensity = Utils.clamp( intensity, 0, 1 );
-    this.debug( intensity + '' );
+    this.debug( `${intensity}` );
 
     if ( this.vibrationMessageHandlers && this.vibrationMessageHandlers.vibrateFrequencyForeverMessageHandler ) {
       window.webkit.messageHandlers.vibrateFrequencyForeverMessageHandler.postMessage(

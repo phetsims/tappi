@@ -24,7 +24,7 @@ class VibrationTestInputListener {
     this._pointerListener = {
       up: event => {
         const globalPoint = event.pointer.point;
-        const testEvent = new VibrationTestEvent( globalPoint.x, globalPoint.y, this.elapsedTime, event.pointer.type + 'up' );
+        const testEvent = new VibrationTestEvent( globalPoint.x, globalPoint.y, this.elapsedTime, `${event.pointer.type}up` );
         this.eventRecorder.addTestEvent( testEvent );
 
         this.handleRelease();
@@ -36,7 +36,7 @@ class VibrationTestInputListener {
       // attached to the pointer, so that only moves that occur while a pointer is down are recorded
       move: event => {
         const globalPoint = event.pointer.point;
-        const testEvent = new VibrationTestEvent( globalPoint.x, globalPoint.y, this.elapsedTime, event.pointer.type + 'move' );
+        const testEvent = new VibrationTestEvent( globalPoint.x, globalPoint.y, this.elapsedTime, `${event.pointer.type}move` );
         this.eventRecorder.addTestEvent( testEvent );
       }
     };
@@ -71,7 +71,7 @@ class VibrationTestInputListener {
     if ( this.pointer === null ) {
       this.pointer = event.pointer;
       const globalPoint = event.pointer.point;
-      const testEvent = new VibrationTestEvent( globalPoint.x, globalPoint.y, this.elapsedTime, event.pointer.type + 'down' );
+      const testEvent = new VibrationTestEvent( globalPoint.x, globalPoint.y, this.elapsedTime, `${event.pointer.type}down` );
       this.eventRecorder.addTestEvent( testEvent );
 
       event.pointer.addInputListener( this._pointerListener, false );

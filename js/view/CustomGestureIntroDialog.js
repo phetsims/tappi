@@ -150,7 +150,7 @@ class CustomGestureIntroDialog extends Dialog {
 
     const valueChangeUtterance = new SelfVoicingUtterance();
     exampleSliderProperty.lazyLink( value => {
-      valueChangeUtterance.alert = value + '';
+      valueChangeUtterance.alert = `${value}`;
       phet.joist.sim.selfVoicingUtteranceQueue.addToBack( valueChangeUtterance );
     } );
 
