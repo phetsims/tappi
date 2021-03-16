@@ -34,6 +34,7 @@
       "phet": {
         "requirejsNamespace": "TAPPI",
         "phetLibs": [
+          "bamboo",
           "griddle"
         ],
         "runnable": true,
@@ -48,6 +49,10 @@
     };
   window.phet.chipper.stringRepos =
     [
+      {
+        "repo": "bamboo",
+        "requirejsNamespace": "BAMBOO"
+      },
       {
         "repo": "griddle",
         "requirejsNamespace": "GRIDDLE"
@@ -102,6 +107,7 @@
 
   if ( brand === 'phet-io' ) {
     preloads = preloads.concat( [
+      '../chipper/js/phet-io/phetioCompareAPIs.js',
       '../phet-io/js/phet-io-initialize-globals.js',
       '../tappi/js/tappi-phet-io-overrides.js'
     ] );
