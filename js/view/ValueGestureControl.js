@@ -106,7 +106,7 @@ const ValueGestureControl = {
               manipulation: changeValueString
             } );
             const response = levelSpeakerModel.collectResponses( interactionHint );
-            phet.joist.sim.selfVoicingUtteranceQueue.addToBack( response );
+            phet.joist.sim.voicingUtteranceQueue.addToBack( response );
           }
         } );
       }

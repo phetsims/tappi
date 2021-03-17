@@ -72,7 +72,7 @@ class CustomGestureIntroDialog extends Dialog {
         alert: dialogDescriptionString,
         cancelOther: false
       } );
-      phet.joist.sim.selfVoicingUtteranceQueue.addToBack( utterance );
+      phet.joist.sim.voicingUtteranceQueue.addToBack( utterance );
     };
 
     // a wrapper that surrounds the descriptionParagraph with a Node that is focusable
@@ -89,7 +89,7 @@ class CustomGestureIntroDialog extends Dialog {
     const exampleButton = new TextPushButton( testButtonContent, {
       font: contentFont,
       listener: () => {
-        phet.joist.sim.selfVoicingUtteranceQueue.addToBack( pressedString );
+        phet.joist.sim.voicingUtteranceQueue.addToBack( pressedString );
       }
     } );
 
@@ -122,19 +122,19 @@ class CustomGestureIntroDialog extends Dialog {
     // listeners that provide actual self-voicing content on the example components
     exampleButton.addInputListener( new SelfVoicingInputListener( {
       onFocusIn: () => {
-        phet.joist.sim.selfVoicingUtteranceQueue.addToBack( testButtonContent );
+        phet.joist.sim.voicingUtteranceQueue.addToBack( testButtonContent );
       }
     } ) );
 
     exampleSlider.addInputListener( new SelfVoicingInputListener( {
       onFocusIn: () => {
-        phet.joist.sim.selfVoicingUtteranceQueue.addToBack( sliderLabelString );
+        phet.joist.sim.voicingUtteranceQueue.addToBack( sliderLabelString );
       }
     } ) );
 
     continueButton.addInputListener( new SelfVoicingInputListener( {
       onFocusIn: () => {
-        phet.joist.sim.selfVoicingUtteranceQueue.addToBack( continueButtonContent );
+        phet.joist.sim.voicingUtteranceQueue.addToBack( continueButtonContent );
       }
     } ) );
 
@@ -144,19 +144,19 @@ class CustomGestureIntroDialog extends Dialog {
           manipulation: sliderInteractionHintString
         } );
 
-        phet.joist.sim.selfVoicingUtteranceQueue.addToBack( hintString );
+        phet.joist.sim.voicingUtteranceQueue.addToBack( hintString );
       }
     } );
 
     const valueChangeUtterance = new SelfVoicingUtterance();
     exampleSliderProperty.lazyLink( value => {
       valueChangeUtterance.alert = `${value}`;
-      phet.joist.sim.selfVoicingUtteranceQueue.addToBack( valueChangeUtterance );
+      phet.joist.sim.voicingUtteranceQueue.addToBack( valueChangeUtterance );
     } );
 
     let positionOnValueChange = null;
     exampleSlider.swipeStart = event => {
-      phet.joist.sim.selfVoicingUtteranceQueue.addToBack( grabbedAlertString );
+      phet.joist.sim.voicingUtteranceQueue.addToBack( grabbedAlertString );
       positionOnValueChange = event.pointer.point;
     };
     exampleSlider.swipeEnd = () => {
@@ -164,7 +164,7 @@ class CustomGestureIntroDialog extends Dialog {
         cancelOther: false,
         alert: releasedString
       } );
-      phet.joist.sim.selfVoicingUtteranceQueue.addToBack( releasedAlert );
+      phet.joist.sim.voicingUtteranceQueue.addToBack( releasedAlert );
     };
     exampleSlider.swipeMove = event => {
       const nextSwipePosition = event.pointer.point;

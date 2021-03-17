@@ -81,7 +81,7 @@ class SelfVoicingLandingDialog extends Dialog {
     // to add code to Dialog, and I didn't want to work in a branch so this is here for now
     Display.focusProperty.lazyLink( focus => {
       if ( focus && focus.trail.lastNode().innerContent === 'Close' ) {
-        phet.joist.sim.selfVoicingUtteranceQueue.addToBack( 'Close' );
+        phet.joist.sim.voicingUtteranceQueue.addToBack( 'Close' );
       }
     } );
   }

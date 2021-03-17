@@ -59,7 +59,7 @@ class SaveTestEventsButton extends RectangularPushButton {
     this.addInputListener( new SelfVoicingInputListener( {
       onFocusIn: () => {
         const response = levelSpeakerModel.collectResponses( BUTTON_OBJECT_RESPONSE );
-        phet.joist.sim.selfVoicingUtteranceQueue.addToBack( response );
+        phet.joist.sim.voicingUtteranceQueue.addToBack( response );
       },
       highlightTarget: this
     } ) );

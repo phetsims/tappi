@@ -45,7 +45,7 @@ class GestureControlledSlider extends Slider {
 
       // called on the beginning of a swipe gesture, by SwipeListeners
       onSwipeStart: () => {
-        phet.joist.sim.selfVoicingUtteranceQueue.addToBack( grabbedAlertString );
+        phet.joist.sim.voicingUtteranceQueue.addToBack( grabbedAlertString );
       },
 
       // called at the end of a swipe gesture, by SwipeListener
@@ -57,7 +57,7 @@ class GestureControlledSlider extends Slider {
           alert: releasedString,
           cancelOther: false
         } );
-        phet.joist.sim.selfVoicingUtteranceQueue.addToBack( releasedUtterance );
+        phet.joist.sim.voicingUtteranceQueue.addToBack( releasedUtterance );
       }
     }, options );
 
@@ -70,7 +70,7 @@ class GestureControlledSlider extends Slider {
         const objectContent = options.selfVoicingLabel;
 
         const response = levelSpeakerModel.collectResponses( objectContent );
-        phet.joist.sim.selfVoicingUtteranceQueue.addToBack( response );
+        phet.joist.sim.voicingUtteranceQueue.addToBack( response );
       }
     } ) );
   }
