@@ -11,6 +11,7 @@
  * @author Jesse Greenberg
  */
 
+import stepTimer from '../../../axon/js/Timer.js';
 import merge from '../../../phet-core/js/merge.js';
 import webSpeaker from '../../../scenery/js/accessibility/speaker/webSpeaker.js';
 import Display from '../../../scenery/js/display/Display.js';
@@ -100,7 +101,7 @@ class SelfVoicingLandingDialog extends Dialog {
     // allow the initial speech to finish before speaking the next thing - the initial
     // speech is separate from the utteranceQueue and therefore we cannot make other
     // utterances relatively polite
-    window.setTimeout( () => {
+    stepTimer.setTimeout( () => {
       this.hide();
     }, 1000 );
 
