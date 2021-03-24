@@ -10,7 +10,7 @@
 
 import merge from '../../../phet-core/js/merge.js';
 import levelSpeakerModel from '../../../scenery-phet/js/accessibility/speaker/levelSpeakerModel.js';
-import SelfVoicingInputListener from '../../../scenery-phet/js/accessibility/speaker/SelfVoicingInputListener.js';
+import VoicingInputListener from '../../../scenery-phet/js/accessibility/speaker/VoicingInputListener.js';
 import sceneryPhetStrings from '../../../scenery-phet/js/sceneryPhetStrings.js';
 import Slider from '../../../sun/js/Slider.js';
 import VoicingUtterance from '../../../utterance-queue/js/VoicingUtterance.js';
@@ -65,7 +65,7 @@ class GestureControlledSlider extends Slider {
     this.initializeValueGestureControl( this, options );
 
     // on focus, speak the label of this component
-    this.addInputListener( new SelfVoicingInputListener( {
+    this.addInputListener( new VoicingInputListener( {
       onFocusIn: () => {
         const objectContent = options.selfVoicingLabel;
 

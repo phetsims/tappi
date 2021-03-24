@@ -15,7 +15,7 @@ import Range from '../../../dot/js/Range.js';
 import Utils from '../../../dot/js/Utils.js';
 import merge from '../../../phet-core/js/merge.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
-import SelfVoicingInputListener from '../../../scenery-phet/js/accessibility/speaker/SelfVoicingInputListener.js';
+import VoicingInputListener from '../../../scenery-phet/js/accessibility/speaker/VoicingInputListener.js';
 import SelfVoicingWrapperNode from '../../../scenery-phet/js/accessibility/speaker/SelfVoicingWrapperNode.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import sceneryPhet from '../../../scenery-phet/js/sceneryPhet.js';
@@ -120,19 +120,19 @@ class CustomGestureIntroDialog extends Dialog {
     this.selfVoicingWrapper = selfVoicingWrapper;
 
     // listeners that provide actual self-voicing content on the example components
-    exampleButton.addInputListener( new SelfVoicingInputListener( {
+    exampleButton.addInputListener( new VoicingInputListener( {
       onFocusIn: () => {
         phet.joist.sim.voicingUtteranceQueue.addToBack( testButtonContent );
       }
     } ) );
 
-    exampleSlider.addInputListener( new SelfVoicingInputListener( {
+    exampleSlider.addInputListener( new VoicingInputListener( {
       onFocusIn: () => {
         phet.joist.sim.voicingUtteranceQueue.addToBack( sliderLabelString );
       }
     } ) );
 
-    continueButton.addInputListener( new SelfVoicingInputListener( {
+    continueButton.addInputListener( new VoicingInputListener( {
       onFocusIn: () => {
         phet.joist.sim.voicingUtteranceQueue.addToBack( continueButtonContent );
       }
