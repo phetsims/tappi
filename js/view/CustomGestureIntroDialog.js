@@ -27,7 +27,7 @@ import VBox from '../../../scenery/js/nodes/VBox.js';
 import TextPushButton from '../../../sun/js/buttons/TextPushButton.js';
 import Dialog from '../../../sun/js/Dialog.js';
 import HSlider from '../../../sun/js/HSlider.js';
-import SelfVoicingUtterance from '../../../utterance-queue/js/SelfVoicingUtterance.js';
+import VoicingUtterance from '../../../utterance-queue/js/VoicingUtterance.js';
 
 // constants
 const contentFont = new PhetFont( 16 );
@@ -68,7 +68,7 @@ class CustomGestureIntroDialog extends Dialog {
     } );
 
     const speakDescriptionParagraph = () => {
-      const utterance = new SelfVoicingUtterance( {
+      const utterance = new VoicingUtterance( {
         alert: dialogDescriptionString,
         cancelOther: false
       } );
@@ -148,7 +148,7 @@ class CustomGestureIntroDialog extends Dialog {
       }
     } );
 
-    const valueChangeUtterance = new SelfVoicingUtterance();
+    const valueChangeUtterance = new VoicingUtterance();
     exampleSliderProperty.lazyLink( value => {
       valueChangeUtterance.alert = `${value}`;
       phet.joist.sim.voicingUtteranceQueue.addToBack( valueChangeUtterance );
@@ -160,7 +160,7 @@ class CustomGestureIntroDialog extends Dialog {
       positionOnValueChange = event.pointer.point;
     };
     exampleSlider.swipeEnd = () => {
-      const releasedAlert = new SelfVoicingUtterance( {
+      const releasedAlert = new VoicingUtterance( {
         cancelOther: false,
         alert: releasedString
       } );

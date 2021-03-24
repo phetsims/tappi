@@ -13,7 +13,7 @@ import levelSpeakerModel from '../../../scenery-phet/js/accessibility/speaker/le
 import SelfVoicingInputListener from '../../../scenery-phet/js/accessibility/speaker/SelfVoicingInputListener.js';
 import sceneryPhetStrings from '../../../scenery-phet/js/sceneryPhetStrings.js';
 import Slider from '../../../sun/js/Slider.js';
-import SelfVoicingUtterance from '../../../utterance-queue/js/SelfVoicingUtterance.js';
+import VoicingUtterance from '../../../utterance-queue/js/VoicingUtterance.js';
 import tappi from '../tappi.js';
 import ValueGestureControl from './ValueGestureControl.js';
 
@@ -53,7 +53,7 @@ class GestureControlledSlider extends Slider {
 
         // the released utterance shouldn't cancel other utterances describing the changing
         // value of the slider
-        const releasedUtterance = new SelfVoicingUtterance( {
+        const releasedUtterance = new VoicingUtterance( {
           alert: releasedString,
           cancelOther: false
         } );
