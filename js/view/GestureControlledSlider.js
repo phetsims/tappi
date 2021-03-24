@@ -31,7 +31,7 @@ class GestureControlledSlider extends Slider {
     options = merge( {
 
       // the label to be read by webSpeaker when this component receives focus
-      selfVoicingLabel: null,
+      voicingLabel: null,
 
       // called on an increment gesture, increment by 1/10th of the range by default
       onIncrement: () => {
@@ -67,7 +67,7 @@ class GestureControlledSlider extends Slider {
     // on focus, speak the label of this component
     this.addInputListener( new VoicingInputListener( {
       onFocusIn: () => {
-        const objectContent = options.selfVoicingLabel;
+        const objectContent = options.voicingLabel;
 
         const response = levelSpeakerModel.collectResponses( objectContent );
         phet.joist.sim.voicingUtteranceQueue.addToBack( response );
