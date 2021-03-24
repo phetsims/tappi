@@ -41,8 +41,8 @@ const testButtonContent = 'Activate Me!';
 const pressedString = 'Thanks for activating me! You rock!';
 const sliderLabelString = 'Move Me';
 const sliderInteractionHintString = 'move me';
-const grabDragHintPatternString = sceneryPhetStrings.a11y.selfVoicing.grabDragHintPattern;
-const grabbedAlertString = sceneryPhetStrings.a11y.selfVoicing.grabbedAlert;
+const grabDragHintPatternString = sceneryPhetStrings.a11y.voicing.grabDragHintPattern;
+const grabbedAlertString = sceneryPhetStrings.a11y.voicing.grabbedAlert;
 const releasedString = sceneryPhetStrings.a11y.grabDrag.released;
 
 class CustomGestureIntroDialog extends Dialog {

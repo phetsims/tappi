@@ -17,7 +17,7 @@ import SelfVoicingUtterance from '../../../utterance-queue/js/SelfVoicingUtteran
 import tappi from '../tappi.js';
 import ValueGestureControl from './ValueGestureControl.js';
 
-const grabbedAlertString = sceneryPhetStrings.a11y.selfVoicing.grabbedAlert;
+const grabbedAlertString = sceneryPhetStrings.a11y.voicing.grabbedAlert;
 const releasedString = sceneryPhetStrings.a11y.grabDrag.released;
 
 class GestureControlledSlider extends Slider {

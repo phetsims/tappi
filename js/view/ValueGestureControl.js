@@ -18,7 +18,7 @@ import sceneryPhetStrings from '../../../scenery-phet/js/sceneryPhetStrings.js';
 import Node from '../../../scenery/js/nodes/Node.js';
 
 // constants
-const grabDragHintPatternString = sceneryPhetStrings.a11y.selfVoicing.grabDragHintPattern;
+const grabDragHintPatternString = sceneryPhetStrings.a11y.voicing.grabDragHintPattern;
 const changeValueString = 'Change Value';
 
 const ValueGestureControl = {
