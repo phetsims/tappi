@@ -34,11 +34,11 @@ const descriptionString = 'This page uses Web Speech to describe what is availab
 const enableButtonContent = 'Enable Web Speech';
 const speechEnabledString = 'Web Speech Enabled';
 
-class SelfVoicingLandingDialog extends Dialog {
+class VoicingLandingDialog extends Dialog {
   constructor( options ) {
     if ( options ) {
-      assert && assert( options.title === undefined, 'SelfVoicingLandingDialog sets title' );
-      assert && assert( options.closeButtonListener === undefined, 'SelfVoicingLandingDialog sets closeButtonListener' );
+      assert && assert( options.title === undefined, 'VoicingLandingDialog sets title' );
+      assert && assert( options.closeButtonListener === undefined, 'VoicingLandingDialog sets closeButtonListener' );
     }
 
     options = merge( {
@@ -110,5 +110,5 @@ class SelfVoicingLandingDialog extends Dialog {
   }
 }
 
-sceneryPhet.register( 'SelfVoicingLandingDialog', SelfVoicingLandingDialog );
-export default SelfVoicingLandingDialog;
+sceneryPhet.register( 'VoicingLandingDialog', VoicingLandingDialog );
+export default VoicingLandingDialog;

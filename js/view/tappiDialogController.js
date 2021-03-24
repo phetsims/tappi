@@ -14,7 +14,7 @@
  */
 
 import CustomGestureIntroDialog from './CustomGestureIntroDialog.js';
-import SelfVoicingLandingDialog from './SelfVoicingLandingDialog.js';
+import VoicingLandingDialog from './VoicingLandingDialog.js';
 import tappi from '../tappi.js';
 
 class TappiDialogController {
@@ -42,7 +42,7 @@ class TappiDialogController {
           // barrier rectangle
           phet.joist.sim.barrierRectangle.inputEnabled = false;
 
-          const landingDialog = new SelfVoicingLandingDialog( {
+          const landingDialog = new VoicingLandingDialog( {
             hideCallback: () => {
 
               // if gesture controls are enabled, show an intro dialog that introduces
