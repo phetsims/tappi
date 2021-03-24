@@ -16,7 +16,7 @@ import Utils from '../../../dot/js/Utils.js';
 import merge from '../../../phet-core/js/merge.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
 import VoicingInputListener from '../../../scenery-phet/js/accessibility/speaker/VoicingInputListener.js';
-import SelfVoicingWrapperNode from '../../../scenery-phet/js/accessibility/speaker/SelfVoicingWrapperNode.js';
+import VoicingWrapperNode from '../../../scenery-phet/js/accessibility/speaker/VoicingWrapperNode.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import sceneryPhet from '../../../scenery-phet/js/sceneryPhet.js';
 import sceneryPhetStrings from '../../../scenery-phet/js/sceneryPhetStrings.js';
@@ -78,7 +78,7 @@ class CustomGestureIntroDialog extends Dialog {
     // a wrapper that surrounds the descriptionParagraph with a Node that is focusable
     // and has input listeners that make it possible to click the text to hear information
     // about it
-    const selfVoicingWrapper = new SelfVoicingWrapperNode( descriptionParagraph, {
+    const selfVoicingWrapper = new VoicingWrapperNode( descriptionParagraph, {
       listenerOptions: {
         onFocusIn: speakDescriptionParagraph,
         onPress: speakDescriptionParagraph
