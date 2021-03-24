@@ -29,7 +29,7 @@ class TappiDialogController {
   initialize( selfVoicingQuickControl ) {
     assert && assert( phet.joist.sim, 'This controller must be used in a PhET simulation' );
 
-    const supportsSelfVoicing = phet.chipper.queryParameters.supportsSelfVoicing;
+    const supportsSelfVoicing = phet.chipper.queryParameters.supportsVoicing;
     const supportsGestureControl = phet.chipper.queryParameters.supportsGestureControl;
 
     // wait to display any initial dialogs until the simulation is complete
