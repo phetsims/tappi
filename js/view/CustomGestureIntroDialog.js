@@ -78,13 +78,13 @@ class CustomGestureIntroDialog extends Dialog {
     // a wrapper that surrounds the descriptionParagraph with a Node that is focusable
     // and has input listeners that make it possible to click the text to hear information
     // about it
-    const selfVoicingWrapper = new VoicingWrapperNode( descriptionParagraph, {
+    const voicingWrapper = new VoicingWrapperNode( descriptionParagraph, {
       listenerOptions: {
         onFocusIn: speakDescriptionParagraph,
         onPress: speakDescriptionParagraph
       }
     } );
-    selfVoicingWrapper.addChild( descriptionParagraph );
+    voicingWrapper.addChild( descriptionParagraph );
 
     const exampleButton = new TextPushButton( testButtonContent, {
       font: contentFont,
@@ -110,14 +110,14 @@ class CustomGestureIntroDialog extends Dialog {
     } );
 
     const content = new VBox( {
-      children: [ selfVoicingWrapper, exampleComponents, continueButton ],
+      children: [ voicingWrapper, exampleComponents, continueButton ],
       spacing: 50
     } );
 
     super( content, options );
 
     // @private {Node}
-    this.selfVoicingWrapper = selfVoicingWrapper;
+    this.voicingWrapper = voicingWrapper;
 
     // listeners that provide actual self-voicing content on the example components
     exampleButton.addInputListener( new VoicingInputListener( {
@@ -201,7 +201,7 @@ class CustomGestureIntroDialog extends Dialog {
    * @public
    */
   focusIntroDescription() {
-    this.selfVoicingWrapper.focus();
+    this.voicingWrapper.focus();
   }
 }
 
