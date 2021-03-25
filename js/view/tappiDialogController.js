@@ -2,7 +2,7 @@
 
 /**
  * Controls landing and intro dialogs as they appear on simulation load. Intended only for interviews
- * coming up early November 2020. If self-voicing is enabled, it will show an initial dialog
+ * coming up early November 2020. If voicing is enabled, it will show an initial dialog
  * that has a button to enable web speech, satisfying the requirement by most browsers that
  * speech becomes enabled after some user interaction. If custom gestures are enabled, it will
  * then continue to another dialog with a few simple UI components to teach the user how to use gestures.
@@ -24,18 +24,18 @@ class TappiDialogController {
    * Creates the dialogs, and adds a listener that creates the dialogs once the sim has been
    * constructed (because bounds will be defined then).
    * @public
-   * @param selfVoicingQuickControl
+   * @param voicingQuickControl
    */
-  initialize( selfVoicingQuickControl ) {
+  initialize( voicingQuickControl ) {
     assert && assert( phet.joist.sim, 'This controller must be used in a PhET simulation' );
 
-    const supportsSelfVoicing = phet.chipper.queryParameters.supportsVoicing;
+    const supportsVoicing = phet.chipper.queryParameters.supportsVoicing;
     const supportsGestureControl = phet.chipper.queryParameters.supportsGestureControl;
 
     // wait to display any initial dialogs until the simulation is complete
     phet.joist.sim.isConstructionCompleteProperty.link( complete => {
       if ( complete ) {
-        if ( supportsSelfVoicing ) {
+        if ( supportsVoicing ) {
 
           // for interviews, you should not be able to do anything outside of these
           // dialogs until you go through their content - don't dismiss by tapping
@@ -51,7 +51,7 @@ class TappiDialogController {
               if ( supportsGestureControl ) {
                 const introDialog = new CustomGestureIntroDialog( {
                   hideCallback: () => {
-                    selfVoicingQuickControl.focusExpandCollapseButton();
+                    voicingQuickControl.focusExpandCollapseButton();
                     phet.joist.sim.barrierRectangle.inputEnabled = true;
                   }
                 } );
@@ -60,7 +60,7 @@ class TappiDialogController {
                 introDialog.focusIntroDescription();
               }
               else {
-                selfVoicingQuickControl.focusExpandCollapseButton();
+                voicingQuickControl.focusExpandCollapseButton();
                 phet.joist.sim.barrierRectangle.inputEnabled = true;
               }
             }

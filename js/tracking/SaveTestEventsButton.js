@@ -55,7 +55,7 @@ class SaveTestEventsButton extends RectangularPushButton {
 
     super( options );
 
-    // register for self-voicing output
+    // register for voicing output
     this.addInputListener( new VoicingInputListener( {
       onFocusIn: () => {
         const response = levelSpeakerModel.collectResponses( BUTTON_OBJECT_RESPONSE );

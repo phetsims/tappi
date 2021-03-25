@@ -1,7 +1,7 @@
 // Copyright 2020, University of Colorado Boulder
 
 /**
- * A Dialog with information about the self-voicing feature, and a button
+ * A Dialog with information about the voicing feature, and a button
  * to enable web speech within the sim. Many browsers do not allow speech synthesis
  * until user has made some activation. It is intended for use only in interviews
  * that are coming up in November of 2020, so that it is as easy as possilbe to enable this feature

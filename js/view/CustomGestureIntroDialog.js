@@ -1,7 +1,7 @@
 // Copyright 2020, University of Colorado Boulder
 
 /**
- * A dialog with a few basic UI components with self-voicing and gesture control to give
+ * A dialog with a few basic UI components with voicing and gesture control to give
  * the user a chance to play with components before interacting with them in the simulation.
  * This is intended for use only in prototypes for user interviews. The hope is that providing
  * user with a chance to play with components before jumping into the sim will separate
@@ -119,7 +119,7 @@ class CustomGestureIntroDialog extends Dialog {
     // @private {Node}
     this.voicingWrapper = voicingWrapper;
 
-    // listeners that provide actual self-voicing content on the example components
+    // listeners that provide actual voicing content on the example components
     exampleButton.addInputListener( new VoicingInputListener( {
       onFocusIn: () => {
         phet.joist.sim.voicingUtteranceQueue.addToBack( testButtonContent );
