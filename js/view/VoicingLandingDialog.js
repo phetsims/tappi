@@ -96,7 +96,7 @@ class VoicingLandingDialog extends Dialog {
 
     // speak must be called directly, for some reason if this gets deferred by the delay
     // in utteranceQueue iOS Safari will never speak it
-    webSpeaker.initialSpeech( speechEnabledString );
+    webSpeaker.speakImmediately( speechEnabledString );
 
     // allow the initial speech to finish before speaking the next thing - the initial
     // speech is separate from the utteranceQueue and therefore we cannot make other
