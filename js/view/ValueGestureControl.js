@@ -16,6 +16,7 @@ import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
 import levelSpeakerModel from '../../../scenery-phet/js/accessibility/speaker/levelSpeakerModel.js';
 import sceneryPhetStrings from '../../../scenery-phet/js/sceneryPhetStrings.js';
 import Node from '../../../scenery/js/nodes/Node.js';
+import voicingUtteranceQueue from '../../../scenery/js/accessibility/speaker/voicingUtteranceQueue.js';
 
 // constants
 const grabDragHintPatternString = sceneryPhetStrings.a11y.voicing.grabDragHintPattern;
@@ -106,7 +107,7 @@ const ValueGestureControl = {
               manipulation: changeValueString
             } );
             const response = levelSpeakerModel.collectResponses( interactionHint );
-            phet.joist.sim.voicingUtteranceQueue.addToBack( response );
+            voicingUtteranceQueue.addToBack( response );
           }
         } );
       }

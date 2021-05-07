@@ -13,6 +13,9 @@
 
 import stepTimer from '../../../axon/js/Timer.js';
 import merge from '../../../phet-core/js/merge.js';
+import PhetFont from '../../../scenery-phet/js/PhetFont.js';
+import sceneryPhet from '../../../scenery-phet/js/sceneryPhet.js';
+import voicingUtteranceQueue from '../../../scenery/js/accessibility/speaker/voicingUtteranceQueue.js';
 import webSpeaker from '../../../scenery/js/accessibility/speaker/webSpeaker.js';
 import Display from '../../../scenery/js/display/Display.js';
 import RichText from '../../../scenery/js/nodes/RichText.js';
@@ -20,8 +23,6 @@ import Text from '../../../scenery/js/nodes/Text.js';
 import VBox from '../../../scenery/js/nodes/VBox.js';
 import TextPushButton from '../../../sun/js/buttons/TextPushButton.js';
 import Dialog from '../../../sun/js/Dialog.js';
-import PhetFont from '../../../scenery-phet/js/PhetFont.js';
-import sceneryPhet from '../../../scenery-phet/js/sceneryPhet.js';
 
 // constants
 const contentFont = new PhetFont( 16 );
@@ -82,7 +83,7 @@ class VoicingLandingDialog extends Dialog {
     // to add code to Dialog, and I didn't want to work in a branch so this is here for now
     Display.focusProperty.lazyLink( focus => {
       if ( focus && focus.trail.lastNode().innerContent === 'Close' ) {
-        phet.joist.sim.voicingUtteranceQueue.addToBack( 'Close' );
+        voicingUtteranceQueue.addToBack( 'Close' );
       }
     } );
   }

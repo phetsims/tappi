@@ -14,9 +14,10 @@ import merge from '../../../phet-core/js/merge.js';
 import levelSpeakerModel from '../../../scenery-phet/js/accessibility/speaker/levelSpeakerModel.js';
 import VoicingInputListener from '../../../scenery-phet/js/accessibility/speaker/VoicingInputListener.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
+import voicingUtteranceQueue from '../../../scenery/js/accessibility/speaker/voicingUtteranceQueue.js';
+import Text from '../../../scenery/js/nodes/Text.js';
 import RectangularPushButton from '../../../sun/js/buttons/RectangularPushButton.js';
 import tappi from '../tappi.js';
-import Text from '../../../scenery/js/nodes/Text.js';
 
 // constants
 // no need for this to be translatable
@@ -59,7 +60,7 @@ class SaveTestEventsButton extends RectangularPushButton {
     this.addInputListener( new VoicingInputListener( {
       onFocusIn: () => {
         const response = levelSpeakerModel.collectResponses( BUTTON_OBJECT_RESPONSE );
-        phet.joist.sim.voicingUtteranceQueue.addToBack( response );
+        voicingUtteranceQueue.addToBack( response );
       },
       highlightTarget: this
     } ) );

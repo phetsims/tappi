@@ -12,6 +12,7 @@ import merge from '../../../phet-core/js/merge.js';
 import levelSpeakerModel from '../../../scenery-phet/js/accessibility/speaker/levelSpeakerModel.js';
 import VoicingInputListener from '../../../scenery-phet/js/accessibility/speaker/VoicingInputListener.js';
 import sceneryPhetStrings from '../../../scenery-phet/js/sceneryPhetStrings.js';
+import voicingUtteranceQueue from '../../../scenery/js/accessibility/speaker/voicingUtteranceQueue.js';
 import Slider from '../../../sun/js/Slider.js';
 import VoicingUtterance from '../../../utterance-queue/js/VoicingUtterance.js';
 import tappi from '../tappi.js';
@@ -45,7 +46,7 @@ class GestureControlledSlider extends Slider {
 
       // called on the beginning of a swipe gesture, by SwipeListeners
       onSwipeStart: () => {
-        phet.joist.sim.voicingUtteranceQueue.addToBack( grabbedAlertString );
+        voicingUtteranceQueue.addToBack( grabbedAlertString );
       },
 
       // called at the end of a swipe gesture, by SwipeListener
@@ -57,7 +58,7 @@ class GestureControlledSlider extends Slider {
           alert: releasedString,
           cancelOther: false
         } );
-        phet.joist.sim.voicingUtteranceQueue.addToBack( releasedUtterance );
+        voicingUtteranceQueue.addToBack( releasedUtterance );
       }
     }, options );
 
@@ -70,7 +71,7 @@ class GestureControlledSlider extends Slider {
         const objectContent = options.voicingLabel;
 
         const response = levelSpeakerModel.collectResponses( objectContent );
-        phet.joist.sim.voicingUtteranceQueue.addToBack( response );
+        voicingUtteranceQueue.addToBack( response );
       }
     } ) );
   }

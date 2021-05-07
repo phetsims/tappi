@@ -20,6 +20,7 @@ import VoicingWrapperNode from '../../../scenery-phet/js/accessibility/speaker/V
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import sceneryPhet from '../../../scenery-phet/js/sceneryPhet.js';
 import sceneryPhetStrings from '../../../scenery-phet/js/sceneryPhetStrings.js';
+import voicingUtteranceQueue from '../../../scenery/js/accessibility/speaker/voicingUtteranceQueue.js';
 import HBox from '../../../scenery/js/nodes/HBox.js';
 import RichText from '../../../scenery/js/nodes/RichText.js';
 import Text from '../../../scenery/js/nodes/Text.js';
@@ -72,7 +73,7 @@ class CustomGestureIntroDialog extends Dialog {
         alert: dialogDescriptionString,
         cancelOther: false
       } );
-      phet.joist.sim.voicingUtteranceQueue.addToBack( utterance );
+      voicingUtteranceQueue.addToBack( utterance );
     };
 
     // a wrapper that surrounds the descriptionParagraph with a Node that is focusable
@@ -89,7 +90,7 @@ class CustomGestureIntroDialog extends Dialog {
     const exampleButton = new TextPushButton( testButtonContent, {
       font: contentFont,
       listener: () => {
-        phet.joist.sim.voicingUtteranceQueue.addToBack( pressedString );
+        voicingUtteranceQueue.addToBack( pressedString );
       }
     } );
 
@@ -122,19 +123,19 @@ class CustomGestureIntroDialog extends Dialog {
     // listeners that provide actual voicing content on the example components
     exampleButton.addInputListener( new VoicingInputListener( {
       onFocusIn: () => {
-        phet.joist.sim.voicingUtteranceQueue.addToBack( testButtonContent );
+        voicingUtteranceQueue.addToBack( testButtonContent );
       }
     } ) );
 
     exampleSlider.addInputListener( new VoicingInputListener( {
       onFocusIn: () => {
-        phet.joist.sim.voicingUtteranceQueue.addToBack( sliderLabelString );
+        voicingUtteranceQueue.addToBack( sliderLabelString );
       }
     } ) );
 
     continueButton.addInputListener( new VoicingInputListener( {
       onFocusIn: () => {
-        phet.joist.sim.voicingUtteranceQueue.addToBack( continueButtonContent );
+        voicingUtteranceQueue.addToBack( continueButtonContent );
       }
     } ) );
 
@@ -144,19 +145,19 @@ class CustomGestureIntroDialog extends Dialog {
           manipulation: sliderInteractionHintString
         } );
 
-        phet.joist.sim.voicingUtteranceQueue.addToBack( hintString );
+        voicingUtteranceQueue.addToBack( hintString );
       }
     } );
 
     const valueChangeUtterance = new VoicingUtterance();
     exampleSliderProperty.lazyLink( value => {
       valueChangeUtterance.alert = `${value}`;
-      phet.joist.sim.voicingUtteranceQueue.addToBack( valueChangeUtterance );
+      voicingUtteranceQueue.addToBack( valueChangeUtterance );
     } );
 
     let positionOnValueChange = null;
     exampleSlider.swipeStart = event => {
-      phet.joist.sim.voicingUtteranceQueue.addToBack( grabbedAlertString );
+      voicingUtteranceQueue.addToBack( grabbedAlertString );
       positionOnValueChange = event.pointer.point;
     };
     exampleSlider.swipeEnd = () => {
@@ -164,7 +165,7 @@ class CustomGestureIntroDialog extends Dialog {
         cancelOther: false,
         alert: releasedString
       } );
-      phet.joist.sim.voicingUtteranceQueue.addToBack( releasedAlert );
+      voicingUtteranceQueue.addToBack( releasedAlert );
     };
     exampleSlider.swipeMove = event => {
       const nextSwipePosition = event.pointer.point;
