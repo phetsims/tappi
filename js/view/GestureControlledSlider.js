@@ -12,7 +12,7 @@ import merge from '../../../phet-core/js/merge.js';
 import levelSpeakerModel from '../../../scenery-phet/js/accessibility/speaker/levelSpeakerModel.js';
 import VoicingInputListener from '../../../scenery-phet/js/accessibility/speaker/VoicingInputListener.js';
 import sceneryPhetStrings from '../../../scenery-phet/js/sceneryPhetStrings.js';
-import voicingUtteranceQueue from '../../../scenery/js/accessibility/speaker/voicingUtteranceQueue.js';
+import voicingUtteranceQueue from '../../../scenery/js/accessibility/voicing/voicingUtteranceQueue.js';
 import Slider from '../../../sun/js/Slider.js';
 import VoicingUtterance from '../../../utterance-queue/js/VoicingUtterance.js';
 import tappi from '../tappi.js';

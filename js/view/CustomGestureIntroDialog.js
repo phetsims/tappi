@@ -20,7 +20,7 @@ import VoicingWrapperNode from '../../../scenery-phet/js/accessibility/speaker/V
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import sceneryPhet from '../../../scenery-phet/js/sceneryPhet.js';
 import sceneryPhetStrings from '../../../scenery-phet/js/sceneryPhetStrings.js';
-import voicingUtteranceQueue from '../../../scenery/js/accessibility/speaker/voicingUtteranceQueue.js';
+import voicingUtteranceQueue from '../../../scenery/js/accessibility/voicing/voicingUtteranceQueue.js';
 import HBox from '../../../scenery/js/nodes/HBox.js';
 import RichText from '../../../scenery/js/nodes/RichText.js';
 import Text from '../../../scenery/js/nodes/Text.js';
