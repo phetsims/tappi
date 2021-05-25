@@ -1,4 +1,4 @@
-// Copyright 2020, University of Colorado Boulder
+// Copyright 2020-2021, University of Colorado Boulder
 
 /**
  * A collection of VibrationTestEvents. Has functions that prepare the data to be sent to

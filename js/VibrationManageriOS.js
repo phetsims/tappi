@@ -1,4 +1,4 @@
-// Copyright 2020, University of Colorado Boulder
+// Copyright 2020-2021, University of Colorado Boulder
 
 import Utils from '../../dot/js/Utils.js';
 import merge from '../../phet-core/js/merge.js';
