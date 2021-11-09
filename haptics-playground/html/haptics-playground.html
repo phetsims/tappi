@@ -1,0 +1,56 @@
+<!-- Copyright 2021, University of Colorado Boulder -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Haptics Playground</title>
+  <style>
+    body {
+      background-color: #b0c4de;
+      font-size: 100%;
+      font-family: Arial, helvetica, sans-serif
+    }
+  </style>
+</head>
+
+<body>
+<p>Press the "Vibrate" button to trigger a vibration.  The slider next to the button can be used to adjust the length of the vibration.</p>
+<button type="button" id="vibrateButton" style="font-size : 20px">Vibrate</button>
+<input type="range" min="100" max="1000" value="1" id="vibrationLengthSlider">
+<br>
+<br>
+<p>When moving the slider below, a short pulse is played when the slider reaches its upper or lower bound.</p>
+<input type="range" min="1" max="100" value="1" id="pulseAtLimitsSlider">
+
+<script>
+
+  // Use the slider to control the length of the vibration from the button.
+  const vibrationLengthSlider = document.getElementById( 'vibrationLengthSlider' );
+  let vibrationLength = vibrationLengthSlider.value;
+  vibrationLengthSlider.oninput = () => {
+    console.log( `vibrationLengthSlider = ${vibrationLengthSlider.value}` );
+    vibrationLength = vibrationLengthSlider.value;
+  };
+
+  // handling for the vibrate button
+  const pulseButton = document.getElementById( 'vibrateButton' );
+  pulseButton.addEventListener( 'click', () => {
+    navigator.vibrate( vibrationLength );
+  } );
+
+  // handling for the "pulse at limits" range slider
+  const pulseAtLimitsSlider = document.getElementById( 'pulseAtLimitsSlider' );
+  pulseAtLimitsSlider.oninput = () => {
+    const value = Number.parseInt( pulseAtLimitsSlider.value );
+    if ( value === 1 || value === 100 ){
+      console.log( 'pulse' );
+      navigator.vibrate( 100 );
+    }
+  };
+
+</script>
+
+</body>
+</html>
