@@ -30,7 +30,8 @@
   <div class="row">
     <div class="col-lg-12 text-center">
       <h1 class="mt-5">Haptics Playground</h1>
-      <p>Press the "Vibrate" button to trigger a vibration.  The slider next to the button can be used to adjust the length of the vibration.</p>
+      <p>Press the "Vibrate" button to trigger a vibration. The slider next to the button can be used to adjust the
+        length of the vibration.</p>
       <button type="button" id="vibrateButton" style="font-size : 20px">Vibrate</button>
       <input type="range" min="100" max="1000" value="1" id="vibrationLengthSlider">
       <br>
@@ -43,27 +44,69 @@
 
 <script>
 
-  // Use the slider to control the length of the vibration from the button.
+  // Load the sound that will be played during haptic vibrations.
+  // const soundURL = '../sounds/haptic-buzz-loop.wav';
+  const soundURL = '../sounds/haptic-buzz-loop-with-bass.wav';
+  const audioContext = new AudioContext() || window.webkitAudioContext;
+  let soundBuffer;
+
+  window.fetch( soundURL )
+    .then( response => response.arrayBuffer() )
+    .then( arrayBuffer => audioContext.decodeAudioData( arrayBuffer ) )
+    .then( audioBuffer => {
+      soundBuffer = audioBuffer;
+    } );
+
+  let timeoutID = null;
+  let currentlyPlayingBufferSource = null;
+
+  // Define the function that can be used to play the vibration sound.
+  const playSound = ( audioBuffer, timeToPlay = 100 ) => {
+
+    // If the sound is already playing, stop it.
+    if ( timeoutID !== null ) {
+      currentlyPlayingBufferSource.stop();
+      clearTimeout( timeoutID );
+    }
+
+    // Create the buffer source and start it playing.
+    currentlyPlayingBufferSource = audioContext.createBufferSource();
+    currentlyPlayingBufferSource.buffer = audioBuffer;
+    currentlyPlayingBufferSource.loop = true;
+    currentlyPlayingBufferSource.connect( audioContext.destination );
+    currentlyPlayingBufferSource.start();
+
+    // Set a timeout to stop the sound.
+    timeoutID = setTimeout( () => {
+      currentlyPlayingBufferSource.stop();
+      currentlyPlayingBufferSource = null;
+      timeoutID = null;
+    }, timeToPlay );
+  };
+
+  // Use the vibrationLengthSlider to control the length of the vibration that will be played when the user presses the
+  // "Vibrate" button.
   const vibrationLengthSlider = document.getElementById( 'vibrationLengthSlider' );
   let vibrationLength = vibrationLengthSlider.value;
   vibrationLengthSlider.oninput = () => {
-    console.log( `vibrationLengthSlider = ${vibrationLengthSlider.value}` );
     vibrationLength = vibrationLengthSlider.value;
   };
 
-  // handling for the vibrate button
-  const pulseButton = document.getElementById( 'vibrateButton' );
-  pulseButton.addEventListener( 'click', () => {
+  // Set up an event listener to trigger the vibration when the user presses the "Vibrate" button.
+  const vibrateButton = document.getElementById( 'vibrateButton' );
+  vibrateButton.addEventListener( 'click', () => {
     navigator.vibrate( vibrationLength );
+    playSound( soundBuffer, vibrationLength );
   } );
 
-  // handling for the "pulse at limits" range slider
+  // Set up a listener that will play a haptic pulse when the pulseAtLimitsSlider reaches its limits.
   const pulseAtLimitsSlider = document.getElementById( 'pulseAtLimitsSlider' );
   pulseAtLimitsSlider.oninput = () => {
     const value = Number.parseInt( pulseAtLimitsSlider.value );
-    if ( value === 1 || value === 100 ){
-      console.log( 'pulse' );
-      navigator.vibrate( 100 );
+    if ( value === 1 || value === 100 ) {
+      const pulseLength = 100; // in milliseconds
+      navigator.vibrate( pulseLength );
+      playSound( soundBuffer, pulseLength );
     }
   };
 
