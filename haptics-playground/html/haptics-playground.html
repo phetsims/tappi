@@ -46,8 +46,10 @@
 
   // Load the sound that will be played during haptic vibrations.
   // const soundURL = '../sounds/haptic-buzz-loop.wav';
-  const soundURL = '../sounds/haptic-buzz-loop-with-bass.wav';
-  const audioContext = new AudioContext() || window.webkitAudioContext;
+  const beBassy = false;
+  const soundURL = beBassy ? '../sounds/haptic-buzz-loop.wav' :
+                   '../sounds/haptic-buzz-loop-with-bass.wav';
+  const audioContext = new AudioContext();
   let soundBuffer;
 
   window.fetch( soundURL )
