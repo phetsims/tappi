@@ -38,25 +38,56 @@
       <br>
       <p>When moving the slider below, a short pulse is played when the slider reaches its upper or lower bound.</p>
       <input type="range" min="1" max="100" value="1" id="pulseAtLimitsSlider">
+      <br>
+      <br>
+      <br>
+      <br>
+      <p><b>Debug Messages</b></p>
+      <p id="debug-area">Debug Area</p>
+
     </div>
   </div>
 </div>
 
 <script>
 
-  // Load the sound that will be played during haptic vibrations.
-  // const soundURL = '../sounds/haptic-buzz-loop.wav';
+  // Define a function that can be used to log debug messages, which is useful for debugging on devices where console
+  // messages are unavailable, such as tablets.
+  const debugArea = document.getElementById( 'debug-area' );
+  const logDebugMessage = message => {
+    debugArea.innerHTML = message;
+  };
+
+  // Create an audio context for sound-related operations.
+  let audioContext;
+  try {
+    window.AudioContext = window.AudioContext || window.webkitAudioContext;
+    audioContext = new AudioContext();
+  }
+  catch( e ) {
+    alert( 'Web Audio API is not supported in this browser' );
+  }
+
+  // Load the sound that will be played during haptic vibrations.  This is done in the old callback style so that it
+  // will work on iOS.
   const beBassy = false;
-  const soundURL = beBassy ? '../sounds/haptic-buzz-loop.wav' :
-                   '../sounds/haptic-buzz-loop-with-bass.wav';
-  const audioContext = new AudioContext();
+  const soundURL = beBassy ? '../sounds/haptic-buzz-loop-with-bass.wav' :
+                   '../sounds/haptic-buzz-loop.wav';
   let soundBuffer;
+  const onDecodeSuccess = decodedAudio => {
+    soundBuffer = decodedAudio;
+    logDebugMessage( 'sound decoded successfully' );
+  };
+  const onDecodeError = decodeError => {
+    alert( 'decode of audio data failed, sound will not be available, error: ' + decodeError );
+    soundBuffer = audioContext.createBuffer( 1, 1, audioContext.sampleRate );
+  };
 
   window.fetch( soundURL )
     .then( response => response.arrayBuffer() )
-    .then( arrayBuffer => audioContext.decodeAudioData( arrayBuffer ) )
-    .then( audioBuffer => {
-      soundBuffer = audioBuffer;
+    .then( arrayBuffer => audioContext.decodeAudioData( arrayBuffer, onDecodeSuccess, onDecodeError ) )
+    .catch( reason => {
+      logDebugMessage( 'sound load failed: ' + reason )
     } );
 
   let timeoutID = null;
@@ -97,8 +128,13 @@
   // Set up an event listener to trigger the vibration when the user presses the "Vibrate" button.
   const vibrateButton = document.getElementById( 'vibrateButton' );
   vibrateButton.addEventListener( 'click', () => {
-    navigator.vibrate( vibrationLength );
     playSound( soundBuffer, vibrationLength );
+    try {
+      navigator.vibrate( vibrationLength );
+    }
+    catch( e ) {
+      console.log( `Caught exception when attempting to vibrate, error = ${e}` );
+    }
   } );
 
   // Set up a listener that will play a haptic pulse when the pulseAtLimitsSlider reaches its limits.
@@ -107,10 +143,23 @@
     const value = Number.parseInt( pulseAtLimitsSlider.value );
     if ( value === 1 || value === 100 ) {
       const pulseLength = 100; // in milliseconds
-      navigator.vibrate( pulseLength );
+      try {
+        navigator.vibrate( pulseLength );
+      }
+      catch( e ) {
+        alert( `Caught exception when attempting to vibrate, error = ${e}` );
+      }
       playSound( soundBuffer, pulseLength );
     }
   };
+
+  // Add code to resume the audio context.  This is needed primarily for iOS-based devices.
+  const resumeAudioContext = () => {
+    if ( audioContext.state !== 'running' ) {
+      audioContext.resume();
+    }
+  };
+  window.addEventListener( 'touchstart', resumeAudioContext, false );
 
 </script>
 
