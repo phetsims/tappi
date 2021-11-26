@@ -7,7 +7,7 @@
 import Property from '../../../../../axon/js/Property.js';
 import ScreenView from '../../../../../joist/js/ScreenView.js';
 import PhetFont from '../../../../../scenery-phet/js/PhetFont.js';
-import Text from '../../../../../scenery/js/nodes/Text.js';
+import { Text } from '../../../../../scenery/js/imports.js';
 import BooleanRectangularStickyToggleButton from '../../../../../sun/js/buttons/BooleanRectangularStickyToggleButton.js';
 import ComboBox from '../../../../../sun/js/ComboBox.js';
 import ComboBoxItem from '../../../../../sun/js/ComboBoxItem.js';
