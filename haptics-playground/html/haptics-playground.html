@@ -40,6 +40,8 @@
       <input type="range" min="1" max="100" value="1" id="pulseAtLimitsSlider">
       <br>
       <br>
+      <input type="checkbox" id="soundEnabled" checked>
+      <label for="soundEnabled">Sound Enabled</label>
       <br>
       <br>
       <p><b>Debug Messages</b></p>
@@ -93,6 +95,9 @@
   let timeoutID = null;
   let currentlyPlayingBufferSource = null;
 
+  // Get the checkbox from the SOM so that it can be used to decide whether or not to play a sound.
+  const soundEnabledCheckbox = document.getElementById( 'soundEnabled' );
+
   // Define the function that can be used to play the vibration sound.
   const playSound = ( audioBuffer, timeToPlay = 100 ) => {
 
@@ -102,19 +107,23 @@
       clearTimeout( timeoutID );
     }
 
-    // Create the buffer source and start it playing.
-    currentlyPlayingBufferSource = audioContext.createBufferSource();
-    currentlyPlayingBufferSource.buffer = audioBuffer;
-    currentlyPlayingBufferSource.loop = true;
-    currentlyPlayingBufferSource.connect( audioContext.destination );
-    currentlyPlayingBufferSource.start();
+    // Only play if sound is enabled.
+    if ( soundEnabledCheckbox.checked ){
 
-    // Set a timeout to stop the sound.
-    timeoutID = setTimeout( () => {
-      currentlyPlayingBufferSource.stop();
-      currentlyPlayingBufferSource = null;
-      timeoutID = null;
-    }, timeToPlay );
+      // Create the buffer source and start it playing.
+      currentlyPlayingBufferSource = audioContext.createBufferSource();
+      currentlyPlayingBufferSource.buffer = audioBuffer;
+      currentlyPlayingBufferSource.loop = true;
+      currentlyPlayingBufferSource.connect( audioContext.destination );
+      currentlyPlayingBufferSource.start();
+
+      // Set a timeout to stop the sound.
+      timeoutID = setTimeout( () => {
+        currentlyPlayingBufferSource.stop();
+        currentlyPlayingBufferSource = null;
+        timeoutID = null;
+      }, timeToPlay );
+    }
   };
 
   // Use the vibrationLengthSlider to control the length of the vibration that will be played when the user presses the
