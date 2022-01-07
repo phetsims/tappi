@@ -22,14 +22,14 @@ import BooleanProperty from '../../axon/js/BooleanProperty.js';
 import EnumerationProperty from '../../axon/js/EnumerationProperty.js';
 import Property from '../../axon/js/Property.js';
 import stepTimer from '../../axon/js/stepTimer.js';
-import Enumeration from '../../phet-core/js/Enumeration.js';
+import EnumerationDeprecated from '../../phet-core/js/EnumerationDeprecated.js';
 import tappi from './tappi.js';
 
 // constants
 const LOW_INTENSITY_PATTERN = [ 8, 8 ];
 const HIGH_INTENSITY_PATTERN = [ Number.MAX_SAFE_INTEGER, 0 ];
 
-const Intensity = Enumeration.byKeys( [ 'HIGH', 'LOW' ] );
+const Intensity = EnumerationDeprecated.byKeys( [ 'HIGH', 'LOW' ] );
 
 // by default, vibration will be continuous vibration without interruption
 const DEFAULT_VIBRATION_PATTERN = [ Number.MAX_SAFE_INTEGER ];

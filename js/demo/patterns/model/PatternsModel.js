@@ -9,7 +9,7 @@
 import BooleanProperty from '../../../../../axon/js/BooleanProperty.js';
 import EnumerationProperty from '../../../../../axon/js/EnumerationProperty.js';
 import Property from '../../../../../axon/js/Property.js';
-import Enumeration from '../../../../../phet-core/js/Enumeration.js';
+import EnumerationDeprecated from '../../../../../phet-core/js/EnumerationDeprecated.js';
 import tappi from '../../../tappi.js';
 
 /**
@@ -30,7 +30,7 @@ class PatternsModel {
 }
 
 // @public
-PatternsModel.PatternSet = Enumeration.byKeys( [ 'PULSES', 'EFFECTS', 'TUNES' ] );
+PatternsModel.PatternSet = EnumerationDeprecated.byKeys( [ 'PULSES', 'EFFECTS', 'TUNES' ] );
 
 tappi.register( 'PatternsModel', PatternsModel );
 export default PatternsModel;
