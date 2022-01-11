@@ -19,7 +19,7 @@
  */
 
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
-import EnumerationProperty from '../../axon/js/EnumerationProperty.js';
+import EnumerationDeprecatedProperty from '../../axon/js/EnumerationDeprecatedProperty.js';
 import Property from '../../axon/js/Property.js';
 import stepTimer from '../../axon/js/stepTimer.js';
 import EnumerationDeprecated from '../../phet-core/js/EnumerationDeprecated.js';
@@ -42,11 +42,11 @@ class VibrationManager {
     // pattern
     this.vibratingProperty = new BooleanProperty( false );
 
-    // @public (read-only) {EnumerationProperty} - Indicates the current value of vibration intensity. Either HIGH
+    // @public (read-only) {EnumerationDeprecatedProperty} - Indicates the current value of vibration intensity. Either HIGH
     // or LOW, vibration can be one of these two (at this time) while still providing continuous vibration.
     // The vibration motor is either on or off, and we mimic "low" intensity vibration by turning the motor on and
     // off rapidly.
-    this.intensityProperty = new EnumerationProperty( Intensity, Intensity.HIGH );
+    this.intensityProperty = new EnumerationDeprecatedProperty( Intensity, Intensity.HIGH );
 
     // @public (read-only) - whether or not vibration is enabled
     this.enabledProperty = new BooleanProperty( true );

@@ -7,7 +7,7 @@
  */
 
 import BooleanProperty from '../../../../../axon/js/BooleanProperty.js';
-import EnumerationProperty from '../../../../../axon/js/EnumerationProperty.js';
+import EnumerationDeprecatedProperty from '../../../../../axon/js/EnumerationDeprecatedProperty.js';
 import Property from '../../../../../axon/js/Property.js';
 import EnumerationDeprecated from '../../../../../phet-core/js/EnumerationDeprecated.js';
 import tappi from '../../../tappi.js';
@@ -19,7 +19,7 @@ class PatternsModel {
   constructor() {
 
     // @public - the current set of patterns available for demonstration
-    this.activePatternSetProperty = new EnumerationProperty( PatternsModel.PatternSet, PatternsModel.PatternSet.PULSES );
+    this.activePatternSetProperty = new EnumerationDeprecatedProperty( PatternsModel.PatternSet, PatternsModel.PatternSet.PULSES );
 
     // @public {Property.<null|number[]>} - The running pattern provided to the vibration manager
     this.activePatternProperty = new Property( null );

@@ -5,7 +5,7 @@
  */
 
 import BooleanProperty from '../../../../../axon/js/BooleanProperty.js';
-import EnumerationProperty from '../../../../../axon/js/EnumerationProperty.js';
+import EnumerationDeprecatedProperty from '../../../../../axon/js/EnumerationDeprecatedProperty.js';
 import Dimension2 from '../../../../../dot/js/Dimension2.js';
 import ScreenView from '../../../../../joist/js/ScreenView.js';
 import PhetFont from '../../../../../scenery-phet/js/PhetFont.js';
@@ -38,7 +38,7 @@ class BasicsScreenView extends ScreenView {
     const vibrationToggleButton = new BooleanRectangularToggleButton( trueNode, falseNode, adapterProperty );
 
     // switch that changes between high and low vibration
-    const intensityAdapterProperty = new EnumerationProperty( vibrationManager.Intensity, vibrationManager.Intensity.HIGH );
+    const intensityAdapterProperty = new EnumerationDeprecatedProperty( vibrationManager.Intensity, vibrationManager.Intensity.HIGH );
     const intensitySwitch = new ABSwitch(
       intensityAdapterProperty,
       vibrationManager.Intensity.HIGH, new Text( 'High', { font: SWITCH_TEXT_FONT } ),
