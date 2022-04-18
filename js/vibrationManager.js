@@ -142,7 +142,7 @@ class VibrationManager {
    * with the pattern sequence until stopVibrate is called.
    * @public
    *
-   * @param {number} [pattern] - optional vibration sequence, default motor call if not defined
+   * @param {number[]} [pattern] - optional vibration sequence, default motor call if not defined
    */
   startVibrate( pattern ) {
     this.resetTimingVariables();
