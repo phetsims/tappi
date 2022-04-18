@@ -13,7 +13,7 @@
  * for more information.
  *
  * Since the manager works with intervals of time, it must be stepped every animation frame with
- * vibrationManater.step().
+ * vibrationManager.step().
  *
  * @author Jesse Greenberg
  */
@@ -37,8 +37,8 @@ const DEFAULT_VIBRATION_PATTERN = [ Number.MAX_SAFE_INTEGER ];
 class VibrationManager {
   constructor() {
 
-    // @public (read-only) {BooleanProperty} - Indicates whether or not the motor should be vibrating. This
-    // accurately reflects whether or not the motor is running during uptime/downtime during a vibration
+    // @public (read-only) {BooleanProperty} - Indicates whether the motor should be vibrating. This accurately reflects
+    // whether or not the motor is running during uptime/downtime during a vibration
     // pattern
     this.vibratingProperty = new BooleanProperty( false );
 
@@ -71,7 +71,7 @@ class VibrationManager {
     this._timeRunningCurrentInterval = 0;
 
     // @private {number} - limitation for the active vibration, vibration pattern will run until this time
-    // runs out. Includes pattern down time. By default, vibration patterns will run forever.
+    // runs out. Includes pattern downtime. By default, vibration patterns will run forever.
     this._patternTimeLimit = Number.POSITIVE_INFINITY;
 
     // @private {number} - how much time has passed since we started to vibrate with a particular pattern, will
@@ -166,7 +166,7 @@ class VibrationManager {
    * @public
    *
    * @param {number} time - in ms, how long the vibration should run
-   * @param {number[]} pattern - optional, pattern for the vibration, uses defalt vibration pattern if not defined
+   * @param {number[]} pattern - optional, pattern for the vibration, uses default vibration pattern if not defined
    */
   startTimedVibrate( time, pattern ) {
     assert && assert( typeof time === 'number', 'time limit required for startTimedVibration' );
@@ -179,8 +179,8 @@ class VibrationManager {
   }
 
   /**
-   * Shortcut to determine whether we are currently vibrating. This should accurately
-   * indicate whether or not the device is actually vibrating.
+   * Shortcut to determine whether we are currently vibrating. This should accurately indicate whether the device is
+   * actually vibrating.
    * @public
    *
    * @returns {boolean}
@@ -191,7 +191,7 @@ class VibrationManager {
 
   /**
    * Returns true if the VibrationManager is active with a vibration pattern. The device may or may not be
-   * actually vibrating as this will return true even during down time within a pattern.
+   * actually vibrating as this will return true even during downtime within a pattern.
    * @public
    *
    * @returns {boolean}
@@ -249,8 +249,8 @@ class VibrationManager {
     if ( this._runningVibration ) {
       assert && assert( this._currentIntervalIndex < this._vibrationPattern.length, 'index out of interval length' );
 
-      const currentInverval = this._vibrationPattern[ this._currentIntervalIndex ];
-      if ( this._timeRunningCurrentInterval > currentInverval ) {
+      const currentInterval = this._vibrationPattern[ this._currentIntervalIndex ];
+      if ( this._timeRunningCurrentInterval > currentInterval ) {
 
         // move on to the next interval (or back to beginning if next index is out of array)
         const nextIndex = this._currentIntervalIndex + 1;
