@@ -9,7 +9,7 @@ import tappi from './tappi.js';
 
 type StringsType = {
   'tappi': {
-    'title': string
+    'title': string;
   }
 };
 
