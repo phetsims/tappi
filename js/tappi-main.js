@@ -1,10 +1,12 @@
 // Copyright 2019-2022, University of Colorado Boulder
 
 /**
- * Main entry point for the sim.
+ * Main entry point for the demo and test harness for this library.
  *
  * @author Jesse Greenberg
  */
+
+// @ts-nocheck
 
 import Sim from '../../joist/js/Sim.js';
 import simLauncher from '../../joist/js/simLauncher.js';
