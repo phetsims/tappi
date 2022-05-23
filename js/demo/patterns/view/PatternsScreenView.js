@@ -4,8 +4,8 @@
  * @author Jesse Greenberg
  */
 
-import Property from '../../../../../axon/js/Property.js';
 import ScreenView from '../../../../../joist/js/ScreenView.js';
+import Multilink from '../../../../../axon/js/Multilink.js';
 import PhetFont from '../../../../../scenery-phet/js/PhetFont.js';
 import { Text } from '../../../../../scenery/js/imports.js';
 import BooleanRectangularStickyToggleButton from '../../../../../sun/js/buttons/BooleanRectangularStickyToggleButton.js';
@@ -79,7 +79,7 @@ class PatternsScreenView extends ScreenView {
       tunesScene.visible = activePattern === PatternsModel.PatternSet.TUNES;
     } );
 
-    Property.multilink( [ model.activePatternProperty, model.limitPatternsProperty ], ( activePattern, limit ) => {
+    Multilink.multilink( [ model.activePatternProperty, model.limitPatternsProperty ], ( activePattern, limit ) => {
       if ( activePattern === null ) {
         vibrationManager.stopVibrate();
       }

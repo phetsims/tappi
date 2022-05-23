@@ -19,8 +19,8 @@
  */
 
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
+import Multilink from '../../axon/js/Multilink.js';
 import EnumerationDeprecatedProperty from '../../axon/js/EnumerationDeprecatedProperty.js';
-import Property from '../../axon/js/Property.js';
 import stepTimer from '../../axon/js/stepTimer.js';
 import EnumerationDeprecated from '../../phet-core/js/EnumerationDeprecated.js';
 import tappi from './tappi.js';
@@ -101,12 +101,12 @@ class VibrationManager {
     this.setVibrationIntensity( this.intensityProperty.get() );
 
     // if either vibration or intensity changes we need to stop/start vibration or change timeouts for intensity
-    Property.multilink( [ this.vibratingProperty, this.intensityProperty ], ( vibrating, intensity ) => {
+    Multilink.multilink( [ this.vibratingProperty, this.intensityProperty ], ( vibrating, intensity ) => {
       this.controlNavigator();
     } );
 
     // stop all vibration when the sim is invisible or inactive
-    Property.multilink( [ this.enabledProperty, simVisibleProperty, simActiveProperty ], ( enabled, simVisible, simActive ) => {
+    Multilink.multilink( [ this.enabledProperty, simVisibleProperty, simActiveProperty ], ( enabled, simVisible, simActive ) => {
       if ( enabled && simVisible && simActive ) {
         this.stopVibrate();
       }
