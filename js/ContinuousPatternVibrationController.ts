@@ -18,67 +18,68 @@
  * @author Jesse Greenberg
  */
 
-// @ts-nocheck
-
-import merge from '../../phet-core/js/merge.js';
+import optionize from '../../phet-core/js/optionize.js';
 import tappi from './tappi.js';
 import VibrationManageriOS from './VibrationManageriOS.js';
 
+export type ContinuousPatternVibrationControllerOptions = {
+
+  // Should the active pattern loop?
+  repeat: boolean;
+
+  sharpness: 1;
+  intensity: 1;
+
+  // Initial pattern for the vibration controller, a sequence of on/off intervals in seconds - won't start vibrating
+  // until calling start().
+  activePattern: number[];
+};
+
 class ContinuousPatternVibrationController {
 
-  /**
-   * @param {Object} [options]
-   */
-  constructor( options ) {
+  private activePattern: number[];
+  private repeat: boolean;
+  private intensity: number;
+  private sharpness: number;
 
-    options = merge( {
+  // sends requests to the iOS app to begin/stop vibration
+  private readonly vibrationManageriOS: VibrationManageriOS = new VibrationManageriOS();
 
-      // {boolean} - should the active pattern loop?
+  // current index of the active vibration pattern
+  private patternIndex = 0;
+
+  // current interval value of the active vibration pattern
+  private patternValue = 0;
+
+  // current interval value of the active vibration pattern, in seconds
+  private valueTime = 0;
+
+  // whether we are currently running the vibration pattern
+  private runningPattern = false;
+
+  // the pattern that we are going to transition to at the end of the currently active pattern
+  private pendingPattern: number[];
+
+  constructor( providedOptions: ContinuousPatternVibrationControllerOptions ) {
+
+    const options = optionize<ContinuousPatternVibrationControllerOptions>()( {
       repeat: true,
-
-      // {number}
       sharpness: 1,
       intensity: 1,
-
-      // {number[]} - initial pattern for the vibration controller, a sequence of on/off intervals
-      // in seconds - won't start vibrating until calling start()
       activePattern: []
-    }, options );
+    }, providedOptions );
 
-    // @private
     this.activePattern = options.activePattern;
-
     this.repeat = options.repeat;
-    this.intensity = options.repeat;
-    this.sharpness = options.repeat;
-
-    // @private {VibrationManageriOS} - sends requests to the iOS app to begin/stop vibration
-    this.vibrationManageriOS = new VibrationManageriOS();
-
-    // @private {number} current index of the active vibration pattern
-    this.patternIndex = 0;
-
-    // @private {number} - current interval value of the active vibration pattern
-    this.patternValue = 0;
-
-    // @private {number} - current interval value of the active vibration pattern, in seconds
-    this.valueTime = 0;
-
-    // @private {boolean} - whether or not we are currently running the vibration pattern
-    this.runningPattern = false;
-
-    // @private {number[]} - the pattern that we are going to transition to at the end of the
-    // currently active pattern,
+    this.intensity = options.intensity;
+    this.sharpness = options.sharpness;
     this.pendingPattern = this.activePattern;
   }
 
   /**
-   * Vibrate to indicate that
-   * @public
-   *
-   * @param {number} dt
+   * Step forward in time, updates patterns.
    */
-  step( dt ) {
+  public step( dt: number ): void {
     if ( this.runningPattern ) {
       this.valueTime += dt;
 
@@ -123,18 +124,13 @@ class ContinuousPatternVibrationController {
   }
 
   /**
-   * Transition from the previous pattern to the next pattern, which will start to play when
-   * start() is called.
-   * @private
-   *
-   * @param {number[]} pattern
+   * Transition from the previous pattern to the next pattern, which will start to play when start() is called.
    */
-  setNewActivePattern( pattern ) {
+  public setNewActivePattern( pattern: number[] ): void {
     assert && assert( pattern.length > 0, 'pattern must have some length' );
     this.activePattern = pattern;
 
-    // reset variables tracking where we are running the pattern, we will start
-    // over when we set a new active pattern
+    // reset variables tracking where we are running the pattern, we will start over when we set a new active pattern
     this.resetPattern();
   }
 
@@ -142,12 +138,9 @@ class ContinuousPatternVibrationController {
    * Set the new pattern for the controller. If we are running, this will be the pending pattern
    * which we will request at the end of the current pattern to avoid stutter during rapid changes.
    * If a pattern is not running, this will be set as the active pattern right away, and can begin
-   * ass soon as start() is calles.
-   * @public
-   *
-   * @param {number[]} pattern
+   * ass soon as start() is called.
    */
-  setPattern( pattern ) {
+  public setPattern( pattern: number[] ): void {
     assert && assert( pattern.length > 0, 'pattern must have some values' );
     this.pendingPattern = pattern;
 
@@ -158,40 +151,29 @@ class ContinuousPatternVibrationController {
 
   /**
    * Set the intensity for the vibration pattern, for both the active and pending patterns.
-   * @public
-   *
-   * @param {number} intensity
    */
-  setIntensity( intensity ) {
+  public setIntensity( intensity: number ): void {
     this.intensity = intensity;
   }
 
   /**
-   * Set the sharpness for the vibraiton patter, for both the active and pending patterns.
-   * @public
-   *
-   * @param {number} sharpness
+   * Set the sharpness for the vibration pattern, for both the active and pending patterns.
    */
-  setSharpness( sharpness ) {
+  public setSharpness( sharpness: number ): void {
     this.sharpness = sharpness;
   }
 
   /**
    * Set whether or not the active pattern will repeat.
-   * @public
-   *
-   * @param {boolean} repeat
    */
-  setRepeat( repeat ) {
+  public setRepeat( repeat: boolean ): void {
     this.repeat = repeat;
   }
 
   /**
-   * Start vibrating with the active pattern. Calling this will reset where we are in
-   * the active vibration pattern.
-   * @public
+   * Start vibrating with the active pattern. Calling this will reset where we are in the active vibration pattern.
    */
-  start() {
+  public start(): void {
 
     this.runningPattern = true;
     this.resetPattern();
@@ -204,9 +186,8 @@ class ContinuousPatternVibrationController {
 
   /**
    * Stop all vibration and play of the active pattern if we are running.
-   * @public
    */
-  stop() {
+  public stop(): void {
     if ( this.runningPattern ) {
       this.vibrationManageriOS.stop();
       this.runningPattern = false;
@@ -216,9 +197,8 @@ class ContinuousPatternVibrationController {
 
   /**
    * Reset the active pattern, and where we are in its playthrough.
-   * @private
    */
-  resetPattern() {
+  public resetPattern(): void {
     this.patternIndex = 0;
     this.patternValue = this.activePattern[ this.patternIndex ];
     this.valueTime = 0;
