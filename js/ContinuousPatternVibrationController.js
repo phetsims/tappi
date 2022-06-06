@@ -18,6 +18,8 @@
  * @author Jesse Greenberg
  */
 
+// @ts-nocheck
+
 import merge from '../../phet-core/js/merge.js';
 import tappi from './tappi.js';
 import VibrationManageriOS from './VibrationManageriOS.js';
