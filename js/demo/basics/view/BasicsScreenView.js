@@ -5,7 +5,7 @@
  */
 
 import BooleanProperty from '../../../../../axon/js/BooleanProperty.js';
-import EnumerationDeprecatedProperty from '../../../../../axon/js/EnumerationDeprecatedProperty.js';
+import EnumerationProperty from '../../../../../axon/js/EnumerationProperty.js';
 import Dimension2 from '../../../../../dot/js/Dimension2.js';
 import ScreenView from '../../../../../joist/js/ScreenView.js';
 import PhetFont from '../../../../../scenery-phet/js/PhetFont.js';
@@ -14,7 +14,7 @@ import { Text } from '../../../../../scenery/js/imports.js';
 import ABSwitch from '../../../../../sun/js/ABSwitch.js';
 import BooleanRectangularToggleButton from '../../../../../sun/js/buttons/BooleanRectangularToggleButton.js';
 import tappi from '../../../tappi.js';
-import vibrationManager from '../../../vibrationManager.js';
+import vibrationManager, { Intensity } from '../../../vibrationManager.js';
 
 // constants
 const LABEL_FONT = new PhetFont( { size: 100 } );
@@ -38,11 +38,11 @@ class BasicsScreenView extends ScreenView {
     const vibrationToggleButton = new BooleanRectangularToggleButton( trueNode, falseNode, adapterProperty );
 
     // switch that changes between high and low vibration
-    const intensityAdapterProperty = new EnumerationDeprecatedProperty( vibrationManager.Intensity, vibrationManager.Intensity.HIGH );
+    const intensityAdapterProperty = new EnumerationProperty( Intensity.HIGH );
     const intensitySwitch = new ABSwitch(
       intensityAdapterProperty,
-      vibrationManager.Intensity.HIGH, new Text( 'High', { font: SWITCH_TEXT_FONT } ),
-      vibrationManager.Intensity.LOW, new Text( 'Low', { font: SWITCH_TEXT_FONT } ),
+      Intensity.HIGH, new Text( 'High', { font: SWITCH_TEXT_FONT } ),
+      Intensity.LOW, new Text( 'Low', { font: SWITCH_TEXT_FONT } ),
       {
         toggleSwitchOptions: { size: new Dimension2( 180, 90 ) },
         xSpacing: 20

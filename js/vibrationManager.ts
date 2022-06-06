@@ -18,88 +18,88 @@
  * @author Jesse Greenberg
  */
 
-// @ts-nocheck
-
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
 import Multilink from '../../axon/js/Multilink.js';
-import EnumerationDeprecatedProperty from '../../axon/js/EnumerationDeprecatedProperty.js';
 import stepTimer from '../../axon/js/stepTimer.js';
-import EnumerationDeprecated from '../../phet-core/js/EnumerationDeprecated.js';
 import tappi from './tappi.js';
+import EnumerationValue from '../../phet-core/js/EnumerationValue.js';
+import Enumeration from '../../phet-core/js/Enumeration.js';
+import EnumerationProperty from '../../axon/js/EnumerationProperty.js';
+import Property from '../../axon/js/Property.js';
+import { TimerListener } from '../../axon/js/Timer.js';
 
 // constants
 const LOW_INTENSITY_PATTERN = [ 8, 8 ];
 const HIGH_INTENSITY_PATTERN = [ Number.MAX_SAFE_INTEGER, 0 ];
 
-const Intensity = EnumerationDeprecated.byKeys( [ 'HIGH', 'LOW' ] );
+// enum for intensity levels
+export class Intensity extends EnumerationValue {
+  public static HIGH = new Intensity();
+  public static LOW = new Intensity();
+
+  // Gets a list of keys, values and mapping between them.  For use in EnumerationProperty and PhET-iO
+  public static enumeration = new Enumeration( Intensity );
+}
+
+const NOOP_TIME_LISTENER = ( dt: number ) => {};
 
 // by default, vibration will be continuous vibration without interruption
 const DEFAULT_VIBRATION_PATTERN = [ Number.MAX_SAFE_INTEGER ];
 
 class VibrationManager {
-  constructor() {
 
-    // @public (read-only) {BooleanProperty} - Indicates whether the motor should be vibrating. This accurately reflects
-    // whether or not the motor is running during uptime/downtime during a vibration
-    // pattern
-    this.vibratingProperty = new BooleanProperty( false );
+  private readonly enabledProperty = new BooleanProperty( true );
 
-    // @public (read-only) {EnumerationDeprecatedProperty} - Indicates the current value of vibration intensity. Either HIGH
-    // or LOW, vibration can be one of these two (at this time) while still providing continuous vibration.
-    // The vibration motor is either on or off, and we mimic "low" intensity vibration by turning the motor on and
-    // off rapidly.
-    this.intensityProperty = new EnumerationDeprecatedProperty( Intensity, Intensity.HIGH );
+  // Indicates whether the motor should be vibrating. This accurately reflects whether the motor is running during
+  // uptime/downtime during a vibration pattern.
+  private readonly vibratingProperty = new BooleanProperty( false );
 
-    // @public (read-only) - whether or not vibration is enabled
-    this.enabledProperty = new BooleanProperty( true );
+  // Indicates the current value of vibration intensity. Either HIGH or LOW, vibration can be one of these two (at this
+  // time) while still providing continuous vibration.  The vibration motor is either on or off, and we mimic "low"
+  // intensity vibration by turning the motor on and off rapidly.
+  private readonly intensityProperty = new EnumerationProperty( Intensity.HIGH );
 
-    // @private {boolean} - whether or not a vibration pattern is running, may not
-    // indicate whether or not the device is actually vibrating as this could be true
-    // during a vibration pattern downtime.
-    this._runningVibration = false;
+  // Whether a vibration pattern is running, may not indicate whether the device is actually vibrating as this could be
+  // true during a vibration pattern downtime.
+  private _runningVibration = false;
 
-    // @private {Array.<number>} - Pattern of vibration and pause intervals, each value
-    // indicates number of milliseconds to vibrate or pause in alternation. Unlike the
-    // Navigator API, single value is not allowed, and any pattern here will proceed until
-    // stopVibrate is called.
-    this._vibrationPattern = DEFAULT_VIBRATION_PATTERN;
+  // Pattern of vibration and pause intervals, each value indicates number of milliseconds to vibrate or pause in
+  // alternation. Unlike the Navigator API, single value is not allowed, and any pattern here will proceed until
+  // stopVibrate is called.
+  private _vibrationPattern = DEFAULT_VIBRATION_PATTERN;
 
-    // @private {number} - the duration of active intensity pattern, only used to produce one of
-    // Intensity feedback during active vibration.
-    this._intensityDuration = 0;
+  // The duration of active intensity pattern, only used to produce one of intensity feedback during active vibration.
+  private _intensityDuration = 0;
 
-    // @private {number} - tracks how long we have been vibrating at the current interval of the specified
-    // vibrationPattern. Increments even during downtime "off" interval in a pattern.
-    this._timeRunningCurrentInterval = 0;
+  // Tracks how long we have been vibrating at the current interval of the specified vibrationPattern. Increments even
+  // during downtime "off" interval in a pattern.
+  private _timeRunningCurrentInterval = 0;
 
-    // @private {number} - limitation for the active vibration, vibration pattern will run until this time
-    // runs out. Includes pattern downtime. By default, vibration patterns will run forever.
-    this._patternTimeLimit = Number.POSITIVE_INFINITY;
+  // Limitation for the active vibration, vibration pattern will run until this time runs out. Includes pattern
+  // downtime. By default, vibration patterns will run forever.
+  private _patternTimeLimit = Number.POSITIVE_INFINITY;
 
-    // @private {number} - how much time has passed since we started to vibrate with a particular pattern, will
-    // still increment during vibration pattern downtime.
-    this._timeRunningCurrentPattern = 0;
+  // How much time has passed since we started to vibrate with a particular pattern, will still increment during
+  // vibration pattern downtime.
+  private _timeRunningCurrentPattern = 0;
 
-    // @private {number} - index of the vibrationPattern that is currently 'active' in the sequence.
-    this._currentIntervalIndex = 0;
+  // index of the vibrationPattern that is currently 'active' in the sequence
+  private _currentIntervalIndex = 0;
 
-    // @private {number[]}
-    this._vibrationIntensityPattern = HIGH_INTENSITY_PATTERN;
+  private _vibrationIntensityPattern = HIGH_INTENSITY_PATTERN;
 
-    // @private {function} - reference to the callback added to timer that keeps the vibrating motor running
-    // until stopVibrate. This will eventually call navigator.vibrate.
-    this._navigatorVibrationCallback = null;
+  // Reference to the callback added to timer that keeps the vibrating motor running until stopVibrate. This will
+  // eventually call navigator.vibrate.
+  private _navigatorVibrationCallback: TimerListener = NOOP_TIME_LISTENER;
+
+  public constructor() {
   }
 
   /**
    * Initialize the vibrationManager by setting initial state variables and attaching listeners.
    * NOTE: This should eventually be called in Sim.js (or other framework) only when vibration is required.
-   * @public
-   *
-   * @param {BooleanProperty} simVisibleProperty - is your application visible?
-   * @param {BooleanProperty} simActiveProperty - is your application in the foreground?
    */
-  initialize( simVisibleProperty, simActiveProperty ) {
+  public initialize( simVisibleProperty: Property<boolean>, simActiveProperty: Property<boolean> ): void {
     this.setVibrationIntensity( this.intensityProperty.get() );
 
     // if either vibration or intensity changes we need to stop/start vibration or change timeouts for intensity
@@ -117,12 +117,11 @@ class VibrationManager {
 
   /**
    * Initiate vibration with navigator.vibrate at the correct intervals for vibration intensity.
-   * @private
    */
-  controlNavigator() {
+  public controlNavigator(): void {
     if ( this._navigatorVibrationCallback ) {
       stepTimer.clearInterval( this._navigatorVibrationCallback );
-      this._navigatorVibrationCallback = null;
+      this._navigatorVibrationCallback = NOOP_TIME_LISTENER;
 
       // stop any previous vibration
       navigator.vibrate( 0 );
@@ -140,24 +139,19 @@ class VibrationManager {
   }
 
   /**
-   * Begins vibration. Optionally provide a pattern sequence for the vibration. Vibration will continue
-   * with the pattern sequence until stopVibrate is called.
-   * @public
-   *
-   * @param {number[]} [pattern] - optional vibration sequence, default motor call if not defined
+   * Begins vibration. Optionally provide a pattern sequence for the vibration. Vibration will continue with the pattern
+   * sequence until stopVibrate is called.
    */
-  startVibrate( pattern ) {
+  public startVibrate( pattern: number[] ): void {
     this.resetTimingVariables();
-
     this._runningVibration = true;
     this._vibrationPattern = pattern ? pattern : DEFAULT_VIBRATION_PATTERN;
   }
 
   /**
    * Stops all vibration immediately.
-   * @public
    */
-  stopVibrate() {
+  public stopVibrate(): void {
     this._runningVibration = false;
     this.vibratingProperty.set( false );
   }
@@ -165,14 +159,10 @@ class VibrationManager {
   /**
    * Start a vibration. Optionally provide a pattern sequence for the vibration. Vibration will proceed for
    * time in ms and then stop.
-   * @public
-   *
-   * @param {number} time - in ms, how long the vibration should run
-   * @param {number[]} pattern - optional, pattern for the vibration, uses default vibration pattern if not defined
+   * @param time - in ms, how long the vibration should run
+   * @param pattern - optional, pattern for the vibration, uses default vibration pattern if not defined
    */
-  startTimedVibrate( time, pattern ) {
-    assert && assert( typeof time === 'number', 'time limit required for startTimedVibration' );
-
+  public startTimedVibrate( time: number, pattern: number[] ): void {
     this.resetTimingVariables();
 
     this._patternTimeLimit = time;
@@ -183,32 +173,24 @@ class VibrationManager {
   /**
    * Shortcut to determine whether we are currently vibrating. This should accurately indicate whether the device is
    * actually vibrating.
-   * @public
-   *
-   * @returns {boolean}
    */
-  isVibrating() {
+  public isVibrating(): boolean {
     return this.vibratingProperty.get();
   }
 
   /**
-   * Returns true if the VibrationManager is active with a vibration pattern. The device may or may not be
-   * actually vibrating as this will return true even during downtime within a pattern.
-   * @public
-   *
-   * @returns {boolean}
+   * Returns true if the VibrationManager is active with a vibration pattern. The device may or may not be actually
+   * vibrating as this will return true even during downtime within a pattern.
    */
-  isRunningPattern() {
+  public isRunningPattern(): boolean {
     return this._runningVibration;
   }
 
   /**
-   * Set the intensity of vibration. Will change intensity of the running vibration if there
-   * is one, or set the intensity for the next time startVibrate is called.
-   * @public
+   * Set the intensity of vibration. Will change intensity of the running vibration if there is one, or set the
+   * intensity for the next time startVibrate is called.
    */
-  setVibrationIntensity( intensity ) {
-    assert && assert( Intensity.includes( intensity ), 'intensity not supported' );
+  public setVibrationIntensity( intensity: Intensity ): void {
 
     if ( intensity === Intensity.LOW ) {
       this._vibrationIntensityPattern = LOW_INTENSITY_PATTERN;
@@ -217,9 +199,11 @@ class VibrationManager {
       this._vibrationIntensityPattern = HIGH_INTENSITY_PATTERN;
     }
 
-    this._intensityDuration = _.reduce( this._vibrationIntensityPattern, ( sum, value ) => {
+    const intensityDuration = _.reduce( this._vibrationIntensityPattern, ( sum, value ) => {
       return sum + value;
     } );
+
+    this._intensityDuration = typeof intensityDuration === 'number' ? intensityDuration : 0;
 
     // set after updating state
     this.intensityProperty.set( intensity );
@@ -227,9 +211,8 @@ class VibrationManager {
 
   /**
    * Reset all variables tracking time and where we are in the vibration sequence.
-   * @private
    */
-  resetTimingVariables() {
+  private resetTimingVariables(): void {
     this._timeRunningCurrentInterval = 0;
     this._timeRunningCurrentPattern = 0;
     this._currentIntervalIndex = 0;
@@ -238,11 +221,8 @@ class VibrationManager {
 
   /**
    * Vibrate at the intervals and intensity specified. To be called on the animation frame.
-   * @public
-   *
-   * @param {number} dt
    */
-  step( dt ) {
+  public step( dt: number ): void {
 
     // navigator.vibrate works in milliseconds
     dt = dt * 1000;
@@ -283,10 +263,6 @@ class VibrationManager {
 
 // create the singleton instance
 const vibrationManager = new VibrationManager();
-
-// @public - the possible intensities for vibration supported at this time (on the singleton instance because
-// that is what is made available through require)
-vibrationManager.Intensity = Intensity;
 
 tappi.register( 'vibrationManager', vibrationManager );
 export default vibrationManager;
