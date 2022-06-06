@@ -7,6 +7,8 @@
  * @author Jesse Greenberg
  */
 
+// @ts-nocheck
+
 import tappi from './tappi.js';
 import stepTimer from '../../axon/js/stepTimer.js';
 import VibrationManageriOS from './VibrationManageriOS.js';

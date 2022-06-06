@@ -4,6 +4,8 @@ import Utils from '../../dot/js/Utils.js';
 import merge from '../../phet-core/js/merge.js';
 import tappi from './tappi.js';
 
+// @ts-nocheck
+
 class VibrationManageriOS {
   constructor() {
 
