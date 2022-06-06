@@ -18,6 +18,8 @@
  * @author Jesse Greenberg
  */
 
+// @ts-nocheck
+
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
 import Multilink from '../../axon/js/Multilink.js';
 import EnumerationDeprecatedProperty from '../../axon/js/EnumerationDeprecatedProperty.js';
