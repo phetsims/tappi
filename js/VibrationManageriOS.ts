@@ -1,5 +1,15 @@
 // Copyright 2020-2022, University of Colorado Boulder
 
+/**
+ * A class that controls vibrations when running the sim in a native iOS App. It sends messages form the simulation
+ * WebView to its containing native swift application. This is the only way to request vibration on that platform
+ * since Web vibration is not supported in Safari.
+ *
+ * This is a prototype, and this strategy has since been abandoned. We have since moved on to explore vibration
+ * in Android devices, where tablets have vibration support. There we can use the web vibration API and also
+ * use native android vibration for more sophisticated things like vibration intensity.
+ */
+
 import Utils from '../../dot/js/Utils.js';
 import merge from '../../phet-core/js/merge.js';
 import tappi from './tappi.js';
