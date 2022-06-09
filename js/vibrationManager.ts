@@ -31,6 +31,7 @@ import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
 // constants
 const LOW_INTENSITY_PATTERN = [ 8, 8 ];
 const HIGH_INTENSITY_PATTERN = [ Number.MAX_SAFE_INTEGER, 0 ];
+const REPEATING_PATTERN_CYCLE_TIME = 5; // in seconds
 
 // enum for intensity levels
 export class Intensity extends EnumerationValue {
@@ -91,6 +92,8 @@ class VibrationManager {
   // Reference to the callback added to timer that keeps the vibrating motor running until stopVibrate. This will
   // eventually call navigator.vibrate.
   private _navigatorVibrationCallback: TimerListener = NOOP_TIME_LISTENER;
+
+  private expandedPatternInterval: TimerListener = NOOP_TIME_LISTENER;
 
   public constructor() {
   }
@@ -168,6 +171,71 @@ class VibrationManager {
     this._patternTimeLimit = time;
     this._runningVibration = true;
     this._vibrationPattern = pattern ? pattern : DEFAULT_VIBRATION_PATTERN;
+  }
+
+  /**
+   * Start a vibration using the specified pattern.
+   * @param pattern - An array of integer values where even indexes represent on time and odd represent off times.
+   *                  Times are in milliseconds.
+   * TODO: This is an experimental method that expands a pattern in order to take advantage of the HTML5 vibration API,
+   *       and not have to do as much pattern timing in our own code.  See https://github.com/phetsims/tappi/issues/13.
+   */
+  public startRepeatingVibrationPattern( pattern: number[] ): void {
+
+    // parameter checking
+    assert && assert( pattern.length > 0, 'zero-length patterns are not allowed' );
+    assert && assert( pattern.length % 2 === 0, 'pattern must be an even length so that it ends with an off time' );
+
+    // Cancel any in-progress vibration and related timers.  This has no effect if no pattern is being played.
+    this.stopRepeatingVibrationPattern();
+
+    // Calculate the duration of the provided pattern in milliseconds.
+    const providedPatternDuration = pattern.reduce( ( ( previousValue, currentValue ) => previousValue + currentValue ), 0 );
+    console.log( `providedPatternDuration = ${providedPatternDuration}` );
+
+    // Calculate how many times to repeat this pattern before starting to play it again.
+    const repeatCount = Math.floor( 1000 * REPEATING_PATTERN_CYCLE_TIME / providedPatternDuration ) + 1;
+
+    console.log( `repeatCount = ${repeatCount}` );
+
+    // Create an expanded version of the pattern that repeats the provided one a number of times.
+    const expandedPattern: number[] = [];
+    let totalPatternTime = 0;
+    _.times( repeatCount, () => {
+      pattern.forEach( timeValue => {
+        expandedPattern.push( timeValue );
+        totalPatternTime += timeValue;
+      } );
+    } );
+
+    console.log( `expandedPattern = ${expandedPattern}` );
+    console.log( `expandedPattern.length = ${expandedPattern.length}` );
+    console.log( `totalPatternTime = ${totalPatternTime}` );
+
+    // Play the expanded pattern.
+    navigator.vibrate( expandedPattern );
+
+    // Create a timer to restart the expanded pattern once it completes.
+    this.expandedPatternInterval = stepTimer.setInterval(
+      () => {
+        navigator.vibrate( expandedPattern );
+        console.log( 'restarting pattern' );
+      },
+      totalPatternTime
+    );
+  }
+
+  /**
+   * Stop a current repeating-pattern vibration.
+   * TODO: This is an experimental method that stops patterns started using startRepeatingVibrationPattern, and not
+   *       other vibrational patterns.  See https://github.com/phetsims/tappi/issues/13.
+   */
+  public stopRepeatingVibrationPattern(): void {
+    navigator.vibrate( 0 );
+    if ( this.expandedPatternInterval !== NOOP_TIME_LISTENER ) {
+      stepTimer.clearInterval( this.expandedPatternInterval );
+      this.expandedPatternInterval = NOOP_TIME_LISTENER;
+    }
   }
 
   /**

@@ -31,8 +31,6 @@ class VibrationManageriOS {
 
       // TODO: Put something reasonable here.
       throw new Error( 'not on this device!' );
-
-
     }
   }
 
