@@ -42,7 +42,7 @@ export class Intensity extends EnumerationValue {
   public static enumeration = new Enumeration( Intensity );
 }
 
-const NOOP_TIME_LISTENER = ( dt: number ) => {};
+const NOOP_TIME_LISTENER = _.noop;
 
 // by default, vibration will be continuous vibration without interruption
 const DEFAULT_VIBRATION_PATTERN = [ Number.MAX_SAFE_INTEGER ];
@@ -94,9 +94,6 @@ class VibrationManager {
   private _navigatorVibrationCallback: TimerListener = NOOP_TIME_LISTENER;
 
   private expandedPatternInterval: TimerListener = NOOP_TIME_LISTENER;
-
-  public constructor() {
-  }
 
   /**
    * Initialize the vibrationManager by setting initial state variables and attaching listeners.
