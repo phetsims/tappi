@@ -60,7 +60,7 @@ class ContinuousPatternVibrationController {
   // the pattern that we are going to transition to at the end of the currently active pattern
   private pendingPattern: number[];
 
-  constructor( providedOptions: ContinuousPatternVibrationControllerOptions ) {
+  public constructor( providedOptions: ContinuousPatternVibrationControllerOptions ) {
 
     const options = optionize<ContinuousPatternVibrationControllerOptions>()( {
       repeat: true,
