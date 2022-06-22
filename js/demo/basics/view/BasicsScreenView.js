@@ -45,7 +45,7 @@ class BasicsScreenView extends ScreenView {
       Intensity.LOW, new Text( 'Low', { font: SWITCH_TEXT_FONT } ),
       {
         toggleSwitchOptions: { size: new Dimension2( 180, 90 ) },
-        xSpacing: 20
+        spacing: 20
       }
     );
     const intensityLabel = new Text( 'Intensity', { font: LABEL_FONT } );
