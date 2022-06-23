@@ -11,7 +11,8 @@
  */
 
 import Utils from '../../dot/js/Utils.js';
-import merge from '../../phet-core/js/merge.js';
+import optionize from '../../phet-core/js/optionize.js';
+import EmptyObjectType from '../../phet-core/js/types/EmptyObjectType.js';
 import tappi from './tappi.js';
 
 class VibrationManageriOS {
@@ -58,8 +59,8 @@ class VibrationManageriOS {
   /**
    * Request a continuous vibration with provided parameters. This should replace all other functions in the future.
    */
-  public vibrateContinuous( options?: VibrateOptions ): void {
-    options = merge( {
+  public vibrateContinuous( providedOptions?: VibrateOptions ): void {
+    const options = optionize<VibrateOptions>()( {
 
       // {number[]} - a pattern for the vibration, alternating values in seconds where even indices are time when the
       // vibration is "on" and odd indices have the motor off. The pattern will repeat for options.duration or forever
@@ -77,7 +78,7 @@ class VibrationManageriOS {
 
       // {number|null} - duration indicates that this vibration will proceed forever
       duration: null
-    }, options );
+    }, providedOptions );
 
     if ( this.vibrationMessageHandlers && this.vibrationMessageHandlers.vibrateContinuousMessageHandler ) {
       this.vibrationMessageHandlers.vibrateContinuousMessageHandler.postMessage(
@@ -98,11 +99,11 @@ class VibrationManageriOS {
    * It is used typically for basic UI components to indicate successful activation or change. Use vibrateContinuous for
    * longer and more complicated vibrations.
    */
-  public vibrateTransient( options?: VibrateOptions ): void {
-    options = merge( {
+  public vibrateTransient( providedOptions?: VibrateOptions ): void {
+    const options = optionize<VibrateOptions, EmptyObjectType>()( {
       sharpness: 1,
       intensity: 1
-    }, options );
+    }, providedOptions );
 
     if ( this.vibrationMessageHandlers && this.vibrationMessageHandlers.vibrateTransientMessageHandler ) {
       this.vibrationMessageHandlers.vibrateTransientMessageHandler.postMessage(
