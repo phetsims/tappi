@@ -48,7 +48,7 @@ class PatternsScreenView extends ScreenView {
       new ComboBoxItem( new Text( 'Effects', { font: LIST_ITEM_FONT } ), PatternsModel.PatternSet.EFFECTS ),
       new ComboBoxItem( new Text( 'Tunes', { font: LIST_ITEM_FONT } ), PatternsModel.PatternSet.TUNES )
     ];
-    const comboBox = new ComboBox( comboBoxItems, model.activePatternSetProperty, this, {
+    const comboBox = new ComboBox( model.activePatternSetProperty, comboBoxItems, this, {
       listPosition: 'above',
       highlightFill: 'rgb( 200, 200, 200 )',
       leftBottom: this.layoutBounds.leftBottom.plusXY( 15, -15 )
