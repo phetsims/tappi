@@ -35,7 +35,7 @@ class BasicsScreenView extends ScreenView {
     const adapterProperty = new BooleanProperty( vibrationManager.vibratingProperty.get() );
     const trueNode = new Text( 'Stop Vibrate', { font: LABEL_FONT } );
     const falseNode = new Text( 'Start Vibrate', { font: LABEL_FONT } );
-    const vibrationToggleButton = new BooleanRectangularToggleButton( trueNode, falseNode, adapterProperty );
+    const vibrationToggleButton = new BooleanRectangularToggleButton( adapterProperty, trueNode, falseNode );
 
     // switch that changes between high and low vibration
     const intensityAdapterProperty = new EnumerationProperty( Intensity.HIGH );
