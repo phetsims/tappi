@@ -4,13 +4,12 @@
  * @author Jesse Greenberg
  */
 
-import ScreenView from '../../../../../joist/js/ScreenView.js';
 import Multilink from '../../../../../axon/js/Multilink.js';
+import ScreenView from '../../../../../joist/js/ScreenView.js';
 import PhetFont from '../../../../../scenery-phet/js/PhetFont.js';
 import { Text } from '../../../../../scenery/js/imports.js';
 import BooleanRectangularStickyToggleButton from '../../../../../sun/js/buttons/BooleanRectangularStickyToggleButton.js';
 import ComboBox from '../../../../../sun/js/ComboBox.js';
-import ComboBoxItem from '../../../../../sun/js/ComboBoxItem.js';
 import tappi from '../../../tappi.js';
 import vibrationManager from '../../../vibrationManager.js';
 import VibrationChart from '../../../view/VibrationChart.js';
@@ -44,9 +43,9 @@ class PatternsScreenView extends ScreenView {
 
 
     const comboBoxItems = [
-      new ComboBoxItem( new Text( 'Pulses', { font: LIST_ITEM_FONT } ), PatternsModel.PatternSet.PULSES ),
-      new ComboBoxItem( new Text( 'Effects', { font: LIST_ITEM_FONT } ), PatternsModel.PatternSet.EFFECTS ),
-      new ComboBoxItem( new Text( 'Tunes', { font: LIST_ITEM_FONT } ), PatternsModel.PatternSet.TUNES )
+      { value: PatternsModel.PatternSet.PULSES, node: new Text( 'Pulses', { font: LIST_ITEM_FONT } ) },
+      { value: PatternsModel.PatternSet.EFFECTS, node: new Text( 'Effects', { font: LIST_ITEM_FONT } ) },
+      { value: PatternsModel.PatternSet.TUNES, node: new Text( 'Tunes', { font: LIST_ITEM_FONT } ) }
     ];
     const comboBox = new ComboBox( model.activePatternSetProperty, comboBoxItems, this, {
       listPosition: 'above',
