@@ -9,25 +9,7 @@
 
 import tappi from './tappi.js';
 import stepTimer from '../../axon/js/stepTimer.js';
-import VibrationManageriOS, { VibrateOptions } from './VibrationManageriOS.js';
-import platform from '../../phet-core/js/platform.js';
-
-// TODO: This is a temporary type, created to fix some load errors that were occurring.  See https://github.com/phetsims/tappi/issues/14.
-type VibrationManagerStubType = {
-  vibrateTransient: ( options?: VibrateOptions ) => void;
-}
-
-let vibrationManagerInstance: VibrationManageriOS | VibrationManagerStubType;
-if ( platform.safari ) {
-  vibrationManagerInstance = new VibrationManageriOS();
-}
-else {
-  vibrationManagerInstance = {
-    vibrateTransient( options?: VibrateOptions ) {
-      console.warn( 'vibrateTransient called on non-iOS platform' );
-    }
-  };
-}
+import VibrationManageriOS from './VibrationManageriOS.js';
 
 const VibrationPatterns = {
 
@@ -55,15 +37,17 @@ const VibrationPatterns = {
   HEARTBEAT: [ 100, 100, 150, 1000 ],
   QUICK_HEARTBEAT: [ 50, 50, 100, 700 ],
 
-  // request three rapid transient vibrations to indicate a successful UI interaction
-  interactionSuccess: () => {
+  /**
+   * Request three rapid transient vibrations to indicate a successful UI interaction.
+   */
+  interactionSuccess: ( vibrationManager: VibrationManageriOS ): void => {
     const resetVibrationInterval = 150; // ms
-    vibrationManagerInstance.vibrateTransient();
+    vibrationManager.vibrateTransient();
     stepTimer.setTimeout( () => {
-      vibrationManagerInstance.vibrateTransient();
+      vibrationManager.vibrateTransient();
 
       stepTimer.setTimeout( () => {
-        vibrationManagerInstance.vibrateTransient();
+        vibrationManager.vibrateTransient();
       }, resetVibrationInterval );
     }, resetVibrationInterval );
   }
