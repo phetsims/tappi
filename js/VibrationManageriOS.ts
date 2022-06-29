@@ -15,6 +15,9 @@ import optionize from '../../phet-core/js/optionize.js';
 import EmptyObjectType from '../../phet-core/js/types/EmptyObjectType.js';
 import tappi from './tappi.js';
 
+/**
+ * @deprecated - This strategy is being abandoned for an android specific solution.
+ */
 class VibrationManageriOS {
 
   // Message handlers for the Webkit window, only available in Safari.
