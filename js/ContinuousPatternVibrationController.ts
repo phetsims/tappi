@@ -43,7 +43,7 @@ class ContinuousPatternVibrationController {
   private sharpness: number;
 
   // sends requests to the iOS app to begin/stop vibration
-  private readonly vibrationManageriOS: VibrationManageriOS = new VibrationManageriOS();
+  private readonly vibrationManageriOS: VibrationManageriOS;
 
   // current index of the active vibration pattern
   private patternIndex = 0;
@@ -60,7 +60,7 @@ class ContinuousPatternVibrationController {
   // the pattern that we are going to transition to at the end of the currently active pattern
   private pendingPattern: number[];
 
-  public constructor( providedOptions: ContinuousPatternVibrationControllerOptions ) {
+  public constructor( vibrationManageriOS: VibrationManageriOS, providedOptions: ContinuousPatternVibrationControllerOptions ) {
 
     const options = optionize<ContinuousPatternVibrationControllerOptions>()( {
       repeat: true,
@@ -69,6 +69,7 @@ class ContinuousPatternVibrationController {
       activePattern: []
     }, providedOptions );
 
+    this.vibrationManageriOS = vibrationManageriOS;
     this.activePattern = options.activePattern;
     this.repeat = options.repeat;
     this.intensity = options.intensity;
