@@ -188,12 +188,12 @@ class VibrationManager {
 
     // Calculate the duration of the provided pattern in milliseconds.
     const providedPatternDuration = pattern.reduce( ( ( previousValue, currentValue ) => previousValue + currentValue ), 0 );
-    console.log( `providedPatternDuration = ${providedPatternDuration}` );
+    phet.log && phet.log( `providedPatternDuration = ${providedPatternDuration}` );
 
     // Calculate how many times to repeat this pattern before starting to play it again.
     const repeatCount = Math.floor( 1000 * REPEATING_PATTERN_CYCLE_TIME / providedPatternDuration ) + 1;
 
-    console.log( `repeatCount = ${repeatCount}` );
+    phet.log && phet.log( `repeatCount = ${repeatCount}` );
 
     // Create an expanded version of the pattern that repeats the provided one a number of times.
     const expandedPattern: number[] = [];
@@ -205,9 +205,9 @@ class VibrationManager {
       } );
     } );
 
-    console.log( `expandedPattern = ${expandedPattern}` );
-    console.log( `expandedPattern.length = ${expandedPattern.length}` );
-    console.log( `totalPatternTime = ${totalPatternTime}` );
+    phet.log && phet.log( `expandedPattern = ${expandedPattern}` );
+    phet.log && phet.log( `expandedPattern.length = ${expandedPattern.length}` );
+    phet.log && phet.log( `totalPatternTime = ${totalPatternTime}` );
 
     // Play the expanded pattern.
     navigator.vibrate( expandedPattern );
@@ -216,7 +216,7 @@ class VibrationManager {
     this.expandedPatternInterval = stepTimer.setInterval(
       () => {
         navigator.vibrate( expandedPattern );
-        console.log( 'restarting pattern' );
+        phet.log && phet.log( 'restarting pattern' );
       },
       totalPatternTime
     );
