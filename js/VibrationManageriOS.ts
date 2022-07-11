@@ -257,7 +257,7 @@ export type VibrateOptions = {
 
   // duration indicates that this vibration will proceed forever
   duration?: number | null;
-}
+};
 
 tappi.register( 'VibrationManageriOS', VibrationManageriOS );
 export default VibrationManageriOS;
