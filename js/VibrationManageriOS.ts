@@ -13,6 +13,7 @@
 import Utils from '../../dot/js/Utils.js';
 import optionize from '../../phet-core/js/optionize.js';
 import EmptyObjectType from '../../phet-core/js/types/EmptyObjectType.js';
+import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 import tappi from './tappi.js';
 
 /**
@@ -21,7 +22,11 @@ import tappi from './tappi.js';
 class VibrationManageriOS {
 
   // Message handlers for the Webkit window, only available in Safari.
-  private readonly vibrationMessageHandlers: any;
+  // The actual type for the values of the Record are WKScriptMessageHandler, see
+  // https://developer.apple.com/documentation/webkit/wkscriptmessagehandler. But that type is only available
+  // on iOS Safari and so WKScriptMessageHandler is not a known type. This is prototype code that will probably
+  // never see the light of day, so I (JG) is deciding not to re-implement the interface.
+  private readonly vibrationMessageHandlers: Record<string, IntentionalAny>;
 
   public constructor() {
 
