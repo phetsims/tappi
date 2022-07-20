@@ -12,7 +12,7 @@
 
 import Utils from '../../dot/js/Utils.js';
 import optionize from '../../phet-core/js/optionize.js';
-import EmptyObjectType from '../../phet-core/js/types/EmptyObjectType.js';
+import { EmptySelfOptions } from '../../phet-core/js/optionize.js';
 import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 import tappi from './tappi.js';
 
@@ -108,7 +108,7 @@ class VibrationManageriOS {
    * longer and more complicated vibrations.
    */
   public vibrateTransient( providedOptions?: VibrateOptions ): void {
-    const options = optionize<VibrateOptions, EmptyObjectType>()( {
+    const options = optionize<VibrateOptions, EmptySelfOptions>()( {
       sharpness: 1,
       intensity: 1
     }, providedOptions );
