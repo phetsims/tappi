@@ -26,7 +26,7 @@ import EnumerationValue from '../../phet-core/js/EnumerationValue.js';
 import Enumeration from '../../phet-core/js/Enumeration.js';
 import EnumerationProperty from '../../axon/js/EnumerationProperty.js';
 import { TimerListener } from '../../axon/js/Timer.js';
-import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 
 // constants
 const LOW_INTENSITY_PATTERN = [ 8, 8 ];
@@ -99,7 +99,7 @@ class VibrationManager {
    * Initialize the vibrationManager by setting initial state variables and attaching listeners.
    * NOTE: This should eventually be called in Sim.js (or other framework) only when vibration is required.
    */
-  public initialize( simVisibleProperty: IReadOnlyProperty<boolean>, simActiveProperty: IReadOnlyProperty<boolean> ): void {
+  public initialize( simVisibleProperty: TReadOnlyProperty<boolean>, simActiveProperty: TReadOnlyProperty<boolean> ): void {
     this.setVibrationIntensity( this.intensityProperty.get() );
 
     // if either vibration or intensity changes we need to stop/start vibration or change timeouts for intensity
