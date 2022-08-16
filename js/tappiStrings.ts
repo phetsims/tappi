@@ -5,11 +5,13 @@
  */
 /* eslint-disable */
 import getStringModule from '../../chipper/js/getStringModule.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import tappi from './tappi.js';
 
 type StringsType = {
   'tappi': {
     'title': string;
+    'titleProperty': TReadOnlyProperty<string>;
   }
 };
 
