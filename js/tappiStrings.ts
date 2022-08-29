@@ -11,7 +11,7 @@ import tappi from './tappi.js';
 type StringsType = {
   'tappi': {
     'title': string;
-    'titleProperty': TReadOnlyProperty<string>;
+    'titleStringProperty': TReadOnlyProperty<string>;
   }
 };
 
