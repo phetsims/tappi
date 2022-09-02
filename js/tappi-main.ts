@@ -13,7 +13,7 @@ import BasicsScreen from './demo/basics/BasicsScreen.js';
 import PatternsScreen from './demo/patterns/PatternsScreen.js';
 import tappiStrings from './tappiStrings.js';
 
-const tappiTitleString = tappiStrings.tappi.title;
+const tappiTitleStringProperty = tappiStrings.tappi.titleStringProperty;
 
 const simOptions: SimOptions = {
   credits: {
@@ -31,7 +31,7 @@ const simOptions: SimOptions = {
 // launch the sim - beware that scenery Image nodes created outside of simLauncher.launch() will have zero bounds
 // until the images are fully loaded, see https://github.com/phetsims/coulombs-law/issues/70
 simLauncher.launch( () => {
-  const sim = new Sim( tappiTitleString, [
+  const sim = new Sim( tappiTitleStringProperty, [
     new BasicsScreen( Tandem.ROOT.createTandem( 'basicsScreen' ) ),
     new PatternsScreen()
   ], simOptions );
