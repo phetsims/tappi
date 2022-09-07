@@ -15,8 +15,8 @@ type StringsType = {
   }
 };
 
-const tappiStrings = getStringModule( 'TAPPI' ) as StringsType;
+const TappiStrings = getStringModule( 'TAPPI' ) as StringsType;
 
-tappi.register( 'tappiStrings', tappiStrings );
+tappi.register( 'TappiStrings', TappiStrings );
 
-export default tappiStrings;
+export default TappiStrings;

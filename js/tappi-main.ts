@@ -11,9 +11,9 @@ import simLauncher from '../../joist/js/simLauncher.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import BasicsScreen from './demo/basics/BasicsScreen.js';
 import PatternsScreen from './demo/patterns/PatternsScreen.js';
-import tappiStrings from './tappiStrings.js';
+import TappiStrings from './TappiStrings.js';
 
-const tappiTitleStringProperty = tappiStrings.tappi.titleStringProperty;
+const tappiTitleStringProperty = TappiStrings.tappi.titleStringProperty;
 
 const simOptions: SimOptions = {
   credits: {
