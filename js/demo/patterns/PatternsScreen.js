@@ -21,7 +21,7 @@ class PatternsScreen extends Screen {
 
     const options = {
       backgroundColorProperty: new Property( 'white' ),
-      name: 'Patterns'
+      name: new Property( 'Patterns' )
     };
 
     super(

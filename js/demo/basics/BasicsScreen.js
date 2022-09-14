@@ -19,7 +19,7 @@ class BasicsScreen extends Screen {
 
     const options = {
       backgroundColorProperty: new Property( 'white' ),
-      name: 'Basics'
+      name: new Property( 'Basics' )
     };
 
     super(
