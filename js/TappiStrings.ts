@@ -10,7 +10,6 @@ import tappi from './tappi.js';
 
 type StringsType = {
   'tappi': {
-    'title': string;
     'titleStringProperty': LinkableProperty<string>;
   }
 };
