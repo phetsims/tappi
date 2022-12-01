@@ -35,11 +35,11 @@ const REPEATING_PATTERN_CYCLE_TIME = 5; // in seconds
 
 // enum for intensity levels
 export class Intensity extends EnumerationValue {
-  public static HIGH = new Intensity();
-  public static LOW = new Intensity();
+  public static readonly HIGH = new Intensity();
+  public static readonly LOW = new Intensity();
 
   // Gets a list of keys, values and mapping between them.  For use in EnumerationProperty and PhET-iO
-  public static enumeration = new Enumeration( Intensity );
+  public static readonly enumeration = new Enumeration( Intensity );
 }
 
 const NOOP_TIME_LISTENER = _.noop;
