@@ -29,10 +29,10 @@ class VibrationManageriOS {
 
   public constructor() {
 
-    // @ts-ignore
+    // @ts-expect-error
     if ( window.webkit ) {
 
-      // @ts-ignore
+      // @ts-expect-error
       this.vibrationMessageHandlers = window.webkit.messageHandlers;
     }
     else {
