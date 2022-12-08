@@ -29,10 +29,10 @@ class VibrationManageriOS {
 
   public constructor() {
 
-    // @ts-expect-error
+    // @ts-expect-error - Only available in Safari environments. Further typing not necessary for prototype code.
     if ( window.webkit ) {
 
-      // @ts-expect-error
+      // @ts-expect-error - Only available in Safari environments. Further typing not necessary for prototype code.
       this.vibrationMessageHandlers = window.webkit.messageHandlers;
     }
     else {
