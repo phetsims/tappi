@@ -25,14 +25,14 @@ import VibrationManageriOS from './VibrationManageriOS.js';
 export type ContinuousPatternVibrationControllerOptions = {
 
   // Should the active pattern loop?
-  repeat: boolean;
+  repeat?: boolean;
 
-  sharpness: 1;
-  intensity: 1;
+  sharpness?: 1;
+  intensity?: 1;
 
   // Initial pattern for the vibration controller, a sequence of on/off intervals in seconds - won't start vibrating
   // until calling start().
-  activePattern: number[];
+  activePattern?: number[];
 };
 
 class ContinuousPatternVibrationController {
