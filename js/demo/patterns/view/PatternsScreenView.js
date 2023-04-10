@@ -43,9 +43,9 @@ class PatternsScreenView extends ScreenView {
 
 
     const comboBoxItems = [
-      { value: PatternsModel.PatternSet.PULSES, node: new Text( 'Pulses', { font: LIST_ITEM_FONT } ) },
-      { value: PatternsModel.PatternSet.EFFECTS, node: new Text( 'Effects', { font: LIST_ITEM_FONT } ) },
-      { value: PatternsModel.PatternSet.TUNES, node: new Text( 'Tunes', { font: LIST_ITEM_FONT } ) }
+      { value: PatternsModel.PatternSet.PULSES, createNode: () => new Text( 'Pulses', { font: LIST_ITEM_FONT } ) },
+      { value: PatternsModel.PatternSet.EFFECTS, createNode: () => new Text( 'Effects', { font: LIST_ITEM_FONT } ) },
+      { value: PatternsModel.PatternSet.TUNES, createNode: () => new Text( 'Tunes', { font: LIST_ITEM_FONT } ) }
     ];
     const comboBox = new ComboBox( model.activePatternSetProperty, comboBoxItems, this, {
       listPosition: 'above',
