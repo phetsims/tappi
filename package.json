@@ -23,7 +23,11 @@
     "supportsOutputJS": true,
     "simFeatures": {
       "supportsDynamicLocale": true
-    }
+    },
+    "screenNameKeys": [
+      "TAPPI/screen.basics",
+      "TAPPI/screen.patterns"
+    ]
   },
   "eslintConfig": {
     "extends": "../chipper/eslint/sim_eslintrc.js",

@@ -11,6 +11,10 @@ import tappi from './tappi.js';
 type StringsType = {
   'tappi': {
     'titleStringProperty': LinkableProperty<string>;
+  };
+  'screen': {
+    'basicsStringProperty': LinkableProperty<string>;
+    'patternsStringProperty': LinkableProperty<string>;
   }
 };
 

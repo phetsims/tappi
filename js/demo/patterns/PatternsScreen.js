@@ -9,6 +9,7 @@
 import Property from '../../../../axon/js/Property.js';
 import Screen from '../../../../joist/js/Screen.js';
 import tappi from '../../tappi.js';
+import TappiStrings from '../../TappiStrings.js';
 import PatternsModel from './model/PatternsModel.js';
 import PatternsScreenView from './view/PatternsScreenView.js';
 
@@ -21,7 +22,7 @@ class PatternsScreen extends Screen {
 
     const options = {
       backgroundColorProperty: new Property( 'white' ),
-      name: new Property( 'Patterns' )
+      name: TappiStrings.screen.patternsStringProperty
     };
 
     super(

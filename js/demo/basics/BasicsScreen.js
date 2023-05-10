@@ -7,6 +7,7 @@
 import Property from '../../../../axon/js/Property.js';
 import Screen from '../../../../joist/js/Screen.js';
 import tappi from '../../tappi.js';
+import TappiStrings from '../../TappiStrings.js';
 import BasicsModel from '../common/model/BasicsModel.js';
 import BasicsScreenView from './view/BasicsScreenView.js';
 
@@ -19,7 +20,7 @@ class BasicsScreen extends Screen {
 
     const options = {
       backgroundColorProperty: new Property( 'white' ),
-      name: new Property( 'Basics' )
+      name: TappiStrings.screen.basicsStringProperty
     };
 
     super(
