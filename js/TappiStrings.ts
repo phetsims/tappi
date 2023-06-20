@@ -5,16 +5,16 @@
  */
 /* eslint-disable */
 import getStringModule from '../../chipper/js/getStringModule.js';
-import LinkableProperty from '../../axon/js/LinkableProperty.js';
+import type LocalizedStringProperty from '../../chipper/js/LocalizedStringProperty.js';
 import tappi from './tappi.js';
 
 type StringsType = {
   'tappi': {
-    'titleStringProperty': LinkableProperty<string>;
+    'titleStringProperty': LocalizedStringProperty;
   };
   'screen': {
-    'basicsStringProperty': LinkableProperty<string>;
-    'patternsStringProperty': LinkableProperty<string>;
+    'basicsStringProperty': LocalizedStringProperty;
+    'patternsStringProperty': LocalizedStringProperty;
   }
 };
 
