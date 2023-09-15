@@ -37,7 +37,7 @@ class VibrationManageriOS {
     }
     else {
 
-      // TODO: Put something reasonable here. https://github.com/phetsims/tasks/issues/1129
+      // TODO: Put something reasonable here.
       throw new Error( 'not on this device!' );
     }
   }
@@ -80,7 +80,7 @@ class VibrationManageriOS {
       // {number}
       intensity: 1,
 
-      // TODO: add support for frequency https://github.com/phetsims/tasks/issues/1129
+      // TODO: add support for frequency
       frequency: null,
 
       // {number|null} - duration indicates that this vibration will proceed forever
@@ -256,7 +256,7 @@ export type VibrateOptions = {
   sharpness?: number;
   intensity?: number;
 
-  // TODO: add support for frequency https://github.com/phetsims/tasks/issues/1129
+  // TODO: add support for frequency
   frequency?: number | null;
 
   // duration indicates that this vibration will proceed forever

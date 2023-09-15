@@ -17,7 +17,7 @@ const tappiTitleStringProperty = TappiStrings.tappi.titleStringProperty;
 
 const simOptions: SimOptions = {
   credits: {
-    //TODO fill in credits, all of these fields are optional, see joist.CreditsNode https://github.com/phetsims/tasks/issues/1129
+    //TODO fill in credits, all of these fields are optional, see joist.CreditsNode
     leadDesign: '',
     softwareDevelopment: '',
     team: '',
