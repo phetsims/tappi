@@ -8,6 +8,7 @@
  * This is a prototype, and this strategy has since been abandoned. We have since moved on to explore vibration
  * in Android devices, where tablets have vibration support. There we can use the web vibration API and also
  * use native android vibration for more sophisticated things like vibration intensity.
+ * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
 import Utils from '../../dot/js/Utils.js';
