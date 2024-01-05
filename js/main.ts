@@ -1,5 +1,9 @@
 // Copyright 2022, University of Colorado Boulder
 
+/**
+ * @author Jonathan Olson <jonathan.olson@colorado.edu>
+ */
+
 import tappi from './tappi.js';
 
 import './tracking/VibrationTestEvent.js';
