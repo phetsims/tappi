@@ -1,4 +1,4 @@
-// Copyright 2020, University of Colorado Boulder
+// Copyright 2020-2024, University of Colorado Boulder
 
 /**
  * A collection of data related to user input, for the purposes of the Vibration project. While
