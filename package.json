@@ -41,7 +41,7 @@
         ],
         "parserOptions": {
           "project": [
-            "../tappi/tsconfig.json"
+            "../chipper/tsconfig/eslint-all/tsconfig.json"
           ]
         }
       }
