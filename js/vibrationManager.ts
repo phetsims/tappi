@@ -19,14 +19,14 @@
  */
 
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
+import EnumerationProperty from '../../axon/js/EnumerationProperty.js';
 import Multilink from '../../axon/js/Multilink.js';
 import stepTimer from '../../axon/js/stepTimer.js';
-import tappi from './tappi.js';
-import EnumerationValue from '../../phet-core/js/EnumerationValue.js';
-import Enumeration from '../../phet-core/js/Enumeration.js';
-import EnumerationProperty from '../../axon/js/EnumerationProperty.js';
 import { TimerListener } from '../../axon/js/Timer.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
+import Enumeration from '../../phet-core/js/Enumeration.js';
+import EnumerationValue from '../../phet-core/js/EnumerationValue.js';
+import tappi from './tappi.js';
 
 // constants
 const LOW_INTENSITY_PATTERN = [ 8, 8 ];
