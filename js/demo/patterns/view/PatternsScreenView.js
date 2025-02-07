@@ -7,7 +7,7 @@
 import Multilink from '../../../../../axon/js/Multilink.js';
 import ScreenView from '../../../../../joist/js/ScreenView.js';
 import PhetFont from '../../../../../scenery-phet/js/PhetFont.js';
-import { Text } from '../../../../../scenery/js/imports.js';
+import Text from '../../../../../scenery/js/nodes/Text.js';
 import BooleanRectangularStickyToggleButton from '../../../../../sun/js/buttons/BooleanRectangularStickyToggleButton.js';
 import ComboBox from '../../../../../sun/js/ComboBox.js';
 import tappi from '../../../tappi.js';
