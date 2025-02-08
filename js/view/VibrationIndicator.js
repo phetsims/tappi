@@ -1,4 +1,4 @@
-// Copyright 2019-2022, University of Colorado Boulder
+// Copyright 2019-2025, University of Colorado Boulder
 
 /**
  * A way to visualize haptic feedback. This is an icon that looks like a phone with zig zag lines around it to

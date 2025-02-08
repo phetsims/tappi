@@ -1,4 +1,4 @@
-// Copyright 2019-2022, University of Colorado Boulder
+// Copyright 2019-2025, University of Colorado Boulder
 
 /**
  * A chart that visualizes vibration. Either "on" or "off", it produces a square wave to display vibration
