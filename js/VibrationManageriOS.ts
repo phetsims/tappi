@@ -11,10 +11,10 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import Utils from '../../dot/js/Utils.js';
 import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
 import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 import tappi from './tappi.js';
+import { clamp } from '../../dot/js/util/clamp.js';
 
 /**
  * @deprecated - This strategy is being abandoned for an android specific solution.
@@ -141,7 +141,7 @@ class VibrationManageriOS {
    */
   public vibrateAtFrequencyForever( frequency: number, intensity?: number ): void {
     intensity = typeof intensity === 'number' ? intensity : 1;
-    intensity = Utils.clamp( intensity, 0, 1 );
+    intensity = clamp( intensity, 0, 1 );
     this.debug( `${intensity}` );
 
     if ( this.vibrationMessageHandlers && this.vibrationMessageHandlers.vibrateFrequencyForeverMessageHandler ) {
