@@ -1,4 +1,4 @@
-// Copyright 2020-2024, University of Colorado Boulder
+// Copyright 2020-2025, University of Colorado Boulder
 
 /**
  * A class that controls vibrations when running the sim in a native iOS App. It sends messages form the simulation
