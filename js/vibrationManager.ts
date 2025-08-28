@@ -23,7 +23,7 @@ import EnumerationProperty from '../../axon/js/EnumerationProperty.js';
 import Multilink from '../../axon/js/Multilink.js';
 import stepTimer from '../../axon/js/stepTimer.js';
 import { TimerListener } from '../../axon/js/Timer.js';
-import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
+import { TReadOnlyProperty } from '../../axon/js/TReadOnlyProperty.js';
 import Enumeration from '../../phet-core/js/Enumeration.js';
 import EnumerationValue from '../../phet-core/js/EnumerationValue.js';
 import tappi from './tappi.js';
