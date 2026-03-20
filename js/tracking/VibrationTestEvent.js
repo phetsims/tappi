@@ -12,8 +12,6 @@
  * @author Jesse Greenberg
  */
 
-import tappi from '../tappi.js';
-
 class VibrationTestEvent {
 
   /**
@@ -31,7 +29,5 @@ class VibrationTestEvent {
     this.name = name;
   }
 }
-
-tappi.register( 'VibrationTestEvent', VibrationTestEvent );
 
 export default VibrationTestEvent;

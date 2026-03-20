@@ -8,8 +8,6 @@
  * @author Jesse Greenberg
  */
 
-import tappi from '../tappi.js';
-
 class VibrationTestEventRecorder {
 
   /**
@@ -63,7 +61,5 @@ class VibrationTestEventRecorder {
     return string;
   }
 }
-
-tappi.register( 'VibrationTestEventRecorder', VibrationTestEventRecorder );
 
 export default VibrationTestEventRecorder;

@@ -13,7 +13,6 @@ import Node from '../../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../../scenery/js/nodes/Text.js';
 import ABSwitch from '../../../../../sun/js/ABSwitch.js';
 import BooleanRectangularToggleButton from '../../../../../sun/js/buttons/BooleanRectangularToggleButton.js';
-import tappi from '../../../tappi.js';
 import vibrationManager, { Intensity } from '../../../vibrationManager.js';
 
 // constants
@@ -82,5 +81,4 @@ class BasicsScreenView extends ScreenView {
   }
 }
 
-tappi.register( 'BasicsScreenView', BasicsScreenView );
 export default BasicsScreenView;

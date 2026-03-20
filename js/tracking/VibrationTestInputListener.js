@@ -4,7 +4,6 @@
  * @author Jesse Greenberg
  */
 
-import tappi from '../tappi.js';
 import VibrationTestEvent from './VibrationTestEvent.js';
 
 class VibrationTestInputListener {
@@ -104,7 +103,5 @@ class VibrationTestInputListener {
     this.elapsedTime = time;
   }
 }
-
-tappi.register( 'VibrationTestInputListener', VibrationTestInputListener );
 
 export default VibrationTestInputListener;

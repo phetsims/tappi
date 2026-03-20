@@ -4,8 +4,6 @@
  * @author Jesse Greenberg
  */
 
-import tappi from '../../../tappi.js';
-
 /**
  * @constructor
  */
@@ -17,5 +15,4 @@ class BasicsModel {
   constructor( tandem ) {}
 }
 
-tappi.register( 'BasicsModel', BasicsModel );
 export default BasicsModel;

@@ -16,7 +16,6 @@ import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import Node from '../../../scenery/js/nodes/Node.js';
 import Text from '../../../scenery/js/nodes/Text.js';
 import Panel from '../../../sun/js/Panel.js';
-import tappi from '../tappi.js';
 
 // constants
 const MAX_TIME = 10; // seconds of plotted data
@@ -98,5 +97,4 @@ class VibrationChart extends Node {
   }
 }
 
-tappi.register( 'VibrationChart', VibrationChart );
 export default VibrationChart;

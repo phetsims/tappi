@@ -4,7 +4,6 @@
  * @author Jesse Greenberg
  */
 
-import tappi from '../../../tappi.js';
 import PatternsDemoScene from './PatternsDemoScene.js';
 
 class TunesScene extends PatternsDemoScene {
@@ -36,5 +35,4 @@ class TunesScene extends PatternsDemoScene {
   }
 }
 
-tappi.register( 'TunesScene', TunesScene );
 export default TunesScene;

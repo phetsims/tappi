@@ -26,7 +26,6 @@ import { TimerListener } from '../../axon/js/Timer.js';
 import { TReadOnlyProperty } from '../../axon/js/TReadOnlyProperty.js';
 import Enumeration from '../../phet-core/js/Enumeration.js';
 import EnumerationValue from '../../phet-core/js/EnumerationValue.js';
-import tappi from './tappi.js';
 
 // constants
 const LOW_INTENSITY_PATTERN = [ 8, 8 ];
@@ -329,5 +328,4 @@ class VibrationManager {
 // create the singleton instance
 const vibrationManager = new VibrationManager();
 
-tappi.register( 'vibrationManager', vibrationManager );
 export default vibrationManager;

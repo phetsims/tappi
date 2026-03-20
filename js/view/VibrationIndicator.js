@@ -14,7 +14,6 @@ import Circle from '../../../scenery/js/nodes/Circle.js';
 import Node from '../../../scenery/js/nodes/Node.js';
 import Path from '../../../scenery/js/nodes/Path.js';
 import Rectangle from '../../../scenery/js/nodes/Rectangle.js';
-import tappi from '../tappi.js';
 
 class VibrationIndicator extends Node {
 
@@ -111,5 +110,4 @@ class VibrationIndicator extends Node {
   }
 }
 
-tappi.register( 'VibrationIndicator', VibrationIndicator );
 export default VibrationIndicator;

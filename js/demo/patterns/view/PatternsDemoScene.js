@@ -13,7 +13,6 @@ import VBox from '../../../../../scenery/js/layout/nodes/VBox.js';
 import Node from '../../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../../scenery/js/nodes/Text.js';
 import BooleanRectangularStickyToggleButton from '../../../../../sun/js/buttons/BooleanRectangularStickyToggleButton.js';
-import tappi from '../../../tappi.js';
 
 // constants
 const BUTTON_TEXT_FONT = new PhetFont( { size: 40 } );
@@ -119,5 +118,4 @@ class PatternsDemoScene extends Node {
   }
 }
 
-tappi.register( 'PatternsDemoScene', PatternsDemoScene );
 export default PatternsDemoScene;

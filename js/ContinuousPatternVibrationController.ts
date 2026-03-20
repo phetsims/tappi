@@ -19,7 +19,6 @@
  */
 
 import optionize from '../../phet-core/js/optionize.js';
-import tappi from './tappi.js';
 import VibrationManageriOS from './VibrationManageriOS.js';
 
 export type ContinuousPatternVibrationControllerOptions = {
@@ -206,5 +205,4 @@ class ContinuousPatternVibrationController {
   }
 }
 
-tappi.register( 'ContinuousPatternVibrationController', ContinuousPatternVibrationController );
 export default ContinuousPatternVibrationController;

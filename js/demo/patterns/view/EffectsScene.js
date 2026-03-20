@@ -4,7 +4,6 @@
  * @author Jesse Greenberg
  */
 
-import tappi from '../../../tappi.js';
 import VibrationPatterns from '../../../VibrationPatterns.js';
 import PatternsDemoScene from './PatternsDemoScene.js';
 
@@ -27,5 +26,4 @@ class EffectsScene extends PatternsDemoScene {
   }
 }
 
-tappi.register( 'EffectsScene', EffectsScene );
 export default EffectsScene;

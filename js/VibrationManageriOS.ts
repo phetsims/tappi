@@ -13,7 +13,6 @@
 
 import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
 import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
-import tappi from './tappi.js';
 import { clamp } from '../../dot/js/util/clamp.js';
 
 /**
@@ -264,5 +263,4 @@ export type VibrateOptions = {
   duration?: number | null;
 };
 
-tappi.register( 'VibrationManageriOS', VibrationManageriOS );
 export default VibrationManageriOS;

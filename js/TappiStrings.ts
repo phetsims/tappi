@@ -23,6 +23,4 @@ type StringsType = {
 
 const TappiStrings = getStringModule( 'TAPPI' ) as StringsType;
 
-tappi.register( 'TappiStrings', TappiStrings );
-
 export default TappiStrings;

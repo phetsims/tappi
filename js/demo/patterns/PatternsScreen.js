@@ -8,7 +8,6 @@
 
 import Property from '../../../../axon/js/Property.js';
 import Screen from '../../../../joist/js/Screen.js';
-import tappi from '../../tappi.js';
 import TappiStrings from '../../TappiStrings.js';
 import PatternsModel from './model/PatternsModel.js';
 import PatternsScreenView from './view/PatternsScreenView.js';
@@ -33,5 +32,4 @@ class PatternsScreen extends Screen {
   }
 }
 
-tappi.register( 'PatternsScreen', PatternsScreen );
 export default PatternsScreen;
